@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox, PhotoImage
+import webbrowser
 from PIL import Image, ImageTk
 import base64
 from io import BytesIO
@@ -150,9 +151,16 @@ class CursorViewerApp(tk.Tk):
         # Credits label at the bottom
         credits_label = tk.Label(
             self, text="Made with ♡ by Alina | Xelvanta™",
-            fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8)
+            fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="hand2"
         )
         credits_label.pack(side="bottom", pady=(5, 5))
+
+        # Make the credits label a clickable link
+        credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
+        
+        # Change font to underlined when hovering and revert when leaving
+        credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline")))
+        credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8)))
 
     def add_buttons(self, container, col, filepath, label_text, pil_image):
         # Change button
