@@ -17,6 +17,17 @@ from PIL import Image, ImageTk
 
 # Enforce Windows-only execution
 def enforce_nt_os():
+    """
+    Enforce that the application runs only on Windows (NT-based) operating systems.
+
+    This function checks the operating system and, if it is not Windows, displays an error
+    message using a GUI dialog box and then exits the program with a non-zero status code.
+
+    Uses `tkinter` for displaying the error message in a graphical window.
+
+    :raises SystemExit: If the operating system is not Windows (i.e., ``os.name != 'nt'``).
+    :rtype: None
+    """
     if os.name != "nt":
         root = tk.Tk()
         root.withdraw()
@@ -29,6 +40,16 @@ enforce_nt_os()
 # --- Utility functions ---
 
 def find_valid_roblox_version_folder():
+    """
+    Locate and validate the existence of the Roblox 'Versions' folder on a Windows system.
+
+    This function attempts to construct the path to the Roblox Versions directory within
+    the user's local app data directory. If the directory does not exist, it displays
+    an error message in a GUI window and exits the program.
+
+    :raises SystemExit: If the Roblox Versions folder is not found.
+    :rtype: None
+    """
     local_appdata = os.environ.get("LOCALAPPDATA")
     versions_path = os.path.join(local_appdata, "Roblox", "Versions")
     
@@ -56,6 +77,20 @@ def find_valid_roblox_version_folder():
     sys.exit(1)
 
 def load_cursor_images(folder_path):
+    """
+    Load and resize specific cursor images from a given folder.
+
+    This function looks for three specific image files in the specified directory:
+    "ArrowFarCursor.png", "ArrowCursor.png", and "IBeamCursor.png". If found, each image
+    is resized to 64x64 pixels using LANCZOS resampling and returned with its label and full path.
+    If a file is missing, `None` is returned in place of the image.
+
+    :param folder_path: The path to the folder containing the cursor images.
+    :type folder_path: str
+    :return: A list of tuples, each containing a label (str), a PIL.Image object or None,
+             and the full path to the image file.
+    :rtype: list[tuple[str, PIL.Image.Image | None, str]]
+    """
     filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
     labels = ["Arrow Far", "Arrow", "I-Beam"]
     result = []
@@ -69,6 +104,32 @@ def load_cursor_images(folder_path):
     return result
 
 def draw_rounded_rect(canvas, x1, y1, x2, y2, radius=20, **kwargs):
+    """
+    Draw a rounded rectangle on a tkinter canvas.
+
+    This function creates a polygon that approximates a rectangle with rounded corners
+    using Bézier smoothing. The rectangle is drawn between the points (x1, y1) and (x2, y2),
+    with the specified corner radius.
+
+    Additional styling options (such as fill, outline, width, etc.) can be passed
+    via keyword arguments and will be forwarded to `canvas.create_polygon`.
+
+    :param canvas: The tkinter canvas to draw on.
+    :type canvas: tkinter.Canvas
+    :param x1: The x-coordinate of the top-left corner.
+    :type x1: int | float
+    :param y1: The y-coordinate of the top-left corner.
+    :type y1: int | float
+    :param x2: The x-coordinate of the bottom-right corner.
+    :type x2: int | float
+    :param y2: The y-coordinate of the bottom-right corner.
+    :type y2: int | float
+    :param radius: The radius of the rounded corners. Defaults to 20.
+    :type radius: int | float
+    :param kwargs: Additional keyword arguments forwarded to `create_polygon`.
+    :return: The ID of the created polygon object on the canvas.
+    :rtype: int
+    """
     points = [
         x1 + radius, y1,
         x2 - radius, y1,
@@ -97,7 +158,26 @@ icon_base64 = "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IB2cksfwAAA
 
 # --- Main app class ---
 class CursorViewerApp(tk.Tk):
+    """
+    A tkinter-based application to display custom Roblox cursor images.
+
+    This class extends `tk.Tk` to create a GUI application that displays Roblox custom
+    cursors, using a tkinter canvas to render images. It initializes the window and sets
+    up basic properties like title, geometry, and icon. The `build_ui` method is used to
+    construct the user interface.
+
+    :param image_data: The image data to be displayed in the application, typically a
+                       list of tuples with cursor labels, images, and file paths.
+    :type image_data: list[tuple[str, PIL.Image.Image | None, str]]
+    """
     def __init__(self, image_data):
+        """
+        Initialize the CursorViewerApp window with a title, icon, and a canvas for displaying
+        the cursor images.
+
+        :param image_data: The image data to be displayed, containing the images of cursors.
+        :type image_data: list[tuple[str, PIL.Image.Image | None, str]]
+        """
         super().__init__()
         self.title("Roblox Custom Cursor")
         self.configure(bg="#1e1e1e")
@@ -114,6 +194,20 @@ class CursorViewerApp(tk.Tk):
         self.build_ui(image_data)
 
     def build_ui(self, image_data):
+        """
+        Build the user interface for displaying cursor images, labels, and buttons.
+
+        This method creates the main UI components, including a container frame, labels
+        for cursor names, canvas widgets for images, and buttons for interacting with
+        the cursor files. It also sets up hover and click events for the labels, and
+        includes disclaimers and credits.
+
+        :param image_data: The image data to be displayed in the UI, containing cursor labels,
+                           images, and file paths.
+        :type image_data: list[tuple[str, PIL.Image.Image | None, str]]
+        :return: None
+        :rtype: None
+        """
         container = tk.Frame(self, bg="#1e1e1e")
         container.place(relx=0.5, rely=0.42, anchor="center")
 
@@ -184,6 +278,29 @@ class CursorViewerApp(tk.Tk):
         credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text="Made with ♡ by Alina | Xelvanta™"))
 
     def add_buttons(self, container, col, filepath, label_text, pil_image):
+        """
+        Add buttons for changing the cursor image, restoring the default image, and opening
+        the cursor image in Photopea for editing.
+
+        This method creates three buttons:
+        1. A "Change Cursor" button that allows the user to select a new image to replace the
+           existing cursor image.
+        2. A "Restore Default" button that restores the original cursor image from base64 data.
+        3. A "Edit in Photopea" button that opens the image in Photopea for further editing.
+
+        :param container: The tkinter container widget in which the buttons are placed.
+        :type container: tk.Frame
+        :param col: The column index where the buttons will be placed in the container.
+        :type col: int
+        :param filepath: The file path of the cursor image.
+        :type filepath: str
+        :param label_text: The label text associated with the cursor image.
+        :type label_text: str
+        :param pil_image: The PIL image object of the cursor.
+        :type pil_image: PIL.Image.Image | None
+        :return: None
+        :rtype: None
+        """
         # Change button
         def change_button_action():
             new_file = filedialog.askopenfilename(filetypes=[("PNG Files", "*.png")])
@@ -265,6 +382,20 @@ class CursorViewerApp(tk.Tk):
         photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
 
     def update_gui_with_new_image(self, filepath, label_text):
+        """
+        Reload the image from the specified file path and update the GUI with the new image.
+
+        This method opens the image file at the given path, resizes it to 64x64 pixels, and updates
+        the canvas associated with the given label text. It first clears any existing content in
+        the canvas and then draws a rounded rectangle with the new image centered within it.
+
+        :param filepath: The path to the image file that will be loaded and displayed.
+        :type filepath: str
+        :param label_text: The label text that identifies the canvas to be updated.
+        :type label_text: str
+        :return: None
+        :rtype: None
+        """
         # Reload the image and update GUI
         pil_image = Image.open(filepath).resize((64, 64), Image.Resampling.LANCZOS)
         tk_img = ImageTk.PhotoImage(pil_image)
@@ -280,6 +411,17 @@ class CursorViewerApp(tk.Tk):
             canvas.create_image(50, 50, image=tk_img)
 
     def open_in_explorer(self, filepath):
+        """
+        Open the file or folder in Windows Explorer, selecting the specified file.
+
+        If the file path exists, this method opens Windows Explorer and selects the file at the
+        given path. If the file does not exist, an error message is displayed indicating the issue.
+
+        :param filepath: The path to the file or folder to be opened and selected in Explorer.
+        :type filepath: str
+        :return: None
+        :rtype: None
+        """
         if os.path.exists(filepath):
             subprocess.run(['explorer', '/select,', os.path.normpath(filepath)])
         else:
@@ -290,6 +432,22 @@ class CursorViewerApp(tk.Tk):
 # --- Entry point (definitely not a roblox reference) ---
 
 def main():
+    """
+    Main entry point for the application.
+
+    This function attempts to find a valid Roblox version folder and load the cursor images 
+    from the relevant directory. If a valid version folder is found, the `CursorViewerApp` is 
+    initialized and started. If no valid folder is found, an error message is displayed.
+
+    The flow of this function is as follows:
+    1. It checks for a valid Roblox version folder using `find_valid_roblox_version_folder()`.
+    2. If no valid folder is found, an error message is shown and the function exits.
+    3. If a valid folder is found, it loads the cursor images from the `KeyboardMouse` directory.
+    4. The `CursorViewerApp` is created and the application starts running.
+
+    :return: None
+    :rtype: None
+    """
     version_folder = find_valid_roblox_version_folder()
     if not version_folder:
         messagebox.showerror("Error", "Could not find a valid Roblox version folder.")
