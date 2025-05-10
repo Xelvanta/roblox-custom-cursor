@@ -7,6 +7,8 @@ import webbrowser
 from PIL import Image, ImageTk
 import base64
 from io import BytesIO
+import json
+import urllib.parse
 
 # Enforce Windows-only execution
 if os.name != "nt":
@@ -87,7 +89,7 @@ class CursorViewerApp(tk.Tk):
         super().__init__()
         self.title("Roblox Custom Cursor")
         self.configure(bg="#1e1e1e")
-        self.geometry("400x250")
+        self.geometry("400x280")
         self.resizable(False, False)
 
         # Decode base64 data
@@ -101,7 +103,7 @@ class CursorViewerApp(tk.Tk):
 
     def build_ui(self, image_data):
         container = tk.Frame(self, bg="#1e1e1e")
-        container.place(relx=0.5, rely=0.5, anchor="center")
+        container.place(relx=0.5, rely=0.42, anchor="center")
 
         for index, (label_text, pil_image, filepath) in enumerate(image_data):
             col = index % 3
@@ -145,15 +147,22 @@ class CursorViewerApp(tk.Tk):
 
             self.canvas_dict[label_text] = canvas  # Save canvas widget reference
 
-            # Add Change and Default buttons
+            # Add Change, Default, and Photopea buttons
             self.add_buttons(container, col, filepath, label_text, pil_image)
+
+        # Disclaimer
+        disclaimer_label = tk.Label(
+            self, text="Roblox Custom Cursor is not affiliated with or endorsed by Photopea",
+            fg="#525252", bg="#1e1e1e", font=("Segoe UI", 8)
+        )
+        disclaimer_label.place(relx=0.5, rely=1, anchor="s")
 
         # Credits label at the bottom
         credits_label = tk.Label(
             self, text="Made with ♡ by Alina | Xelvanta™",
             fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="hand2"
         )
-        credits_label.pack(side="bottom", pady=(5, 5))
+        credits_label.place(relx=0.5, rely=0.95, anchor="s")
 
         # Make the credits label a clickable link
         credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
@@ -197,6 +206,45 @@ class CursorViewerApp(tk.Tk):
 
         default_button = tk.Button(container, text="Restore Default", command=default_button_action, bg="#444444", fg="white")
         default_button.grid(row=3, column=col, pady=(0, 5))
+
+        # Photopea button
+        def photopea_button_action():
+            # Convert image to base64 and encode it
+            with open(filepath, "rb") as img_file:
+                img_base64 = base64.b64encode(img_file.read()).decode('utf-8')
+            
+            config = {
+                "files": [
+                    f"data:image/png;base64,{img_base64}"
+                ],
+                "environment": {
+                    "eparams": {
+                        "guides": True,
+                        "grid": True,
+                        "gsize": 32,
+                        "paths": True,
+                        "pgrid": True
+                    }
+                }
+            }
+
+            # Convert the configuration to a JSON string
+            config_str = json.dumps(config)
+
+            # URL-encode the JSON string
+            encoded_config = urllib.parse.quote(config_str)
+
+            # Construct the Photopea URL
+            photopea_url = f"https://www.photopea.com#{encoded_config}"
+
+            # Debugging: print the payload and the encoded URL
+            print("Encoded URL:", photopea_url)
+
+            # Open Photopea in a new browser tab with the encoded JSON URL
+            webbrowser.open(photopea_url)
+
+        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action, bg="#444444", fg="white")
+        photopea_button.grid(row=4, column=col, pady=(0, 5))
 
     def update_gui_with_new_image(self, filepath, label_text):
         # Reload the image and update GUI
