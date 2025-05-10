@@ -225,9 +225,27 @@ class CursorViewerApp(tk.Tk):
 
             # Change to folder emoji on hover
             def on_hover_in(event, label=label, label_text=label_text):
+                """
+                Change the label text to include a folder emoji when the mouse hovers over it.
+
+                :param event: The event object representing the hover event.
+                :param label: The label whose text is being modified.
+                :param label_text: The original label text to restore when the mouse leaves.
+                :return: None
+                :rtype: None
+                """
                 label.config(text="🗁 " + label_text)
 
             def on_hover_out(event, label=label, label_text=label_text):
+                """
+                Restore the original label text when the mouse leaves the label.
+    
+                :param event: The event object representing the hover-out event.
+                :param label: The label whose text is being restored.
+                :param label_text: The original label text to restore.
+                :return: None
+                :rtype: None
+                """
                 label.config(text=label_text)
 
             label.bind("<Enter>", on_hover_in)
@@ -303,6 +321,13 @@ class CursorViewerApp(tk.Tk):
         """
         # Change button
         def change_button_action():
+            """
+            Handle the action for changing the cursor image.
+            Prompts the user to select a new PNG file and updates the cursor image.
+
+            :return: None
+            :rtype: None
+            """
             new_file = filedialog.askopenfilename(filetypes=[("PNG Files", "*.png")])
             if new_file:
                 try:
@@ -323,6 +348,13 @@ class CursorViewerApp(tk.Tk):
 
         # Default button
         def default_button_action():
+            """
+            Handle the action for restoring the default cursor image.
+            Restores the default image from base64 data and updates the cursor image.
+
+            :return: None
+            :rtype: None
+            """
             try:
                 img_data = base64.b64decode(default_cursor_base64[label_text])
                 img = Image.open(BytesIO(img_data)).resize((64, 64), Image.Resampling.LANCZOS)
@@ -342,6 +374,13 @@ class CursorViewerApp(tk.Tk):
 
         # Photopea button
         def photopea_button_action():
+            """
+            Handle the action for opening the cursor image in Photopea.
+            Converts the cursor image to base64, constructs a URL for Photopea, and opens it in a browser.
+
+            :return: None
+            :rtype: None
+            """
             # Convert image to base64 and encode it
             with open(filepath, "rb") as img_file:
                 img_base64 = base64.b64encode(img_file.read()).decode('utf-8')
