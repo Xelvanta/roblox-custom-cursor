@@ -11,9 +11,20 @@ from tkinter import filedialog, messagebox, PhotoImage
 
 from PIL import Image, ImageTk
 
+# Uncomment these lines to test enforcement on posix os
+# from unittest.mock import patch
+# @patch('os.name', 'posix')
+
 # Enforce Windows-only execution
-if os.name != "nt":
-    sys.exit()
+def enforce_nt_os():
+    if os.name != "nt":
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showerror("Error", "This application is only supported on Windows.")
+        root.destroy()
+        sys.exit(1)
+
+enforce_nt_os()
 
 # --- Utility functions ---
 
