@@ -22,7 +22,7 @@ Before running the application, ensure you have the following:
   * Install it by running the following command:
 
     ```bash
-    pip install pillow
+    pip install pillow==11.1.0
     ```
 
 ---
@@ -41,7 +41,7 @@ cd roblox-custom-cursor
 Make sure you have the necessary Python package installed:
 
 ```bash
-pip install pillow
+pip install pillow==11.1.0
 ```
 
 ---
