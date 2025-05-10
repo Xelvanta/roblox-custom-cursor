@@ -238,8 +238,8 @@ class CursorViewerApp(tk.Tk):
             # Construct the Photopea URL
             photopea_url = f"https://www.photopea.com#{encoded_config}"
 
-            # Debugging: print the payload and the encoded URL
-            print("Encoded URL:", photopea_url)
+            # Uncomment this line as needed to debug the encoded URL
+            # print("Encoded URL:", photopea_url)
 
             # Open Photopea in a new browser tab with the encoded JSON URL
             webbrowser.open(photopea_url)
