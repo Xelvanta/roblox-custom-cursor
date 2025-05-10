@@ -190,6 +190,8 @@ class CursorViewerApp(tk.Tk):
 
         change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         change_button.grid(row=2, column=col, pady=(5, 5))
+        change_button.bind("<Enter>", lambda e: change_button.config(bg="#2e2e2e"))
+        change_button.bind("<Leave>", lambda e: change_button.config(bg="#444444"))
 
         # Default button
         def default_button_action():
@@ -207,6 +209,8 @@ class CursorViewerApp(tk.Tk):
 
         default_button = tk.Button(container, text="Restore Default", command=default_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         default_button.grid(row=3, column=col, pady=(0, 5))
+        default_button.bind("<Enter>", lambda e: default_button.config(bg="#2e2e2e"))
+        default_button.bind("<Leave>", lambda e: default_button.config(bg="#444444"))
 
         # Photopea button
         def photopea_button_action():
@@ -246,6 +250,8 @@ class CursorViewerApp(tk.Tk):
 
         photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         photopea_button.grid(row=4, column=col, pady=(0, 5))
+        photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
+        photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
 
     def update_gui_with_new_image(self, filepath, label_text):
         # Reload the image and update GUI
