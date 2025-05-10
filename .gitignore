@@ -172,3 +172,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Visual Studio
+.vs/
+*.vspscc
+*.user
+*.userosscache
+*.suo
+*.vssscc
+*.dbmdl
+*.sln.docstates
