@@ -1,14 +1,15 @@
+import base64
+import json
 import os
 import subprocess
 import sys
 import tkinter as tk
-from tkinter import filedialog, messagebox, PhotoImage
-import webbrowser
-from PIL import Image, ImageTk
-import base64
-from io import BytesIO
-import json
 import urllib.parse
+import webbrowser
+from io import BytesIO
+from tkinter import filedialog, messagebox, PhotoImage
+
+from PIL import Image, ImageTk
 
 # Enforce Windows-only execution
 if os.name != "nt":
