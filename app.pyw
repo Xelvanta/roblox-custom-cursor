@@ -161,7 +161,7 @@ class CursorViewerApp(tk.Tk):
         # Credits label at the bottom
         credits_label = tk.Label(
             self, text="Made with ♡ by Alina | Xelvanta™",
-            fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="hand2"
+            fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="heart"
         )
         credits_label.place(relx=0.5, rely=0.95, anchor="s")
 
@@ -169,8 +169,8 @@ class CursorViewerApp(tk.Tk):
         credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
         
         # Change font to underlined when hovering and revert when leaving
-        credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline")))
-        credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8)))
+        credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline"), text="https://github.com/Xelvanta/roblox-custom-cursor ↗"))
+        credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text="Made with ♡ by Alina | Xelvanta™"))
 
     def add_buttons(self, container, col, filepath, label_text, pil_image):
         # Change button
@@ -188,7 +188,7 @@ class CursorViewerApp(tk.Tk):
           "• Errno 13: This usually occurs when the application doesn't have permission to access the file. "
           "Try running the application as an administrator or closing any programs that might be using the file.")
 
-        change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white")
+        change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         change_button.grid(row=2, column=col, pady=(5, 5))
 
         # Default button
@@ -205,7 +205,7 @@ class CursorViewerApp(tk.Tk):
           "• Errno 13: This usually occurs when the application doesn't have permission to access the file. "
           "Try running the application as an administrator or closing any programs that might be using the file.")
 
-        default_button = tk.Button(container, text="Restore Default", command=default_button_action, bg="#444444", fg="white")
+        default_button = tk.Button(container, text="Restore Default", command=default_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         default_button.grid(row=3, column=col, pady=(0, 5))
 
         # Photopea button
@@ -244,7 +244,7 @@ class CursorViewerApp(tk.Tk):
             # Open Photopea in a new browser tab with the encoded JSON URL
             webbrowser.open(photopea_url)
 
-        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action, bg="#444444", fg="white")
+        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         photopea_button.grid(row=4, column=col, pady=(0, 5))
 
     def update_gui_with_new_image(self, filepath, label_text):
