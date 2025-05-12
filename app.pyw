@@ -281,9 +281,12 @@ class CursorViewerApp(tk.Tk):
         )
         disclaimer_label.place(relx=0.5, rely=1, anchor="s")
 
-        # Credits label at the bottom
+        # Credits label
+
+        credits_text = "Made with ♡ by Xelvanta™"
+
         credits_label = tk.Label(
-            self, text="Made with ♡ by Xelvanta™",
+            self, text=credits_text,
             fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="heart"
         )
         credits_label.place(relx=0.5, rely=0.95, anchor="s")
@@ -293,7 +296,7 @@ class CursorViewerApp(tk.Tk):
         
         # Change font to underlined when hovering and revert when leaving
         credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline"), text="https://github.com/Xelvanta/roblox-custom-cursor ↗"))
-        credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text="Made with ♡ by Alina | Xelvanta™"))
+        credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text=credits_text))
 
     def add_buttons(self, container, col, filepath, label_text, pil_image):
         """
