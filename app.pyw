@@ -283,7 +283,7 @@ class CursorViewerApp(tk.Tk):
 
         # Credits label at the bottom
         credits_label = tk.Label(
-            self, text="Made with ♡ by Alina | Xelvanta™",
+            self, text="Made with ♡ by Xelvanta™",
             fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="heart"
         )
         credits_label.place(relx=0.5, rely=0.95, anchor="s")
