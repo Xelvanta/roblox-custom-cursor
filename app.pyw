@@ -283,7 +283,7 @@ class CursorViewerApp(tk.Tk):
 
         # Credits label
 
-        credits_text = "Made with ♡ by Xelvanta™"
+        credits_text = "Made with ♡ by Xelvanta™ Softworks"
 
         credits_label = tk.Label(
             self, text=credits_text,
