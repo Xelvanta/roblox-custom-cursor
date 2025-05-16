@@ -456,7 +456,7 @@ class CursorViewerApp(tk.Tk):
             # Ask user where to save the file
             save_path = filedialog.asksaveasfilename(
                 defaultextension=".rcur",
-                filetypes=[("Roblox Custom Cursor Profile", "*.rcur")],
+                filetypes=[("Roblox Custom Cursor Profile", "*.rcur"), ("All Files", "*.*")],
                 initialfile="roblox_custom_cursor_profile",
                 title="Save exported cursors as"
             )
@@ -487,7 +487,7 @@ class CursorViewerApp(tk.Tk):
 
             # Ask user to select the .rcur file to import
             import_path = filedialog.askopenfilename(
-                filetypes=[("Roblox Custom Cursor Profile", "*.rcur")],
+                filetypes=[("Roblox Custom Cursor Profile", "*.rcur"), ("All Files", "*.*")],
                 title="Select .rcur file to import"
             )
             if not import_path:
