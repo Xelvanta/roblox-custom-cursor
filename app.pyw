@@ -461,7 +461,7 @@ class CursorViewerApp(tk.Tk):
                 title="Save exported cursors as"
             )
             if not save_path:
-                print("[DEBUG] Save cancelled by user.")
+                # print("[DEBUG] Save cancelled by user.")
                 return
 
             print(f"[DEBUG] Saving exported cursors to: {save_path}")
@@ -473,7 +473,7 @@ class CursorViewerApp(tk.Tk):
             messagebox.showinfo("Success", "Cursors exported successfully.")
         except Exception as e:
             messagebox.showerror("Error", str(e))
-            print(f"[DEBUG] Error during export: {e}")
+            # print(f"[DEBUG] Error during export: {e}")
 
     def import_cursors_from_rcur(self):
         try:
