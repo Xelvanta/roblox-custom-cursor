@@ -533,7 +533,7 @@ class CursorViewerApp(tk.Tk):
                  fg="white", bg="#1e1e1e").pack(pady=15)
 
         # Export cursors button
-        export_btn = tk.Button(settings_win, text="Export Cursors to .rcur", 
+        export_btn = tk.Button(settings_win, text="Export Cursors as Profile", 
                                command=self.export_cursors_to_rcur,
                                bg="#444444", fg="white", cursor="hand2", width=25)
         export_btn.pack(pady=5)
@@ -541,7 +541,7 @@ class CursorViewerApp(tk.Tk):
         export_btn.bind("<Leave>", lambda e: export_btn.config(bg="#444444"))
 
         # Import cursors button
-        import_btn = tk.Button(settings_win, text="Import Cursors from .rcur", 
+        import_btn = tk.Button(settings_win, text="Import Cursors from Profile", 
                                command=self.import_cursors_from_rcur,
                                bg="#444444", fg="white", cursor="hand2", width=25)
         import_btn.pack(pady=5)
