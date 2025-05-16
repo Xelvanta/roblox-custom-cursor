@@ -532,27 +532,33 @@ class CursorViewerApp(tk.Tk):
         tk.Label(settings_win, text="Settings", font=("Segoe UI", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=15)
 
-        # Export cursors button
-        export_btn = tk.Button(settings_win, text="Export Cursors as Profile", 
-                               command=self.export_cursors_to_rcur,
-                               bg="#444444", fg="white", cursor="hand2", width=25)
-        export_btn.pack(pady=5)
-        export_btn.bind("<Enter>", lambda e: export_btn.config(bg="#2e2e2e"))
-        export_btn.bind("<Leave>", lambda e: export_btn.config(bg="#444444"))
+        def create_button_with_info(parent, text, command, tooltip_text):
+            container = tk.Frame(parent, bg="#1e1e1e")
+            container.pack(pady=5)
 
-        # Import cursors button
-        import_btn = tk.Button(settings_win, text="Import Cursors from Profile", 
-                               command=self.import_cursors_from_rcur,
-                               bg="#444444", fg="white", cursor="hand2", width=25)
-        import_btn.pack(pady=5)
-        import_btn.bind("<Enter>", lambda e: import_btn.config(bg="#2e2e2e"))
-        import_btn.bind("<Leave>", lambda e: import_btn.config(bg="#444444"))
+            btn = tk.Button(container, text=text,
+                            command=command,
+                            bg="#444444", fg="white", cursor="hand2", width=25)
+            btn.pack(side="left")
+            btn.bind("<Enter>", lambda e: btn.config(bg="#2e2e2e"))
+            btn.bind("<Leave>", lambda e: btn.config(bg="#444444"))
+        
+            info_label = tk.Label(container, text="🛈", font=("Segoe UI", 12),
+                                  fg="white", bg="#1e1e1e", cursor="question_arrow")
+            info_label.pack(side="left", padx=5)
 
-        # tk.Label(settings_win, text="(Placeholder)", font=("Segoe UI", 9),
-                 # fg="#888888", bg="#1e1e1e").pack(pady=5)
+            # Attach tooltip to info_label
+            ToolTip(info_label, tooltip_text)
+
+            container.pack_configure(anchor="center")
+
+            return btn, info_label
+
+        export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
+        import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
-                              bg="#444444", fg="white", cursor="hand2")
+                          bg="#444444", fg="white", cursor="hand2")
         close_btn.pack(pady=20)
         close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#2e2e2e"))
         close_btn.bind("<Leave>", lambda e: close_btn.config(bg="#444444"))
@@ -604,6 +610,35 @@ class CursorViewerApp(tk.Tk):
             messagebox.showerror("Error", f"Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
           "• This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
           "Restarting the application should fix this.")
+
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tipwindow = None
+        self.id = None
+        self.x = self.y = 0
+        widget.bind("<Enter>", self.show_tip)
+        widget.bind("<Leave>", self.hide_tip)
+
+    def show_tip(self, event=None):
+        if self.tipwindow or not self.text:
+            return
+        x = self.widget.winfo_rootx() + 20
+        y = self.widget.winfo_rooty() + self.widget.winfo_height() + 5
+        self.tipwindow = tw = tk.Toplevel(self.widget)
+        tw.wm_overrideredirect(True)  # Remove window decorations
+        tw.wm_geometry(f"+{x}+{y}")
+        label = tk.Label(tw, text=self.text, justify='left',
+                         background="#333333", fg="white", relief='solid', borderwidth=1,
+                         font=("Segoe UI", 9))
+        label.pack(ipadx=5, ipady=2)
+
+    def hide_tip(self, event=None):
+        tw = self.tipwindow
+        self.tipwindow = None
+        if tw:
+            tw.destroy()
 
 # --- Entry point (definitely not a roblox reference) ---
 
