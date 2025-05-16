@@ -298,6 +298,17 @@ class CursorViewerApp(tk.Tk):
         credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline"), text="https://github.com/Xelvanta/roblox-custom-cursor ↗"))
         credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text=credits_text))
 
+        # Settings button
+        settings_button = tk.Button(
+        self, text="⚙", font=("Segoe UI Symbol", 12),
+        bg="#1e1e1e", fg="#AAAAAA", bd=0, cursor="hand2",
+        command=self.show_settings_window
+        )
+
+        settings_button.place(relx=1.0, rely=0.0, anchor="ne", x=0, y=-5)
+        settings_button.bind("<Enter>", lambda e: settings_button.config(fg="white"))
+        settings_button.bind("<Leave>", lambda e: settings_button.config(fg="#AAAAAA"))
+
     def add_buttons(self, container, col, filepath, label_text, pil_image):
         """
         Add buttons for changing the cursor image, restoring the default image, and opening
@@ -422,6 +433,25 @@ class CursorViewerApp(tk.Tk):
         photopea_button.grid(row=4, column=col, pady=(0, 5))
         photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
         photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
+
+    def show_settings_window(self):
+        settings_win = tk.Toplevel(self)
+        settings_win.title("Settings")
+        settings_win.configure(bg="#1e1e1e")
+        settings_win.geometry("300x200")
+        settings_win.resizable(False, False)
+
+        tk.Label(settings_win, text="Settings", font=("Segoe UI", 12, "bold"),
+                 fg="white", bg="#1e1e1e").pack(pady=15)
+
+        tk.Label(settings_win, text="(Placeholder)", font=("Segoe UI", 9),
+                 fg="#888888", bg="#1e1e1e").pack(pady=5)
+
+        close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
+                              bg="#444444", fg="white", cursor="hand2")
+        close_btn.pack(pady=20)
+        close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#2e2e2e"))
+        close_btn.bind("<Leave>", lambda e: close_btn.config(bg="#444444"))
 
     def update_gui_with_new_image(self, filepath, label_text):
         """
