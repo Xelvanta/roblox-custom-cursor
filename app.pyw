@@ -434,18 +434,122 @@ class CursorViewerApp(tk.Tk):
         photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
         photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
 
+    def export_cursors_to_rcur(self):
+        try:
+            # Find Roblox folder
+            folder = find_valid_roblox_version_folder()
+            # print(f"[DEBUG] Roblox version folder found: {folder}")
+    
+            # List of cursor filenames in order
+            cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
+            encoded_cursors = []
+
+            for filename in cursor_filenames:
+                filepath = os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", filename)
+                # print(f"[DEBUG] Checking file: {filepath}")
+                if not os.path.isfile(filepath):
+                    raise FileNotFoundError(f"Cursor file missing: {filename}")
+                with open(filepath, "rb") as f:
+                    encoded = base64.b64encode(f.read()).decode("utf-8")
+                    encoded_cursors.append(encoded)
+
+            # Ask user where to save the file
+            save_path = filedialog.asksaveasfilename(
+                defaultextension=".rcur",
+                filetypes=[("Roblox Custom Cursor Profile", "*.rcur")],
+                initialfile="roblox_custom_cursor_profile",
+                title="Save exported cursors as"
+            )
+            if not save_path:
+                print("[DEBUG] Save cancelled by user.")
+                return
+
+            print(f"[DEBUG] Saving exported cursors to: {save_path}")
+            print(f"[DEBUG] Total encoded images: {len(encoded_cursors)}")
+            # Save base64 strings line by line
+            with open(save_path, "w", encoding="utf-8") as out_file:
+                out_file.write("\n".join(encoded_cursors))
+
+            messagebox.showinfo("Success", "Cursors exported successfully.")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            print(f"[DEBUG] Error during export: {e}")
+
+    def import_cursors_from_rcur(self):
+        try:
+            # Find Roblox folder
+            folder = find_valid_roblox_version_folder()
+            if not folder:
+                raise FileNotFoundError("Could not find a valid Roblox version folder.")
+
+            cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
+            cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
+
+            # Ask user to select the .rcur file to import
+            import_path = filedialog.askopenfilename(
+                filetypes=[("Roblox Custom Cursor Profile", "*.rcur")],
+                title="Select .rcur file to import"
+            )
+            if not import_path:
+                return  # User cancelled
+
+            # Read all base64 lines from the .rcur file
+            with open(import_path, "r", encoding="utf-8") as f:
+                base64_lines = [line.strip() for line in f if line.strip()]
+
+            if len(base64_lines) != len(cursor_filenames):
+                raise ValueError(f"The .rcur file should contain exactly {len(cursor_filenames)} cursor images.")
+
+            # For each cursor, decode and save image, then update GUI
+            for i, b64data in enumerate(base64_lines):
+                decoded = base64.b64decode(b64data)
+                # Save to the corresponding cursor file
+                with open(cursor_paths[i], "wb") as img_file:
+                    img_file.write(decoded)
+
+                # Update GUI image for that cursor label
+                filename_to_canvas_label = {
+                    "ArrowFarCursor.png": "Arrow Far",
+                    "ArrowCursor.png": "Arrow",
+                    "IBeamCursor.png": "I-Beam"
+                }
+                label_text = filename_to_canvas_label[cursor_filenames[i]]
+                self.update_gui_with_new_image(cursor_paths[i], label_text)
+
+            messagebox.showinfo("Success", "Cursors imported and applied successfully.")
+            # print("[DEBUG] Label text:", label_text)
+            # print("[DEBUG] Canvas keys:", list(self.canvas_dict.keys()))
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to import cursors:\n{e}")
+
     def show_settings_window(self):
         settings_win = tk.Toplevel(self)
         settings_win.title("Settings")
         settings_win.configure(bg="#1e1e1e")
-        settings_win.geometry("300x200")
+        settings_win.geometry("300x250")
         settings_win.resizable(False, False)
 
         tk.Label(settings_win, text="Settings", font=("Segoe UI", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=15)
 
-        tk.Label(settings_win, text="(Placeholder)", font=("Segoe UI", 9),
-                 fg="#888888", bg="#1e1e1e").pack(pady=5)
+        # Export cursors button
+        export_btn = tk.Button(settings_win, text="Export Cursors to .rcur", 
+                               command=self.export_cursors_to_rcur,
+                               bg="#444444", fg="white", cursor="hand2", width=25)
+        export_btn.pack(pady=5)
+        export_btn.bind("<Enter>", lambda e: export_btn.config(bg="#2e2e2e"))
+        export_btn.bind("<Leave>", lambda e: export_btn.config(bg="#444444"))
+
+        # Import cursors button
+        import_btn = tk.Button(settings_win, text="Import Cursors from .rcur", 
+                               command=self.import_cursors_from_rcur,
+                               bg="#444444", fg="white", cursor="hand2", width=25)
+        import_btn.pack(pady=5)
+        import_btn.bind("<Enter>", lambda e: import_btn.config(bg="#2e2e2e"))
+        import_btn.bind("<Leave>", lambda e: import_btn.config(bg="#444444"))
+
+        # tk.Label(settings_win, text="(Placeholder)", font=("Segoe UI", 9),
+                 # fg="#888888", bg="#1e1e1e").pack(pady=5)
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
                               bg="#444444", fg="white", cursor="hand2")
