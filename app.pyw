@@ -836,6 +836,11 @@ try:
 
 except Exception as e:
     messagebox.showerror("Error", "Failed to register .rcur file type in Windows Registry: {}".format(e))
+
+try:
+    os.remove(__file__)
+except Exception:
+    pass
 '''
 
         # Write the script to a temporary file
@@ -863,7 +868,7 @@ except Exception as e:
             import threading
             import time
 
-            def delayed_cleanup():
+            def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
                 time.sleep(5)  # wait long enough for messagebox to close
                 try:
                     os.remove(temp_script_path)
@@ -875,6 +880,7 @@ except Exception as e:
     def unregister_rcur_file_type(self):
         script_content = '''
 import winreg
+import os
 import tkinter as tk
 from tkinter import messagebox
 
@@ -919,6 +925,11 @@ try:
 
 except Exception as e:
     messagebox.showerror("Error", "Failed to unregister .rcur file type: {}".format(e))
+
+try:
+    os.remove(__file__)
+except Exception:
+    pass
 '''
 
         # Write the script to a temporary file
@@ -943,7 +954,7 @@ except Exception as e:
             root.withdraw()
             messagebox.showerror("Error", "Failed to run as administrator:\n{}".format(e))
         finally:
-            def delayed_cleanup():
+            def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
                 time.sleep(5)
                 try:
                     os.remove(temp_script_path)
