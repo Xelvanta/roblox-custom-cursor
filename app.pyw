@@ -561,7 +561,7 @@ class CursorViewerApp(tk.Tk):
 
         export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
         import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
-        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type (beta)", self.registrar.register_rcur_file_type, "Registers the .rcur file extension in the Windows Registry")
+        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type (beta)", self.registrar.register_rcur_file_type, "Register the .rcur file extension in the Windows Registry")
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
                           bg="#444444", fg="white", cursor="hand2")
@@ -832,10 +832,10 @@ try:
     with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile\\DefaultIcon") as icon_key:
         winreg.SetValueEx(icon_key, "", 0, winreg.REG_SZ, icon_path)
 
-    messagebox.showinfo("Success", "Successfully reigstered .rcur file type in Registry.")
+    messagebox.showinfo("Success", "Successfully registered .rcur file type in Windows Registry.")
 
 except Exception as e:
-    messagebox.showerror("Error", f"Failed to register .rcur file type in Registry.")
+    messagebox.showerror("Error", f"Failed to register .rcur file type in Windows Registry.")
 '''
 
         # Write the script to a temporary file
