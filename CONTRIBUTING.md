@@ -33,35 +33,18 @@ Update the code, fix bugs, or improve the interface! All contributions are welco
 
 ### 📦 Embed Images as Base64 (For Portability)
 
-To ensure **portability** by reducing external file dependencies, please embed image assets (such as icons) directly in the code using base64 encoding.
-
-For better readability, limit each base64-encoded line to a maximum of 1000 characters. Format strings longer than 1000 characters as follows:
-
-```python
-b64_string = (
-    "iVBORw0K..."
-    "iVBORw0K..."
-    "iVBORw0K..."
-)
-```
+To maintain **portability** and reduce external file dependencies, please embed image assets (such as icons or cursors) directly in the code using base64 encoding.
 
 Use the following code snippet to convert an image to a base64 string:
 
 ```python
 import base64
-import textwrap
 
-image_path = r"your\file\here"
+image_path = r"path\to\your\image\here.png"
 
 with open(image_path, "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-
-chunk_size = 1000
-chunks = textwrap.wrap(encoded_string, chunk_size)
-
-for chunk in chunks:
-    # Use print(chunk) here if you don't want quotation marks around the output
-    print(f'"{chunk}"')
+print(encoded_string)
 ```
 
 Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`.
@@ -87,6 +70,8 @@ Ensure your code follows standard Python formatting conventions:
   black .
   ```
 * Add docstrings to your functions using Sphinx/reStructuredText (reST) style. Follow PEP 257 for structure and consistency.
+* Avoid referencing external files. Instead, embed them as base64 strings and decode them during runtime. The .pyw file should be able to run independently without relying on any external resource files.
+* Ensure all tests pass before committing, especially after reformatting/changing base64 strings.
 
 ---
 
