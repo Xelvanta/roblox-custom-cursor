@@ -560,8 +560,8 @@ class CursorViewerApp(tk.Tk):
 
         export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
         import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
-        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type", self.registrar.register_rcur_file_type, "Register the .rcur file extension in the Windows Registry")
-        unregister_btn, unregister_info = create_button_with_info(settings_win, "Unregister .rcur File Type", self.registrar.unregister_rcur_file_type, "Unregister the .rcur file extension in the Windows Registry")
+        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type", self.registrar.register_rcur_file_type, "Register the Roblox Custom Cursor Profile (.rcur) file type with Windows.\nA UAC prompt will appear to allow registry changes.")
+        unregister_btn, unregister_info = create_button_with_info(settings_win, "Unregister .rcur File Type", self.registrar.unregister_rcur_file_type, "Unregister the Roblox Custom Cursor Profile (.rcur) file type from Windows.\nA UAC prompt will appear to allow registry changes.")
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
                           bg="#444444", fg="white", cursor="hand2")
