@@ -5,6 +5,8 @@ import os
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import tkinter as tk
 import urllib.parse
 import webbrowser
@@ -864,10 +866,6 @@ except Exception:
         except Exception as e:
             messagebox.showerror("Error", f"Failed to run as administrator:\n{e}")
         finally:
-            # Delay deletion to ensure the subprocess had time to finish using it
-            import threading
-            import time
-
             def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
                 time.sleep(5)  # wait long enough for messagebox to close
                 try:
