@@ -33,18 +33,35 @@ Update the code, fix bugs, or improve the interface! All contributions are welco
 
 ### 📦 Embed Images as Base64 (For Portability)
 
-To maintain **portability** and reduce external file dependencies, please embed image assets (such as icons or cursors) directly in the code using base64 encoding.
+To ensure **portability** by reducing external file dependencies, please embed image assets (such as icons) directly in the code using base64 encoding.
+
+For better readability, limit each base64-encoded line to a maximum of 1000 characters. Format strings longer than 1000 characters as follows:
+
+```python
+b64_string = (
+    "iVBORw0K..."
+    "iVBORw0K..."
+    "iVBORw0K..."
+)
+```
 
 Use the following code snippet to convert an image to a base64 string:
 
 ```python
 import base64
+import textwrap
 
-image_path = r"path\to\your\image\here.png"
+image_path = r"your\file\here"
 
 with open(image_path, "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-print(encoded_string)
+
+chunk_size = 1000
+chunks = textwrap.wrap(encoded_string, chunk_size)
+
+for chunk in chunks:
+    # Use print(chunk) here if you don't want quotation marks around the output
+    print(f'"{chunk}"')
 ```
 
 Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`.
@@ -62,6 +79,7 @@ Ensure your code follows standard Python formatting conventions:
 * Use **4 spaces** for indentation (no tabs).
 * Follow **PEP 8** for general style.
 * Use **f-strings** for formatting text.
+* Use .format() for string formatting inside inline scripts to avoid syntax errors, especially when embedding multiline strings in code.
 * Avoid hardcoding paths—use `os.path.join()` for file operations.
 * Run **Black** to format your code before committing:
 

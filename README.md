@@ -72,7 +72,7 @@ To run the **Roblox Custom Cursor** application:
       <img src="assets/preview/RCC_Main_GUI_v1.3.1.png" width="200"/><br>Main GUI
     </td>
     <td align="center">
-      <img src="assets/preview/RCC_Settings_v1.4.0.png" width="200"/><br>Settings
+      <img src="assets/preview/RCC_Settings_v1.6.0.png" width="200"/><br>Settings
     </td>
     <td align="center">
       <img src="assets/preview/Export_RCUR_v1.3.1.png" width="200"/><br>Export .rcur
