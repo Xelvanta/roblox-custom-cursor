@@ -941,7 +941,7 @@ except Exception as e:
         except Exception as e:
             root = tk.Tk()
             root.withdraw()
-            messagebox.showerror("Error", "Failed to run as administrator:\\n{}".format(e))
+            messagebox.showerror("Error", "Failed to run as administrator:\n{}".format(e))
         finally:
             def delayed_cleanup():
                 time.sleep(5)
