@@ -8,7 +8,6 @@ import tempfile
 import tkinter as tk
 import urllib.parse
 import webbrowser
-import winreg
 from io import BytesIO
 from tkinter import filedialog, messagebox, PhotoImage
 
@@ -561,7 +560,8 @@ class CursorViewerApp(tk.Tk):
 
         export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
         import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
-        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type (beta)", self.registrar.register_rcur_file_type, "Register the .rcur file extension in the Windows Registry")
+        register_btn, register_info = create_button_with_info(settings_win, "Register .rcur File Type", self.registrar.register_rcur_file_type, "Register the .rcur file extension in the Windows Registry")
+        unregister_btn, unregister_info = create_button_with_info(settings_win, "Unregister .rcur File Type", self.registrar.unregister_rcur_file_type, "Unregister the .rcur file extension in the Windows Registry")
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
                           bg="#444444", fg="white", cursor="hand2")
@@ -654,7 +654,7 @@ class FileTypeRegistrar:
         ).replace("\\", "\\\\")
 
         # Build the contents of the elevated script
-        script_content = f'''
+        script_content = '''
 import winreg
 import tkinter as tk
 from tkinter import messagebox
@@ -826,8 +826,8 @@ try:
     with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, ".rcur") as ext_key:
         winreg.SetValueEx(ext_key, "", 0, winreg.REG_SZ, "rcurfile")
 
-    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, "rcurfile") as rcurfile_key:
-        pass
+    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile") as rcurfile_key:
+        winreg.SetValueEx(rcurfile_key, "", 0, winreg.REG_SZ, "Roblox Custom Cursor Profile")
 
     with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile\\DefaultIcon") as icon_key:
         winreg.SetValueEx(icon_key, "", 0, winreg.REG_SZ, icon_path)
@@ -835,7 +835,7 @@ try:
     messagebox.showinfo("Success", "Successfully registered .rcur file type in Windows Registry.")
 
 except Exception as e:
-    messagebox.showerror("Error", f"Failed to register .rcur file type in Windows Registry.")
+    messagebox.showerror("Error", "Failed to register .rcur file type in Windows Registry: {}".format(e))
 '''
 
         # Write the script to a temporary file
@@ -870,6 +870,85 @@ except Exception as e:
                 except Exception:
                     pass
 
+            threading.Thread(target=delayed_cleanup, daemon=True).start()
+
+    def unregister_rcur_file_type(self):
+        script_content = '''
+import winreg
+import tkinter as tk
+from tkinter import messagebox
+
+root = tk.Tk()
+root.withdraw()
+
+def delete_key_recursive(root, sub_key):
+    try:
+        open_key = winreg.OpenKey(root, sub_key, 0, winreg.KEY_READ | winreg.KEY_WRITE)
+    except FileNotFoundError:
+        return
+
+    # Delete all subkeys first
+    try:
+        while True:
+            subkey_name = winreg.EnumKey(open_key, 0)
+            delete_key_recursive(open_key, subkey_name)
+    except OSError:
+        pass
+    finally:
+        winreg.CloseKey(open_key)
+
+    try:
+        winreg.DeleteKey(root, sub_key)
+    except FileNotFoundError:
+        pass
+    except PermissionError as e:
+        messagebox.showerror("Error", "Failed to delete registry key {}: {}".format(sub_key, e))
+        raise
+
+keys_to_delete = [
+    ".rcur",
+    "rcurfile\\DefaultIcon",
+    "rcurfile"
+]
+
+try:
+    for key in keys_to_delete:
+        delete_key_recursive(winreg.HKEY_CLASSES_ROOT, key)
+
+    messagebox.showinfo("Success", "Successfully unregistered .rcur file type from Windows Registry.")
+
+except Exception as e:
+    messagebox.showerror("Error", "Failed to unregister .rcur file type: {}".format(e))
+'''
+
+        # Write the script to a temporary file
+        with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as f:
+            f.write(script_content)
+            temp_script_path = f.name
+
+        pythonw = sys.executable.replace("python.exe", "pythonw.exe")
+        if not pythonw.lower().endswith("pythonw.exe"):
+            pythonw = sys.executable  # fallback
+
+        try:
+            ret = ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", pythonw,
+                '"{}"'.format(temp_script_path), None, 1)
+
+            if ret <= 32:
+                raise RuntimeError("ShellExecuteW failed with code {}".format(ret))
+
+        except Exception as e:
+            root = tk.Tk()
+            root.withdraw()
+            messagebox.showerror("Error", "Failed to run as administrator:\\n{}".format(e))
+        finally:
+            def delayed_cleanup():
+                time.sleep(5)
+                try:
+                    os.remove(temp_script_path)
+                except Exception:
+                    pass
             threading.Thread(target=delayed_cleanup, daemon=True).start()
 
 # --- Entry point (definitely not a roblox reference) ---
