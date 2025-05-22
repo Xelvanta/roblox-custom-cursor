@@ -75,10 +75,10 @@ To run the **Roblox Custom Cursor** application:
       <img src="assets/preview/RCC_Settings_v1.6.0.png" width="200"/><br>Settings
     </td>
     <td align="center">
-      <img src="assets/preview/Export_RCUR_v1.3.1.png" width="200"/><br>Export .rcur
+      <img src="assets/preview/Export_RCUR_v1.6.6.png" width="200"/><br>Export .rcur
     </td>
     <td align="center">
-      <img src="assets/preview/Import_RCUR_v1.3.1.png" width="200"/><br>Import .rcur
+      <img src="assets/preview/Import_RCUR_v1.6.6.png" width="200"/><br>Import .rcur
     </td>
   </tr>
 </table>
