@@ -648,7 +648,7 @@ class ToolTip:
         if tw:
             tw.destroy()
 
-# 2025-05-22: Added support for opening .rcur file type with a default app
+# 2025-05-22: Added support for importing .rcur file by opening it directly (milestone feature)
 # Author: Alina Wan
 
 class FileTypeRegistrar:
