@@ -5,21 +5,23 @@
 
 <p align="left">
   <img src="assets/RobloxCustomCursorIcon.png" width="128" style="margin-right: 10px;">
-  <strong>Roblox Custom Cursor</strong> is a <strong>Windows-based Python application</strong> that allows you to customize the cursor on Roblox with your own image files. It offers an easy way to modify the default cursor and replace it with your choice of custom designs for a personalized experience. The program uses the <strong>Pillow</strong> library to handle cursor images.
+  <strong>Roblox Custom Cursor</strong> is a <strong>100% self-contained Windows-based Python application</strong> designed for easy cursor customization on Roblox.  
+  The entire functionality is bundled into a single <code>app.pyw</code> file.  
+  The only external requirements are <strong>Python 3.x</strong> and the <strong>Pillow</strong> library for image handling.
 </p>
 
 ---
 
 ## 📋 Requirements
 
-Before running the application, ensure you have the following:
+Before running the application, ensure you have:
 
 * **Python 3.x**
 
   * [Download Python](https://www.python.org/downloads/)
 * **Pillow** (Python package for handling images)
 
-  * Install it by running the following command:
+  * Install it by running:
 
     ```bash
     pip install pillow==11.1.0
@@ -29,16 +31,25 @@ Before running the application, ensure you have the following:
 
 ## ⚙️ Installation
 
-### 1. Clone the Repository:
+You can either **clone the repository** or **download the `app.pyw` file directly from the root directory**
+
+### 1.
+#### Clone the Repository:
 
 ```bash
 git clone https://github.com/Xelvanta/roblox-custom-cursor
 cd roblox-custom-cursor
 ```
 
+### OR
+
+#### Download the `app.pyw` File Directly:
+
+Download the latest `app.pyw` file https://github.com/Xelvanta/roblox-custom-cursor/  and save it to a folder of your choice.
+
 ### 2. Install Dependencies:
 
-Make sure you have the necessary Python package installed:
+Make sure Pillow is installed:
 
 ```bash
 pip install pillow==11.1.0
@@ -48,21 +59,30 @@ pip install pillow==11.1.0
 
 ## ▶️ Running the Application
 
-To run the **Roblox Custom Cursor** application:
+To run the **Roblox Custom Cursor** app:
 
-1. Open a terminal and navigate to the project folder:
-
-   ```bash
-   cd roblox-custom-cursor
-   ```
-
+1. Open a terminal and navigate to the folder containing `app.pyw`
 2. Run the script:
 
-   ```bash
-   python app.pyw
-   ```
+```bash
+python app.pyw
+```
+
+**Or simply double-click `app.pyw` in your file explorer to launch the app directly — no terminal needed!**
 
 ---
+
+## 🗂️ `.rcur` File Type Support
+
+The `.rcur` file is a custom plaintext format that holds the three cursor images used by **Roblox**. You can:
+
+* **Export** your current cursor setup as a `.rcur` file for backup or sharing.
+* **Import** a `.rcur` file to quickly apply a saved cursor configuration.
+
+If you **associate the `.rcur` file type with windows** via the Settings menu (top-right), you can simply **double-click any `.rcur` file** in Windows Explorer to import it directly — no need to open the main application first.
+
+---
+
 
 ## 📸 Preview
 
@@ -93,10 +113,10 @@ Feel free to fork the project and submit pull requests to improve **Roblox Custo
 
 ## 📝 License
 
-**Roblox Custom Cursor** is open source and available under the GPL-3.0 license. See the [LICENSE](LICENSE) for more details.
+**Roblox Custom Cursor** is open source and available under the GPL-3.0 license. See the [LICENSE](LICENSE) for details.
 
 ---
 
 By **Xelvanta**
-For support or inquiries, please contact us at [Xelvanta@proton.me](mailto:Xelvanta@proton.me).
+For support or inquiries: [Xelvanta@proton.me](mailto:Xelvanta@proton.me)  
 GitHub: [https://github.com/Xelvanta](https://github.com/Xelvanta)
