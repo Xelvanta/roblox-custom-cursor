@@ -45,7 +45,7 @@ cd roblox-custom-cursor
 
 #### Download the `app.pyw` File Directly:
 
-Download the latest `app.pyw` file https://github.com/Xelvanta/roblox-custom-cursor/  and save it to a folder of your choice.
+Download the latest `app.pyw` file from [Roblox Custom Cursor](https://github.com/Xelvanta/roblox-custom-cursor) and save it to a folder of your choice.
 
 ### 2. Install Dependencies:
 
