@@ -869,7 +869,7 @@ keys_to_delete = [
     "rcurfile\\shell\\open",
     "rcurfile\\shell",
     "rcurfile\\DefaultIcon",
-    "rcurfile"
+    "rcurfile",
     ".rcur",
 ]
 
