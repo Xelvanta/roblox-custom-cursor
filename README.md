@@ -12,10 +12,6 @@
 
 ---
 
-Sure! Here's a polished and friendlier version of your feature list, with the "one-file" reference removed and a more natural tone throughout:
-
----
-
 ## Features
 
 * 🐍 **Self-Contained Simplicity** – Just Python 3.x and Pillow are required.
