@@ -12,21 +12,22 @@
 
 ---
 
+Sure! Here's a polished and friendlier version of your feature list, with the "one-file" reference removed and a more natural tone throughout:
+
+---
+
 ## Features
 
-* 🗂️ **One-File Simplicity**: Entire app is packed into a single `app.pyw` file—no installation or clutter.
-* 🐍 **Self-Contained**: Only requires Python 3.x and Pillow—no extra dependencies.
-* 📁 **Smart Directory Detection**: Automatically finds the correct Roblox version folder—no digging through nested paths.
-* 💾 **.rcur File Support**: Import/export cursor setups using the `.rcur` format for backups or sharing.
-* ⚡ **Double-Click Imports**: Associate `.rcur` files for instant import directly from Windows Explorer.
-* 🪟 **Windows Registry Integration**: Registers `.rcur` files in Windows so they open with the app by default.
-* 📐 **Auto-Resize on Upload**: Upload any PNG and it’s automatically resized to fit Roblox’s cursor specs.
-* 🎯 **Image Alignment Helper**: Use the "Edit in Photopea" button to fine-tune alignment with built-in center guidelines.
-* 🖼️ **Custom Image Support**: Use any PNG file as a cursor—with full transparency support.
-* 🛟 **Safe and Reversible**: Original Roblox cursors are backed up for easy restoration.
-* ♻️ **Reset to Default**: One-click reset brings back standard Roblox cursors.
-* 🧼 **Clean UI**: Simple, intuitive interface designed for speed and clarity.
-* 🪶 **Lightweight**: Runs smoothly even on low-end Windows machines.
+* 🐍 **Self-Contained Simplicity** – Just Python 3.x and Pillow are required.
+* 📁 **Smart Folder Detection** – Automatically locates the correct Roblox version folder—no digging through your file system.
+* 💾 **.rcur File Support** – Easily import and export cursor setups with `.rcur` files for backups or sharing.
+* ⚡ **Quick Imports** – Double-click `.rcur` files in Windows Explorer to instantly import them (requires registry association).
+* 📐 **Auto-Resize on Upload** – Any PNG you upload is resized to perfectly fit Roblox’s cursor requirements.
+* 🎯 **Visual Alignment Tool** – Launch edits in Photopea with built-in center guidelines to fine-tune positioning.
+* 🖼️ **Custom Cursors** – Use any transparent PNG as your cursor—fully customizable to your style.
+* ♻️ **One-Click Reset** – Quickly restore default Roblox cursors with a single click.
+* 🧼 **Streamlined Interface** – Clean, intuitive UI designed for speed and ease of use.
+* 🪶 **Lightweight Performance** – Optimized to run smoothly even on low-spec Windows machines.
 
 ---
 
