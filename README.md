@@ -12,6 +12,24 @@
 
 ---
 
+## Features
+
+* 🗂️ **One-File Simplicity**: Entire app is packed into a single `app.pyw` file—no installation or clutter.
+* 🐍 **Self-Contained**: Only requires Python 3.x and Pillow—no extra dependencies.
+* 📁 **Smart Directory Detection**: Automatically finds the correct Roblox version folder—no digging through nested paths.
+* 💾 **.rcur File Support**: Import/export cursor setups using the `.rcur` format for backups or sharing.
+* ⚡ **Double-Click Imports**: Associate `.rcur` files for instant import directly from Windows Explorer.
+* 🪟 **Windows Registry Integration**: Registers `.rcur` files in Windows so they open with the app by default.
+* 📐 **Auto-Resize on Upload**: Upload any PNG and it’s automatically resized to fit Roblox’s cursor specs.
+* 🎯 **Image Alignment Helper**: Use the "Edit in Photopea" button to fine-tune alignment with built-in center guidelines.
+* 🖼️ **Custom Image Support**: Use any PNG file as a cursor—with full transparency support.
+* 🛟 **Safe and Reversible**: Original Roblox cursors are backed up for easy restoration.
+* ♻️ **Reset to Default**: One-click reset brings back standard Roblox cursors.
+* 🧼 **Clean UI**: Simple, intuitive interface designed for speed and clarity.
+* 🪶 **Lightweight**: Runs smoothly even on low-end Windows machines.
+
+---
+
 ## 📋 Requirements
 
 Before running the application, ensure you have:
