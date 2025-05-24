@@ -903,12 +903,12 @@ except Exception:
                 '"{}"'.format(temp_script_path), None, 1)
 
             if ret <= 32:
-                raise RuntimeError("ShellExecuteW failed with code {}".format(ret))
+                raise RuntimeError(f"ShellExecuteW failed with code {ret}")
 
         except Exception as e:
             root = tk.Tk()
             root.withdraw()
-            messagebox.showerror("Error", "Failed to run as administrator:\n{}".format(e))
+            messagebox.showerror("Error", f"Failed to run as administrator:\n{e}")
         finally:
             def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
                 time.sleep(5)
@@ -916,6 +916,7 @@ except Exception:
                     os.remove(temp_script_path)
                 except Exception:
                     pass
+
             threading.Thread(target=delayed_cleanup, daemon=True).start()
 
 # --- Entry point (definitely not a roblox reference) ---
