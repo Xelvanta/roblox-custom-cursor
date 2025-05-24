@@ -118,6 +118,10 @@ If you **associate the `.rcur` file type with windows** via the Settings menu (t
   </tr>
 </table>
 
+<p align="center" style="margin-top:20px;">
+  <img src="assets/preview/RCC_Import_Export.gif" width="400" alt="Import/Export Preview GIF" />
+</p>
+
 ---
 
 ## 💡 Contributing
