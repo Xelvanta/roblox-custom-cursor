@@ -301,7 +301,7 @@ class CursorViewerApp(tk.Tk):
         credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
         
         # Change font to underlined when hovering and revert when leaving
-        credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline"), text="https://github.com/Xelvanta/roblox-custom-cursor ↗"))
+        credits_label.bind("<Enter>", lambda e: credits_label.config(font=("Segoe UI", 8, "underline"), text="Roblox Custom Cursor GitHub Repository ↗"))
         credits_label.bind("<Leave>", lambda e: credits_label.config(font=("Segoe UI", 8), text=credits_text))
 
         # Settings button
@@ -532,7 +532,7 @@ class CursorViewerApp(tk.Tk):
         settings_win = tk.Toplevel(self)
         settings_win.title("Settings")
         settings_win.configure(bg="#1e1e1e")
-        settings_win.geometry("300x250")
+        settings_win.geometry("300x270")
         settings_win.resizable(False, False)
 
         tk.Label(settings_win, text="Settings", font=("Segoe UI", 12, "bold"),
@@ -564,6 +564,23 @@ class CursorViewerApp(tk.Tk):
         import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
         register_btn, register_info = create_button_with_info(settings_win, "Associate .rcur File Type", self.registrar.register_rcur_file_type, "Associate the Roblox Custom Cursor Profile (.rcur) file type with Windows.\nAllows importing .rcur files by opening (double-clicking) them directly.\nA UAC prompt will appear to allow registry changes.")
         unregister_btn, unregister_info = create_button_with_info(settings_win, "Unassociate .rcur File Type", self.registrar.unregister_rcur_file_type, "Unassociate the Roblox Custom Cursor Profile (.rcur) file type from Windows.\nRemoves registry entries associated with Roblox Custom Cursor.\nA UAC prompt will appear to allow registry changes.")
+
+
+        # Report a bug label
+
+        bug_text = "Report a Bug or Request a Feature"
+
+        bug_label = tk.Label(
+            settings_win, text=bug_text,
+            fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="hand2"
+        )
+        bug_label.place(relx=0.5, rely=0.98, anchor="s")
+
+        # Make the bug label a clickable link
+        bug_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor/issues/new"))
+        
+        bug_label.bind("<Enter>", lambda e: bug_label.config(font=("Segoe UI", 8, "underline"), text=bug_text + " ↗"))
+        bug_label.bind("<Leave>", lambda e: bug_label.config(font=("Segoe UI", 8), text=bug_text))
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
                           bg="#444444", fg="white", cursor="hand2")
