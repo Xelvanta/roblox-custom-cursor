@@ -56,7 +56,7 @@ print(encoded_string)
 
 Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`. This script is also found under the `assets/scripts/` folder.
 
-> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications. This rule does not apply to optional dependencies.
+> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications. **This rule does not apply to dependencies used by opt-in features, which should prefer runtime download over the internet instead of base64 embedding.**
 
 ### 🖥️ Launcher Requirements (rcur_importer_launcher)
 
@@ -69,6 +69,8 @@ Use MSVC (cl.exe) to build the launcher:
 ```cmd
 cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
 ```
+
+> 📁 **Note**: The launcher binary is intentionally committed to the repository because it is referenced by the main application for runtime download over the internet. To ensure this mechanism works correctly, the file path must remain consistent. The binary is small (~90 KB for C++ for C#) and changes infrequently.
 
 ---
 
