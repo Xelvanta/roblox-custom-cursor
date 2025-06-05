@@ -40,7 +40,7 @@ Use the following code snippet to convert a file to a base64 string:
 ```python
 import base64
 
-path = r"C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer_launcher.exe"
+path = r"C:\your\file\here"
 
 # Open the file and encode it
 with open(path, "rb") as image_file:
@@ -56,7 +56,7 @@ print(encoded_string)
 
 Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`. This script is also found under the `assets/scripts/` folder.
 
-> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications.
+> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications. This rule does not apply to optional dependencies.
 
 ### 🖥️ Launcher Requirements (rcur_importer_launcher)
 
@@ -65,6 +65,8 @@ The .rcur importer launcher, written in C#, plays a critical role and must follo
 * **Compile with Ahead-Of-Time (AOT) compilation enabled.** This improves startup performance and portability.
 * **Do NOT use top-level statements.** Instead, implement a classic `Program` class with a `static void Main(string[] args)` entry point for clarity and compatibility.
 * **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
+* **Use .NET 8 LTS for building the launcher** to ensure the publish folder is net8.0-windows as expected; building with other versions (like .NET 9) will create different folders and break path assumptions.
+* **The executable file must be located at** `rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/rcur_importer_launcher.exe` and MUST be committed to the repository.
 
 Example:
 
@@ -76,6 +78,11 @@ class Program
         // Launcher code here
     }
 }
+```
+
+Build command:
+```ps1
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishAot=true
 ```
 
 ---
