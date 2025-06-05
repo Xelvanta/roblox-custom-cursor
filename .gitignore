@@ -182,3 +182,14 @@ cython_debug/
 *.vssscc
 *.dbmdl
 *.sln.docstates
+
+# Directory structure file
+directory_structure.txt
+
+# C# build output and intermediate files for launcher project
+rcur_importer_launcher/bin/
+rcur_importer_launcher/obj/
+
+# Publish folder except keep exe files
+rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*
+!rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*.exe

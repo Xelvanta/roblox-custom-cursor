@@ -33,21 +33,28 @@ Update the code, fix bugs, or improve the interface! All contributions are welco
 
 ### 📦 Embed Images as Base64 (For Portability)
 
-To maintain **portability** and reduce external file dependencies, please embed image assets (such as icons or cursors) directly in the code using base64 encoding.
+To maintain **portability** and reduce external file dependencies, please embed assets (such as icons or executables) directly in the code using base64 encoding.
 
-Use the following code snippet to convert an image to a base64 string:
+Use the following code snippet to convert a file to a base64 string:
 
 ```python
 import base64
 
-image_path = r"path\to\your\image\here.png"
+path = r"C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer_launcher.exe"
 
-with open(image_path, "rb") as image_file:
+# Open the file and encode it
+with open(path, "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+
+# Print the Base64 string
 print(encoded_string)
+
+# Uncomment one of the following lines to directly copy the output to the clipboard
+# import pyperclip; pyperclip.copy(encoded_string); print("Copied to clipboard!")
+# import subprocess; subprocess.Popen('clip', stdin=subprocess.PIPE, shell=True).communicate(encoded_string.encode()); print("Copied to clipboard!")
 ```
 
-Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`.
+Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`. This script is also found under the `assets/scripts/` folder.
 
 > 📁 **Important**: Even though the image is embedded in the code, still include the original image file in the `assets/` folder. This helps with development, testing, and future edits.
 
