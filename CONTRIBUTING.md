@@ -31,9 +31,9 @@ git checkout -b feature/your-feature-name
 
 Update the code, fix bugs, or improve the interface! All contributions are welcome.
 
-### 📦 Embed Images as Base64 (For Portability)
+### 📦 External File Dependencies Not Allowed
 
-To maintain **portability** and reduce external file dependencies, please embed assets (such as icons or executables) directly in the code using base64 encoding.
+To maintain **portability** and reduce external file dependencies, please embed assets (such as icons, executables, or other files) directly in the code using base64 encoding
 
 Use the following code snippet to convert a file to a base64 string:
 
@@ -56,7 +56,27 @@ print(encoded_string)
 
 Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`. This script is also found under the `assets/scripts/` folder.
 
-> 📁 **Important**: Even though the image is embedded in the code, still include the original image file in the `assets/` folder. This helps with development, testing, and future edits.
+> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications.
+
+### 🖥️ Launcher Requirements (rcur_importer_launcher)
+
+The .rcur importer launcher, written in C#, plays a critical role and must follow these requirements:
+
+* **Compile with Ahead-Of-Time (AOT) compilation enabled.** This improves startup performance and portability.
+* **Do NOT use top-level statements.** Instead, implement a classic `Program` class with a `static void Main(string[] args)` entry point for clarity and compatibility.
+* **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
+
+Example:
+
+```csharp
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Launcher code here
+    }
+}
+```
 
 ---
 
