@@ -1,17 +1,28 @@
 #include <windows.h>
 #include <string>
 
-int main(int argc, char* argv[])
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
 {
-    if (argc < 2)
+    // Parse command line arguments (simple)
+    int argc = 0;
+    LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argc);
+    if (!argvW || argc < 2) {
+        if (argvW) LocalFree(argvW);
         return 0;
+    }
 
+    // Convert argvW[1] (input file) to std::string (assuming ASCII or UTF-8 safe)
+    int size_needed = WideCharToMultiByte(CP_UTF8, 0, argvW[1], -1, NULL, 0, NULL, NULL);
+    std::string inputFile(size_needed, 0);
+    WideCharToMultiByte(CP_UTF8, 0, argvW[1], -1, &inputFile[0], size_needed, NULL, NULL);
+    LocalFree(argvW);
+
+    // Get SystemDrive
     char sysDrive[MAX_PATH];
     DWORD ret = GetEnvironmentVariableA("SystemDrive", sysDrive, MAX_PATH);
     std::string systemDrive = (ret > 0) ? std::string(sysDrive) : "C:";
 
     std::string scriptPath = systemDrive + "\\Program Files\\Xelvanta Softworks\\Roblox Custom Cursor\\rcur_importer.pyw";
-    std::string inputFile = argv[1];
 
     std::string commandLine = "pythonw \"" + scriptPath + "\" \"" + inputFile + "\"";
 
@@ -38,12 +49,10 @@ int main(int argc, char* argv[])
 
     free(cmdLineMutable);
 
-    // Close handles if process started
     if (success) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
     }
 
-    // Fail silently (do nothing if it didn't start)
     return 0;
 }
