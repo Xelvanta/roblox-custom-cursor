@@ -183,7 +183,7 @@ cython_debug/
 *.dbmdl
 *.sln.docstates
 
-# Directory structure file
+# Generated directory structure snapshot used temporarily for debugging or sharing
 directory_structure.txt
 
 # C# build output and intermediate files for launcher project
