@@ -60,29 +60,14 @@ Then, paste the resulting string into the code and decode it at runtime using `b
 
 ### 🖥️ Launcher Requirements (rcur_importer_launcher)
 
-The .rcur importer launcher, written in C#, plays a critical role and must follow these requirements:
+The .rcur importer launcher, written in C++, plays a critical role and must follow these requirements:
 
-* **Compile with Ahead-Of-Time (AOT) compilation enabled.** This improves startup performance and portability.
-* **Do NOT use top-level statements.** Instead, implement a classic `Program` class with a `static void Main(string[] args)` entry point for clarity and compatibility.
 * **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
-* **Use .NET 8 LTS for building the launcher** to ensure the publish folder is net8.0-windows as expected; building with other versions (like .NET 9) will create different folders and break path assumptions.
-* **The executable file must be located at** `rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/rcur_importer_launcher.exe` and MUST be committed to the repository.
-
-Example:
-
-```csharp
-class Program
-{
-    static void Main(string[] args)
-    {
-        // Launcher code here
-    }
-}
-```
+* **The executable file must be located at** `rcur_importer_launcher/rcur_importer_launcher.exe` and must be committed to the repository to avoid breaking file path assumptions.
 
 Build command:
-```ps1
-dotnet publish -c Release -r win-x64 --self-contained true /p:PublishAot=true
+```cmd
+cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
 ```
 
 ---

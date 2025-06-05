@@ -186,10 +186,13 @@ cython_debug/
 # Generated directory structure snapshot used temporarily for debugging or sharing
 directory_structure.txt
 
-# C# build output and intermediate files for launcher project
+# Legecy - C# build output and intermediate files for launcher project
 rcur_importer_launcher/bin/
 rcur_importer_launcher/obj/
 
-# Publish folder except keep exe files
+# Legacy - Publish folder except keep exe files
 rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*
 !rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*.exe
+
+# Ignore all C/C++ object files
+*.obj

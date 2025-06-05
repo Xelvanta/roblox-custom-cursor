@@ -761,7 +761,7 @@ if __name__ == "__main__":
 \'\'\'
 
 icon_url = \'https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/refs/heads/main/assets/rcur_icon_variable.ico\'
-launcher_url = \'https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/rcur_importer_launcher.exe\'
+launcher_url = \'https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/rcur_importer_launcher/rcur_importer_launcher.exe\'
 
 try:
     launcher_path = os.path.join(
