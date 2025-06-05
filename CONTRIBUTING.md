@@ -31,7 +31,7 @@ git checkout -b feature/your-feature-name
 
 Update the code, fix bugs, or improve the interface! All contributions are welcome.
 
-### 📦 External File Dependencies Not Allowed
+### 📦 Embed External Files (No Runtime Dependencies)
 
 To maintain **portability** and reduce external file dependencies, please embed assets (such as icons, executables, or other files) directly in the code using base64 encoding
 
@@ -65,7 +65,7 @@ The .rcur importer launcher, written in C++, plays a critical role and must foll
 * **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
 * **The executable file must be located at** `rcur_importer_launcher/rcur_importer_launcher.exe` and must be committed to the repository to avoid breaking file path assumptions.
 
-Build command:
+Use MSVC (cl.exe) to build the launcher:
 ```cmd
 cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
 ```
