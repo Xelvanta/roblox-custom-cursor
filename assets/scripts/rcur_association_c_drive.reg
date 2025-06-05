@@ -10,4 +10,4 @@ Windows Registry Editor Version 5.00
 @="C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\data\images\rcur_icon_variable.ico"
 
 [HKEY_CLASSES_ROOT\rcurfile\shell\open\command]
-@="\"C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer_launcher.bat\" \"%1\""
+@="\"C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer_launcher.exe\" \"%1\""

@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 REM Define base paths using %SystemDrive%
 set "BASE_DIR=%SystemDrive%\Program Files\Xelvanta Softworks\Roblox Custom Cursor"
 set "ICON_PATH=%BASE_DIR%\data\images\rcur_icon_variable.ico"
-set "LAUNCHER_PATH=%BASE_DIR%\rcur_importer_launcher.bat"
+set "LAUNCHER_PATH=%BASE_DIR%\rcur_importer_launcher.exe"
 
 REM Define the .reg file path to generate
 set "REG_FILE=%~dp0rcur_association.reg"
