@@ -26,7 +26,7 @@ jobs:
 
       - name: Build EXE with cl
         working-directory: ./rcur_importer_launcher
-        run: cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
+        run: cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO /MACHINE:X86
 
       - name: Generate SHA-256 hash of EXE
         working-directory: ./rcur_importer_launcher
