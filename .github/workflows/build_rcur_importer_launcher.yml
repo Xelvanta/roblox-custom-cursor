@@ -1,0 +1,31 @@
+name: Build rcur_importer_launcher
+
+on:
+  push:
+    paths:
+      - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
+  pull_request:
+    paths:
+      - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
+
+jobs:
+  build-launcher:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up MSVC (Developer Command Prompt)
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Build EXE with cl
+      working-directory: ./rcur_importer_launcher
+      run: cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
+
+    - name: Generate SHA-256 hash of EXE
+      working-directory: ./rcur_importer_launcher
+      shell: pwsh
+      run: |
+        $hash = Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256
+        $hash.Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
