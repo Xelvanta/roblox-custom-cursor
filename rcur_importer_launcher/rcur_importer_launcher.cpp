@@ -3,7 +3,7 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
 {
-    // Parse command line arguments
+    // Parse command line arguments (simple)
     int argc = 0;
     LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argc);
     if (!argvW || argc < 2) {
