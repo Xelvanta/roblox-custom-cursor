@@ -43,10 +43,5 @@ jobs:
         shell: pwsh
         run: |
           git add -f rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
-          $changes = git diff --cached --quiet
-          if (-not $?) {
-            Write-Host "No changes to commit"
-          } else {
-            git commit -m "chore: update launcher exe and hash [skip ci]"
-            git push origin main
-          }
+          git commit -m "chore: update launcher exe and hash [skip ci]" || Write-Host "No changes to commit"
+          git push origin main || Write-Host "Nothing to push"
