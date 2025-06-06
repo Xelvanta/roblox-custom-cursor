@@ -70,7 +70,7 @@ Use MSVC (cl.exe) to build the launcher:
 cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
 ```
 
-> 📁 **Note**: The launcher binary is intentionally committed to the repository because it is referenced by the main application for runtime download over the internet. To ensure this mechanism works correctly, the file path must remain consistent. The binary is small (~90 KB for C++ for C#) and changes infrequently.
+> 📁 **Note**: The launcher binary is intentionally committed to the repository because it is referenced by the main application for runtime download over the internet. To ensure this mechanism works correctly, the file path must remain consistent. The binary is small (~90 KB) and changes infrequently.
 
 ---
 
@@ -83,7 +83,7 @@ Ensure your code follows standard Python formatting conventions:
 * Use **4 spaces** for indentation (no tabs).
 * Follow **PEP 8** for general style.
 * Use **f-strings** for formatting text.
-* Use .format() for string formatting inside inline scripts to avoid syntax errors, especially when embedding multiline strings in code.
+* When writing Python scripts as string values (e.g., for embedding or runtime execution), use `.format()` for string formatting to avoid syntax errors.
 * Avoid hardcoding paths—use `os.path.join()` for file operations.
 * Run **Black** to format your code before committing:
 
