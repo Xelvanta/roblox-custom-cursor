@@ -6,6 +6,25 @@ We welcome all kinds of contributions, including **bug reports, feature addition
 
 ---
 
+## 🧰 Recommended Development Environment
+
+To ensure seamless compatibility and optimal performance during development, the following setup is recommended:
+
+* **Operating System:** Windows 11
+* **Python Interpreter:** Python 3.x
+* **C++ Compiler:** Microsoft Visual C++ (MSVC) version 14.3 or later
+* **IDE:** Visual Studio 2022 (Community Edition or higher)
+* **Developer Command Prompt:** Visual Studio 2022 Developer Command Prompt (Developer Command Prompt for VS 2022) v17.12 or newer
+* **PowerShell:** Version 5.1.19041.1 or newer (bundled with Windows 10/11)
+
+> ℹ️ Visual Studio 2022 is the preferred IDE for full compatibility across the entire project. However, contributions using other IDEs or editors are welcome, especially for non-C++ components.
+
+### ❗ Mandatory for C++ Development
+
+C++ components **must** be compiled using **MSVC** from within the **Visual Studio 2022 Developer Command Prompt (v17.12 or newer)**. Other compilers or environments are unsupported and may result in build errors.
+
+---
+
 ## 🛠 How to Contribute
 
 ### 1️⃣ Fork the Repository
