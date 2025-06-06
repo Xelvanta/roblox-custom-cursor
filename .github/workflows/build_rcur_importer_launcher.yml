@@ -40,11 +40,13 @@ jobs:
 
       - name: Commit and push exe and hash
         working-directory: ./rcur_importer_launcher
+        shell: pwsh
         run: |
           git add rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
+          $changes = git diff --cached --quiet
+          if (-not $?) {
+            Write-Host "No changes to commit"
+          } else {
             git commit -m "chore: update launcher exe and hash [skip ci]"
             git push origin main
-          fi
+          }
