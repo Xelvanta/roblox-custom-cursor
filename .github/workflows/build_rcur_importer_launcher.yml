@@ -42,7 +42,7 @@ jobs:
         working-directory: ./rcur_importer_launcher
         shell: pwsh
         run: |
-          git add rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
+          git add -f rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
           $changes = git diff --cached --quiet
           if (-not $?) {
             Write-Host "No changes to commit"
