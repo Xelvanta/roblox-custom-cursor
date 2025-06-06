@@ -90,7 +90,7 @@ The `.rcur` importer launcher, written in C++, plays a critical role and must fo
 Use **MSVC (`cl.exe`)** to build the launcher before submitting changes. The executable **must compile cleanly with no warnings** and behave correctly under this command:
 
 ```cmd
-cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
+cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 ```
 
 * This command **must succeed on Windows with the default MSVC developer environment** (e.g., Visual Studio Command Prompt).
