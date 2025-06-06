@@ -77,19 +77,28 @@ Then, paste the resulting string into the code and decode it at runtime using `b
 
 > 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications. **This rule does not apply to dependencies used by opt-in features, which should prefer runtime download over the internet instead of base64 embedding.**
 
-### 🖥️ Launcher Requirements (rcur_importer_launcher)
+### 🖥️ Launcher Requirements (`rcur_importer_launcher`)
 
-The .rcur importer launcher, written in C++, plays a critical role and must follow these requirements:
+The `.rcur` importer launcher, written in C++, plays a critical role and must follow these requirements:
 
 * **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
-* **The executable file must be located at** `rcur_importer_launcher/rcur_importer_launcher.exe` and must be committed to the repository to avoid breaking file path assumptions.
+* **The C++ source file must be located at**: `rcur_importer_launcher/rcur_importer_launcher.cpp`
+* **The executable is not tracked by Git and should not be committed.** It is automatically excluded by `.gitignore` and rebuilt by CI during deployment.
 
-Use MSVC (cl.exe) to build the launcher:
+#### 🛠️ Build Instructions (for Local Testing)
+
+Use **MSVC (`cl.exe`)** to build the launcher before submitting changes. The executable **must compile cleanly with no warnings** and behave correctly under this command:
+
 ```cmd
 cl rcur_importer_launcher.cpp /link /SUBSYSTEM:WINDOWS shell32.lib
 ```
 
-> 📁 **Note**: The launcher binary is intentionally committed to the repository because it is referenced by the main application for runtime download over the internet. To ensure this mechanism works correctly, the file path must remain consistent. The binary is small (~90 KB) and changes infrequently.
+* This command **must succeed on Windows with the default MSVC developer environment** (e.g., Visual Studio Command Prompt).
+* This ensures compatibility with the CI build system and prevents platform-specific deviations.
+* You are expected to test your changes using this build locally before opening a pull request.
+
+> ℹ️ The resulting `.exe` will be placed in the same folder and is ignored by Git.  
+> ✅ CI will handle building and hashing the executable as part of the release pipeline.
 
 ---
 
