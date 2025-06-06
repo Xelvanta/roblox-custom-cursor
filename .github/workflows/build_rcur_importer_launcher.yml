@@ -1,5 +1,8 @@
 name: Build rcur_importer_launcher
 
+permissions:
+  contents: write
+
 on:
   push:
     paths:
