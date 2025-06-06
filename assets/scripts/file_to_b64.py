@@ -1,6 +1,6 @@
 import base64
 
-path = r"C:\Program Files\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer_launcher.exe"
+path = r"C:\your\file\here"
 
 # Open the file and encode it
 with open(path, "rb") as image_file:
