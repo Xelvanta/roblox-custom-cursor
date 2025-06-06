@@ -83,7 +83,7 @@ The `.rcur` importer launcher, written in C++, plays a critical role and must fo
 
 * **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
 * **The C++ source file must be located at**: `rcur_importer_launcher/rcur_importer_launcher.cpp`
-* **The executable is not tracked by Git and should not be committed.** It is automatically excluded by `.gitignore` and rebuilt by CI during deployment.
+* **The executable is not tracked by Git and should not be committed.** It is automatically excluded by `.gitignore` and rebuilt by CI during deployment. This prevents contributors from submitting prebuilt executables that may not match the source.
 
 #### 🛠️ Build Instructions (for Local Testing)
 
@@ -96,6 +96,7 @@ cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMEN
 * This command must be run and succeed from the Visual Studio 2022 Developer Command Prompt (version 17.12 or newer), specifically the x64 Native Tools Command Prompt for VS 2022.
 * This ensures compatibility with the CI build system and prevents platform-specific deviations.
 * You are expected to test your changes using this build locally before opening a pull request.
+* If you cannot build locally, you may still propose changes with a detailed explanation, and maintainers can help test the build.
 
 > ℹ️ The resulting `.exe` will be placed in the same folder and is ignored by Git.  
 > ✅ CI will handle building and hashing the executable as part of the release pipeline.
