@@ -14,7 +14,7 @@ To ensure seamless compatibility and optimal performance during development, the
 * **Python Interpreter:** Python 3.x
 * **C++ Compiler:** Microsoft Visual C++ (MSVC) version 14.3 or later
 * **IDE:** Visual Studio 2022 (Community Edition or higher)
-* **Developer Command Prompt:** Visual Studio 2022 Developer Command Prompt (Developer Command Prompt for VS 2022) v17.12 or newer
+* **Developer Command Prompt:** Visual Studio 2022 Developer Command Prompt (x64 Native Tools Command Prompt for VS 2022) v17.12 or newer
 * **PowerShell:** Version 5.1.19041.1 or newer (bundled with Windows 10/11)
 
 > ℹ️ Visual Studio 2022 is the preferred IDE for full compatibility across the entire project. However, contributions using other IDEs or editors are welcome, especially for non-C++ components.
@@ -93,7 +93,7 @@ Use **MSVC (`cl.exe`)** to build the launcher before submitting changes. The exe
 cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 ```
 
-* This command **must succeed on Windows with the default MSVC developer environment** (e.g., Visual Studio Command Prompt).
+* This command must be run and succeed from the Visual Studio 2022 Developer Command Prompt (version 17.12 or newer), specifically the x64 Native Tools Command Prompt for VS 2022.
 * This ensures compatibility with the CI build system and prevents platform-specific deviations.
 * You are expected to test your changes using this build locally before opening a pull request.
 
