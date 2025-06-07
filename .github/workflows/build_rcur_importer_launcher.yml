@@ -7,9 +7,13 @@ on:
   push:
     paths:
       - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
+      - 'rcur_importer_launcher/rcur_importer_launcher.exe'
+      - 'rcur_importer_launcher/rcur_importer_launcher.exe.sha256'
   pull_request:
     paths:
       - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
+      - 'rcur_importer_launcher/rcur_importer_launcher.exe'
+      - 'rcur_importer_launcher/rcur_importer_launcher.exe.sha256'
 
 jobs:
   build-launcher:
