@@ -199,6 +199,13 @@ rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*
 
 # Ignore the C++ binary and generated hash file for the rcur_importer_launcher
 # These are auto-generated and force-added by the CI pipeline
-# if any of the source code, existing binary, or hash file changes on push or PR
+# if any of the source code changes on push or PR
 app/rcur_importer_launcher.exe
 app/rcur_importer_launcher.exe.sha256
+
+# Ignore the Inno Setup binary and generated hash file for the RCC3_Installer
+# These are auto-generated and force-added by the CI pipeline
+# if any of the source codechanges on push or PR
+app/RCC_Installer.exe
+app/RCC3_Installer.exe
+app/RCC*_Installer.exe
