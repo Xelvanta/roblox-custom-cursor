@@ -7,11 +7,11 @@ on:
   push:
     paths:
       - 'app/rcur_importer_launcher.cpp'
-      - 'app/rcur_importer_launcher.iss'
+      - 'app/RCC3_Installer.iss'
   pull_request:
     paths:
       - 'app/rcur_importer_launcher.cpp'
-      - 'app/rcur_importer_launcher.iss'
+      - 'app/RCC3_Installer.iss'
 
 jobs:
   build:
