@@ -27,6 +27,7 @@ Source: "data\images\*"; DestDir: "{app}\data\images"; Flags: ignoreversion recu
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional icons:"
+Name: associate_rcur; Description: "Associate .rcur files with Roblox Custom Cursor"; GroupDescription: "File Associations:"
 
 [Icons]
 Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.pyw"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"
@@ -35,10 +36,13 @@ Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Curso
 
 [Registry]
 ; Associate .rcur file with the app
-Root: HKCR; Subkey: ".rcur"; ValueType: string; ValueData: "rcurfile"; Flags: uninsdeletevalue
-Root: HKCR; Subkey: "rcurfile"; ValueType: string; ValueData: "Roblox Custom Cursor Profile"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "rcurfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData: """{app}\rcur_importer_launcher.exe"" ""%1"""; Flags: uninsdeletekey
+Root: HKCR; Subkey: ".rcur"; ValueType: string; ValueData: "rcurfile"; Flags: uninsdeletevalue; Tasks: associate_rcur
+Root: HKCR; Subkey: "rcurfile"; ValueType: string; ValueData: "Roblox Custom Cursor Profile"; Flags: uninsdeletekey; Tasks: associate_rcur
+Root: HKCR; Subkey: "rcurfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rcur
+Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData: """{app}\rcur_importer_launcher.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rcur
+
+[Run]
+Filename: "pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.pyw"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
 
 [Code]
 function IsAppInstalled(): Boolean;
