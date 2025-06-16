@@ -6,14 +6,14 @@ permissions:
 on:
   push:
     paths:
-      - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
-      - 'rcur_importer_launcher/rcur_importer_launcher.exe'
-      - 'rcur_importer_launcher/rcur_importer_launcher.exe.sha256'
+      - 'app/rcur_importer_launcher.cpp'
+      - 'app/rcur_importer_launcher.exe'
+      - 'app/rcur_importer_launcher.exe.sha256'
   pull_request:
     paths:
-      - 'rcur_importer_launcher/rcur_importer_launcher.cpp'
-      - 'rcur_importer_launcher/rcur_importer_launcher.exe'
-      - 'rcur_importer_launcher/rcur_importer_launcher.exe.sha256'
+      - 'app/rcur_importer_launcher.cpp'
+      - 'app/rcur_importer_launcher.exe'
+      - 'app/rcur_importer_launcher.exe.sha256'
 
 jobs:
   build-launcher:
@@ -29,26 +29,27 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Build EXE with cl
-        working-directory: ./rcur_importer_launcher
+        working-directory: ./app
         run: cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 
       - name: Generate SHA-256 hash of EXE
-        working-directory: ./rcur_importer_launcher
+        working-directory: ./app
         shell: pwsh
         run: |
           $hash = Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256
           $hash.Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
 
       - name: Configure Git for committing
-        working-directory: ./rcur_importer_launcher
+        working-directory: ./app
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push exe and hash
-        working-directory: ./rcur_importer_launcher
+        working-directory: ./app
         shell: pwsh
         run: |
+          $branch = "${{ github.ref }}" -replace '^refs/heads/', ''
           git add -f rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
           git commit -m "chore: update launcher exe and hash [skip ci]" || Write-Host "No changes to commit"
-          git push origin main || Write-Host "Nothing to push"
+          git push origin $branch || Write-Host "Nothing to push"
