@@ -53,7 +53,6 @@ jobs:
           $installer = Get-ChildItem .\RCC3_Installer*.exe | Select-Object -First 1
           if ($installer) {
             Get-FileHash $installer.FullName -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force RCC3_Installer.exe.sha256
-            Copy-Item $installer.FullName RCC3_Installer.exe -Force
           }
 
       - name: Configure Git
