@@ -200,5 +200,5 @@ rcur_importer_launcher/bin/Release/net8.0-windows/win-x64/publish/*
 # Ignore the C++ binary and generated hash file for the rcur_importer_launcher
 # These are auto-generated and force-added by the CI pipeline
 # if any of the source code, existing binary, or hash file changes on push or PR
-rcur_importer_launcher/*.exe
-rcur_importer_launcher/*.sha256
+app/rcur_importer_launcher.exe
+app/rcur_importer_launcher.exe.sha256
