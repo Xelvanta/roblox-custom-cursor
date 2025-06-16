@@ -17,13 +17,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
     WideCharToMultiByte(CP_UTF8, 0, argvW[1], -1, &inputFile[0], size_needed, NULL, NULL);
     LocalFree(argvW);
 
-    // Get SystemDrive
-    char sysDrive[MAX_PATH];
-    DWORD ret = GetEnvironmentVariableA("SystemDrive", sysDrive, MAX_PATH);
-    std::string systemDrive = (ret > 0) ? std::string(sysDrive) : "C:";
+    // Get executable full path
+    char exePath[MAX_PATH];
+    DWORD len = GetModuleFileNameA(NULL, exePath, MAX_PATH);
+    if (len == 0 || len == MAX_PATH) {
+        // Failed to get executable path, fallback or exit
+        return 1;
+    }
 
-    std::string scriptPath = systemDrive + "\\Program Files\\Xelvanta Softworks\\Roblox Custom Cursor\\rcur_importer.pyw";
+    // Strip executable filename to get directory
+    std::string exeDir(exePath);
+    size_t lastSlash = exeDir.find_last_of("\\/");
+    if (lastSlash != std::string::npos) {
+        exeDir = exeDir.substr(0, lastSlash);
+    }
 
+    // Build path to rcur_importer.pyw relative to exe dir
+    std::string scriptPath = exeDir + "\\rcur_importer.pyw";
+
+    // Build command line to run pythonw with script and input file
     std::string commandLine = "pythonw \"" + scriptPath + "\" \"" + inputFile + "\"";
 
     STARTUPINFOA si = { sizeof(si) };
@@ -32,6 +44,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
 
     PROCESS_INFORMATION pi;
 
+    // CreateProcess requires mutable string
     char* cmdLineMutable = _strdup(commandLine.c_str());
 
     BOOL success = CreateProcessA(

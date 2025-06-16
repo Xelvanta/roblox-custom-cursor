@@ -1,141 +1,92 @@
-# 🖱️ Roblox Custom Cursor
+# 🖱️ Roblox Custom Cursor v3
 
-![GitHub License](https://img.shields.io/github/license/Xelvanta/roblox-custom-cursor?label=License\&color=orange)
-![GitHub Release](https://img.shields.io/github/v/release/Xelvanta/roblox-custom-cursor?include_prereleases\&label=Release\&color=green)
+![GitHub License](https://img.shields.io/github/license/Xelvanta/roblox-custom-cursor?label=License&color=orange)
+![GitHub Release](https://img.shields.io/github/v/release/Xelvanta/roblox-custom-cursor?include_prereleases&label=Release&color=green)
 
 <p align="left">
-  <img src="assets/RobloxCustomCursorIcon.png" width="128" style="margin-right: 10px;">
-  <strong>Roblox Custom Cursor</strong> is a <strong>100% self-contained Windows-based Python application</strong> designed for easy cursor customization on Roblox.  
-  The entire functionality is bundled into a single <code>app.pyw</code> file.  
-  The only external requirements are <strong>Python 3.x</strong> and the <strong>Pillow</strong> library for image handling.
+  <img src="app/data/images/rcur_icon_variable.ico" width="128" style="margin-right: 10px;">
+  <strong>Roblox Custom Cursor</strong> is a self-contained Windows application that makes it easy to customize your Roblox cursors with custom PNGs. 
+  Version 3 introduces a complete rewrite with a user-friendly setup wizard for streamlined installation.
 </p>
 
 ---
 
-## Features
+## ✨ What’s New in Version 3
 
-* 🐍 **Self-Contained Simplicity** – Just Python 3.x and Pillow are required.
-* 📁 **Smart Folder Detection** – Automatically locates the correct Roblox version folder—no digging through your file system.
-* 💾 **.rcur File Support** – Easily import and export cursor setups with `.rcur` files for backups or sharing.
-* ⚡ **Quick Imports** – Double-click `.rcur` files in Windows Explorer to instantly import them (requires registry association).
-* 📐 **Auto-Resize on Upload** – Any PNG you upload is resized to perfectly fit Roblox’s cursor requirements.
-* 🎯 **Visual Alignment Tool** – Launch edits in Photopea with built-in center guidelines to fine-tune positioning.
-* 🖼️ **Custom Cursors** – Use any transparent PNG as your cursor—fully customizable to your style.
-* ♻️ **One-Click Reset** – Quickly restore default Roblox cursors with a single click.
-* 🧼 **Streamlined Interface** – Clean, intuitive UI designed for speed and ease of use.
-* 🪶 **Lightweight Performance** – Optimized to run smoothly even on low-spec Windows machines.
+- 🔧 **Installer Wizard** – Easy installation with `RCC3_Installer.exe`
+- 🗃️ **New File Structure** – Assets, launcher, and data files reorganized for clarity
+- 💡 **Improved Registry Integration** – File associations now handled reliably through installer
 
 ---
 
 ## 📋 Requirements
 
-Before running the application, ensure you have:
+Before running the installer, ensure the following are installed on your system:
 
-* **Python 3.x**
+- **Python 3.x**  
+  Download it from [python.org](https://www.python.org/downloads/)
 
-  * [Download Python](https://www.python.org/downloads/)
-* **Pillow** (Python package for handling images)
-
-  * Install it by running:
-
-    ```bash
-    pip install pillow==11.1.0
-    ```
+- **Pillow 11.1.0**  
+  Install via pip:
+  ```bash
+  pip install pillow==11.1.0
+  ```
 
 ---
 
 ## ⚙️ Installation
 
-You can either **clone the repository** or **download the `app.pyw` file directly from the root directory**
+### 🖱️ Download and Run the Installer
 
-### 1.
-#### Clone the Repository:
+1. Download and run [RCC3_Installer.exe](https://github.com/Xelvanta/roblox-custom-cursor/raw/refs/heads/main/app/RCC3_Installer.exe).
+2. Follow the setup wizard instructions.
 
-```bash
-git clone https://github.com/Xelvanta/roblox-custom-cursor
-cd roblox-custom-cursor
-```
-
-### OR
-
-#### Download the `app.pyw` File Directly:
-
-Download the latest `app.pyw` file from [Roblox Custom Cursor](https://github.com/Xelvanta/roblox-custom-cursor) and save it to a folder of your choice.
-
-### 2. Install Dependencies:
-
-Make sure Pillow is installed:
-
-```bash
-pip install pillow==11.1.0
-```
+After installation, **Roblox Custom Cursor** can be launched from the **Start Menu** or **desktop shortcut**.
 
 ---
 
-## ▶️ Running the Application
+## 📦 Features
 
-To run the **Roblox Custom Cursor** app:
-
-1. Open a terminal and navigate to the folder containing `app.pyw`
-2. Run the script:
-
-```bash
-python app.pyw
-```
-
-**Or simply double-click `app.pyw` in your file explorer to launch the app directly — no terminal needed!**
+* 🖼️ **Custom Cursor Support** – Upload any transparent PNG to use as your Roblox cursor
+* 📐 **Built-in Alignment Guide** – Launch edits in Photopea with grid overlay
+* 🔁 **Import/Export** `.rcur` **Profiles** – Share and back up your cursor layouts
+* ⚡ **Double-Click .rcur to Apply** – Instantly switch layouts from File Explorer
+* ♻️ **One-Click Reset** – Restore default Roblox cursors in seconds
+* 🧼 **Clean UI** – Intuitive interface designed for accessibility and speed
+* 🪶 **Lightweight & Fast** – Runs smoothly on almost any Windows machine
 
 ---
 
-## 🗂️ `.rcur` File Type Support
+## 📂 `.rcur` File Association
 
-The `.rcur` file is a custom plaintext format that holds the three cursor images used by **Roblox**. You can:
+`.rcur` files store all 3 cursor PNGs in one package. After installation, these files are:
 
-* **Export** your current cursor setup as a `.rcur` file for backup or sharing.
-* **Import** a `.rcur` file to quickly apply a saved cursor configuration.
-
-If you **associate the `.rcur` file type with windows** via the Settings menu (top-right), you can simply **double-click any `.rcur` file** in Windows Explorer to import it directly — no need to open the main application first.
+* ✅ Registered to open with **Roblox Custom Cursor**
+* ✅ Double-clickable to apply directly
+* ✅ Backwards-compatible for import/export
 
 ---
 
+## 🧪 Preview (To Be Updated)
 
-## 📸 Preview
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="assets/preview/RCC_Main_GUI_v1.3.1.png" width="200"/><br>Main GUI
-    </td>
-    <td align="center">
-      <img src="assets/preview/RCC_Settings_v1.7.2.png" width="200"/><br>Settings
-    </td>
-    <td align="center">
-      <img src="assets/preview/Export_RCUR_v1.6.6.png" width="200"/><br>Export .rcur
-    </td>
-    <td align="center">
-      <img src="assets/preview/Import_RCUR_v1.6.6.png" width="200"/><br>Import .rcur
-    </td>
-  </tr>
-</table>
-
-<p align="center" style="margin-top:20px;">
-  <img src="assets/preview/RCC_Import_Export.gif" width="400" alt="Import/Export Preview GIF" />
-</p>
+*(Screenshots and updated preview GIFs for version 3 coming soon)*
 
 ---
 
 ## 💡 Contributing
 
-Feel free to fork the project and submit pull requests to improve **Roblox Custom Cursor**. Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+Contributions are welcome! Help us improve **Roblox Custom Cursor** by submitting pull requests or reporting issues.
+
+> **Note:** `README.md` and `CONTRIBUTING.md` will be rewritten to match v3 in future commits.
 
 ---
 
 ## 📝 License
 
-**Roblox Custom Cursor** is open source and available under the GPL-3.0 license. See the [LICENSE](LICENSE) for details.
+**Roblox Custom Cursor** is open source under the [GPL-3.0 License](LICENSE).
 
 ---
 
-By **Xelvanta**
-For support or inquiries: [Xelvanta@proton.me](mailto:Xelvanta@proton.me)  
-GitHub: [https://github.com/Xelvanta](https://github.com/Xelvanta)
+By **Xelvanta**  
+📫 [Xelvanta@proton.me](mailto:Xelvanta@proton.me)  
+🌐 [github.com/Xelvanta](https://github.com/Xelvanta)

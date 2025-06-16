@@ -12,10 +12,13 @@ SolidCompression=yes
 LicenseFile=LICENSE
 
 [Files]
-; Main executable
+; Main app
 Source: "Roblox Custom Cursor.pyw"; DestDir: "{app}"; Flags: ignoreversion
 
-; Launcher executable
+; Importer script
+Source: "rcur_importer.pyw"; DestDir: "{app}"; Flags: ignoreversion
+
+; Importer launcher executable
 Source: "rcur_importer_launcher.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Data images folder
