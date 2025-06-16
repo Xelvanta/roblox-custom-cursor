@@ -7,11 +7,14 @@ on:
   push:
     paths:
       - 'app/rcur_importer_launcher.cpp'
+      - 'app/Roblox Custom Cursor.pyw'
       - 'app/RCC3_Installer.iss'
+
       # - '.github/workflows/build_rcur_importer_launcher.yml'  # temporary self-invoke for testing
   pull_request:
     paths:
       - 'app/rcur_importer_launcher.cpp'
+      - 'app/Roblox Custom Cursor.pyw'
       - 'app/RCC3_Installer.iss'
 
 jobs:
