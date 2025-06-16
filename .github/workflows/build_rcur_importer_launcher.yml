@@ -50,7 +50,7 @@ jobs:
         shell: pwsh
         run: |
           Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
-          $installer = Get-ChildItem .\Output\*.exe | Select-Object -First 1
+          $installer = Get-ChildItem .\RCC3_Installer*.exe | Select-Object -First 1
           if ($installer) {
             Get-FileHash $installer.FullName -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force RCC3_Installer.exe.sha256
             Copy-Item $installer.FullName RCC3_Installer.exe -Force
