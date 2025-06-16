@@ -49,6 +49,7 @@ jobs:
         working-directory: ./app
         shell: pwsh
         run: |
+          $branch = "${{ github.ref }}" -replace '^refs/heads/', ''
           git add -f rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
           git commit -m "chore: update launcher exe and hash [skip ci]" || Write-Host "No changes to commit"
-          git push origin main || Write-Host "Nothing to push"
+          git push origin $branch || Write-Host "Nothing to push"
