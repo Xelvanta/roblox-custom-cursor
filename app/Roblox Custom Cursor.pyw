@@ -43,6 +43,10 @@ enforce_nt_os()
 
 # --- Utility functions ---
 
+def get_abs_path(relative_path):
+    base_path = os.path.dirname(sys.executable if getattr(sys, 'frozen', False) else __file__)
+    return os.path.abspath(os.path.join(base_path, relative_path))
+
 def find_valid_roblox_version_folder():
     """
     Locate and validate the existence of the Roblox 'Versions' folder on a Windows system.
@@ -150,19 +154,14 @@ def draw_rounded_rect(canvas, x1, y1, x2, y2, radius=20, **kwargs):
     ]
     canvas.create_polygon(points, smooth=True, **kwargs)
 
-# --- Base64 Strings for Default Images ---
-
-# Arrow Far: assets/ArrowFarCursor.png
-# Arrow: assets/ArrowCursor.png
-# I-Beam: assets/IBeamCursor.png
-default_cursor_base64 = {
-    "Arrow Far": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAP3SURBVHgB7Zg7TBRRFIbPzsy+WFYeSwQUCCHEGkNjQkIorChIJKEkamEsjDEx1IaG2hZiDwWFjfYUEI2gFRBjASGQyCNZgUV2dmZ2xv8Ms+tKeIiMAyznS07uvDPnv/89984QCYIgCIIgCIIgCIIgCIIgCIIgCIIgCIIg/Eeqq6sf1tbW/kAsp1Kph3SNCDmOE+LEV1ZWHI6Ojg4HIjzic1TmcIIKQoMAToGCCDj2mMpcBDf51tbWWKkAR4hQfrDt0Sjt7e1RJHnjsADXwQmhnp4erbGxsSKZTKaOEqBUhHKsCZyMhqgEN48ToFQEzBTl4wQeAp2dneG6urpkRUVF40kClKUTvBoQ5vEPAW6dJkA51oSiAHDBXwlQbk5wh8BZHHCECA+wS36hULD885u3tLTQyMgI2bb9KBQKqeSTEzQKEK4BDHqe4ABO5sTrZ2Zm/tifnp4m3F6NTXV4eNhBuI+lq4JXBCMnDYHt7e3idnd3Nxc/N2pqagrteH19fQLP0bznnYtAhwB6j5tje2xiYoIGBweL+729vW6LRL+g+Yx4m8/nXyP4vZWQ98CrRHEWQDG7XeqA8fHxYm/D6kU3tLW1ZXDtfSyI7mL1eIedAxdU4TlR8qEDVQoW91sgm82GkQgn8LKqqorm5uZoaGiIz+8h0js7O5X9/f0Ui8VoY2MjMjs7m7Us66OqqkY8HjegjYlnWKgB9tTU1LlqQKAW8oogfwbHdV2vRIKfcPi2d3oPRfEF2g5FUZ4vLS0Ri8OFsK+vL4PkO2F9FmJ/d3dXx3UmwqJzFsGga4D7skjQSSQSNloe8HM8xpH8M+x/RbzHsb3R0VH3nq6uLmpubk4i+ZRpmno0GjXIh8QLBCqAV7XZBg4StZHQimEYj5H8E5xbgCty6OE0rnk3NjZG8/PzrgNWV1cJApjhcNjY2toyBwYG8riG49wiXMQQUJqamiKZTCaG5BORSCQKATS0Si6X48vgdvUe4g2v+LxCv6ZpWs/m5uZ3bLMDfEmeuYgh4KytrdlI2ERSWbhgH9t7SDaD3v+JxLOIDxDlFY59wz2zaJ+i6O1g/uf/CacuoM70ThQwBRdgU0NCGgRQ+RgHbK4iIrB6HG0MrYZrLS5+SBqmyezTVXYA47nAxji2MMUZDQ0NOuZ5HXN+FlOjDjewK9gFOhzBNcHAton7bAwdB/e5LiKfCHodUGRhYcEVY3Jy0k6n0yyIg562l5eXHf5OgBAOimIePc/TXQ5TZm59fd1aXFxk//smwGVbSir4XFbhDA3Ja+h9t4MwFCyu/nRgfd/sf1lR+Mcp2gj/OqeDJW8YDlH9+Pg5zGX9mAjR73dz1w4lIQiC4Bu/ABsKDEIN5oAYAAAAAElFTkSuQmCC",
-    "Arrow": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAARbSURBVHgB7Zm7TytHFMbP7voR27wJwghCLl2EIoEuLQX/ARVUUEQpgkSTIj2UgJIoHdClooyiFOlQ0kdRIhERBVEAhiAeAvzA9u56vfm+tU1uHARXZHdz8Z2fdLT27qw155sz58yMRRQKhUKhUCgUCoVCoVAoFAqFQqFQKBQKhUKhUCgCoqur60V3d/cPPT09LuwXfpe3CB1O/7q6uuoSXikG7mvS4tBBHWZw5F+F32dmZgx81KSFhaBjEVj8PgF4nyJIqwqwvLzM0Y/19/en7hOgr6+vDc+jUouSUIhISDC0gT40NGTk8/mYYRj/amNZVhTPnePj46qERGhK19Fs29Ydx7lXeIhyUCwW/0Q0fCnh9y1wOK9jsDaEerp5CiwuLro3Nzfu4eGh97m3t/dHtLmu21fSAmjpdLoP5e7DZDI50CwAHW9AIZoFQftlec7Aga9HRkbcsbExOpNpFqCZZkEYCVKbFs+vQqDzH83NzXmOkPX1dfcxAZqpl0lOId2trRV8IdAqwI7Ozs7q29vbLzo7O4VGFhYW5CmgfLJKsJxU5JnAkI1i9D7jCG5tbblPhe8PDw93Q4AEfpMrRnnT8VZ97DA2Ou/DgSPmgJ2dHfcpUID29vZ38ZtJqS2WfCHoWqt1dHQYlUqlBB8Wstlsfn5+Xo6OjuQpVKvVCEqor30OfLFxfn6uMReg83/APqXz09PTAjFe+zcabROJhHZxcdFIgL4kwkAFmJiYkMvLyyqSVtU0TV5/gghfoMQJI+F12djYYEIVrBJZURqO+5IEDAkObXJyUnZ3dzUsfPR4PG5wGQx+h0UymcxLNmKbh8BZgaytrQnE+yYWi32PqwUhWAVC2y/8F7wqMDAwkBwcHOxFCL+HRPYByuFLrAh/Hh8ffzDxraysuPUToxMk0qlUKpXmjhGRxST45k8BqYWpc3p6ap+cnJQjkUgJG54yzMT9zx9Lhpubm7ycwj6GHhlOJUSPr/Uv6O1wo7PO6OiojV2gDiF0CMCp8NtjLzP5wfFP4Didr+CdytnZWZUmPhHWuvruKAyhn4AAKXxuY2V46CUmPth4NBrFtC/mkUeKmA7m3t6e5VckhLXnZmc5as719bWFimBibWDCuW/vGtSc/YeB7zhdEDnl29tb8+rqyt7f32ckiF+EvbNizyMYxXfgBI+/2iEEIyKO0yADOULDd8GIw2fHZr5AlBRwr1goFIpob0GYCqaDb3kgtCOxOuy4SwcR0hYdhHMUxYUgBpwVOM6ToSquFu6X8LyM0GfStGGOn86TINcB9zI1NaUjnHk0pkEIRqAnCASw4SwXChac9CoFl9B4ZqL8WblcjrXf9x1Q6OduEKB6cHBQoVMY5SKsUCqVsrAcIiALy+FeHmcHBSx8yriaOCS1l5aWvOgRn/k/Tlcaf3x4VYFX7PN1OO7tGRjizPD1UtcwR+rTR1qEOwEQEcxD0frq7lWLyN9HYG/FX2ZeBDR9VigC5i/opj7Y1mqD/AAAAABJRU5ErkJggg==",
-    "I-Beam": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC5SURBVHgB7djBCcQgEIXh57IFhOSeGlJCqrWOtGIDYgeuIyukgV0h838gmjllHl4cCQAAAAAAAAAcCZpgXdf6PZZa6xVCONt5sULOeco//ZUFYFJKNcZYSyn9+xbMs1mjto7j6I3bPmryZNyEmY2/5BwByDkCkHMEIOcIQM4RgJwjADlHAHLurQnG+3/fd932XnM1ErNRmI3EbDQ2azAy5QaYbdtkGbTj1dbZBqOLAAAAAAAAAAC/9QHAaU/wMJ9VTQAAAABJRU5ErkJggg=="
+# Map cursor labels
+default_cursor_paths = {
+    "Arrow Far": "data/images/ArrowFarCursor.png",
+    "Arrow": "data/images/ArrowCursor.png",
+    "I-Beam": "data/images/IBeamCursor.png"
 }
 
-# icon_base64: assets/RobloxCustomCursorIcon.png
-icon_base64 = "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"
+icon_path = "data/images/RobloxCustomCursorIcon.png"
 
 # --- Main app class ---
 class CursorViewerApp(tk.Tk):
@@ -192,16 +191,13 @@ class CursorViewerApp(tk.Tk):
         self.geometry("400x280")
         self.resizable(False, False)
 
-        # Decode base64 data
-        icon_data = base64.b64decode(icon_base64)
-        icon_image = PhotoImage(data=icon_data)
+        icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
+        icon_image = tk.PhotoImage(file=icon_path)
         self.iconphoto(True, icon_image)
         
         self.image_refs = []  # Prevent garbage collection
         self.canvas_dict = {}  # Initialize canvas_dict here
         self.build_ui(image_data)
-
-        self.registrar = FileTypeRegistrar()
 
     def build_ui(self, image_data):
         """
@@ -374,24 +370,33 @@ class CursorViewerApp(tk.Tk):
         def default_button_action():
             """
             Handle the action for restoring the default cursor image.
-            Restores the default image from base64 data and updates the cursor image.
-
-            :return: None
-            :rtype: None
+            Restores the default image from an image file and updates the cursor image.
             """
             try:
-                img_data = base64.b64decode(default_cursor_base64[label_text])
-                img = Image.open(BytesIO(img_data)).resize((64, 64), Image.Resampling.LANCZOS)
+                # Get the relative file path for the current label
+                relative_img_path = default_cursor_paths.get(label_text)
+                if not relative_img_path:
+                    raise ValueError(f"No default image file mapped for label '{label_text}'")
+        
+                # Convert to absolute path relative to this script's directory
+                abs_img_path = get_abs_path(relative_img_path)
+        
+                # Open the image file, resize it, and save to the target filepath
+                img = Image.open(abs_img_path).resize((64, 64), Image.Resampling.LANCZOS)
                 img.save(filepath)
+        
+                # Update GUI or state with the new image
                 self.update_gui_with_new_image(filepath, label_text)
+        
             except Exception as e:
-                messagebox.showerror("Error", f"Error restoring default image:\n\n{e}\n\n"
-          "• Errno 2: This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-          "Restarting the application should fix this.\n"
-          "• Errno 13: This usually occurs when the application doesn't have permission to access the file. "
-          "Try running the application as an administrator or closing any programs that might be using the file.")
-
-        default_button = tk.Button(container, text="Restore Default", command=default_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
+                messagebox.showerror(
+                    "Error",
+                    f"Error restoring default cursor:\n\n{e}"
+                )
+        
+        # Create the restore default button
+        default_button = tk.Button(container, text="Restore Default", command=default_button_action,
+                                   bg="#444444", fg="white", width=13, cursor="hand2")
         default_button.grid(row=3, column=col, pady=(0, 5))
         default_button.bind("<Enter>", lambda e: default_button.config(bg="#2e2e2e"))
         default_button.bind("<Leave>", lambda e: default_button.config(bg="#444444"))
@@ -566,9 +571,6 @@ class CursorViewerApp(tk.Tk):
 
         export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
         import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
-        register_btn, register_info = create_button_with_info(settings_win, "Associate .rcur File Type", self.registrar.register_rcur_file_type, "Associate the Roblox Custom Cursor Profile (.rcur) file type with Windows.\nThis allows importing .rcur files by opening (double-clicking) them directly.\nThe installation will also include necessary icons and scripts to support core functionalities.\nA UAC prompt will appear to allow registry changes. Requires an internet connection.")
-        unregister_btn, unregister_info = create_button_with_info(settings_win, "Unassociate .rcur File Type", self.registrar.unregister_rcur_file_type, "Unassociate the Roblox Custom Cursor Profile (.rcur) file type from Windows.\nRemoves registry entries associated with Roblox Custom Cursor.\nA UAC prompt will appear to allow registry changes.")
-
 
         # Report a bug label
 
@@ -668,271 +670,6 @@ class ToolTip:
         self.tipwindow = None
         if tw:
             tw.destroy()
-
-# 2025-05-22: Added support for importing .rcur file by opening it directly (milestone feature)
-# Author: Alina Wan
-# 2025-06-05: Switch from embedded base64 to runtime download of dependencies (major change)
-# This change applies only to an opt-in feature. Base64 embedding should continue as the default approach elsewhere.
-# Author: Alina Wan
-
-class FileTypeRegistrar:
-    def register_rcur_file_type(self):
-        icon_path = os.path.join(
-            os.environ["SystemDrive"],
-            r"Program Files\Xelvanta Softworks\Roblox Custom Cursor\data\images\rcur_icon_variable.ico"
-        ).replace("\\", "\\\\")
-
-        # Build the contents of the elevated script
-        script_content = '''
-import winreg
-import tkinter as tk
-from tkinter import messagebox
-import os
-import requests
-
-root = tk.Tk()
-root.withdraw()
-
-rcur_importer_content = r\'\'\'
-import os
-import sys
-import tkinter as tk
-from tkinter import filedialog, messagebox
-import base64
-
-def find_valid_roblox_version_folder():
-    local_appdata = os.environ.get("LOCALAPPDATA")
-    versions_path = os.path.join(local_appdata, "Roblox", "Versions")
-    
-    if not os.path.isdir(versions_path):
-        return None
-
-    for subfolder in os.listdir(versions_path):
-        full_path = os.path.join(versions_path, subfolder)
-        content_path = os.path.join(full_path, "content")
-        exe_path = os.path.join(full_path, "RobloxPlayerBeta.exe")
-
-        if os.path.isdir(content_path) and os.path.isfile(exe_path):
-            return full_path
-
-    return None
-
-def import_cursors_from_rcur(rcur_path):
-    folder = find_valid_roblox_version_folder()
-    if not folder:
-        tk.Tk().withdraw()
-        messagebox.showerror("Error", "Roblox version folder not found.")
-        return
-
-    cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
-    cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
-
-    try:
-        with open(rcur_path, "r", encoding="utf-8") as f:
-            base64_lines = [line.strip() for line in f if line.strip()]
-
-        if len(base64_lines) != len(cursor_filenames):
-            raise ValueError("The .rcur file should contain exactly {} base64 lines.".format(len(cursor_filenames)))
-
-        for i, b64data in enumerate(base64_lines):
-            decoded = base64.b64decode(b64data)
-            with open(cursor_paths[i], "wb") as img_file:
-                img_file.write(decoded)
-
-        tk.Tk().withdraw()
-        messagebox.showinfo("Success", "Cursors imported and applied successfully.")
-
-    except Exception as e:
-        tk.Tk().withdraw()
-        messagebox.showerror("Error", "Failed to import cursors:\\n{}".format(e))
-
-def main():
-    if len(sys.argv) < 2:
-        sys.exit(0)  # Silent exit if no file passed
-
-    file_path = sys.argv[1]
-    if not os.path.isfile(file_path):
-        sys.exit(0)
-
-    import_cursors_from_rcur(file_path)
-
-if __name__ == "__main__":
-    main()
-\'\'\'
-
-icon_url = \'https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/refs/heads/main/assets/rcur_icon_variable.ico\'
-launcher_url = \'https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/rcur_importer_launcher/rcur_importer_launcher.exe\'
-
-try:
-    launcher_path = os.path.join(
-       os.environ["SystemDrive"] + "\\\\",
-        "Program Files", "Xelvanta Softworks", "Roblox Custom Cursor", "rcur_importer_launcher.exe"
-    )
-
-    rcur_importer_path = os.path.join(
-       os.environ["SystemDrive"] + "\\\\",
-        "Program Files", "Xelvanta Softworks", "Roblox Custom Cursor", "rcur_importer.pyw"
-    )
-
-    icon_path = os.path.join(
-        os.environ["SystemDrive"] + "\\\\",
-        "Program Files", "Xelvanta Softworks", "Roblox Custom Cursor", "data", "images", "rcur_icon_variable.ico"
-    )
-
-    os.makedirs(os.path.dirname(icon_path), exist_ok=True)
-    with open(icon_path, "wb") as icon_file:
-        icon_file.write(requests.get(icon_url, timeout=10).content)
-
-    os.makedirs(os.path.dirname(rcur_importer_path), exist_ok=True)
-    with open(rcur_importer_path, "w", encoding="utf-8") as py_file:
-        py_file.write(rcur_importer_content)
-
-    os.makedirs(os.path.dirname(launcher_path), exist_ok=True)
-    with open(launcher_path, "wb") as f:
-        f.write(requests.get(launcher_url, timeout=10).content)
-
-    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, ".rcur") as ext_key:
-        winreg.SetValueEx(ext_key, "", 0, winreg.REG_SZ, "rcurfile")
-
-    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile") as rcurfile_key:
-        winreg.SetValueEx(rcurfile_key, "", 0, winreg.REG_SZ, "Roblox Custom Cursor Profile")
-
-    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile\\DefaultIcon") as icon_key:
-        winreg.SetValueEx(icon_key, "", 0, winreg.REG_SZ, icon_path)
-
-    with winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, r"rcurfile\\shell\\open\\command") as command_key:
-        command = '"{}" "%1"'.format(launcher_path)
-        winreg.SetValueEx(command_key, "", 0, winreg.REG_SZ, command)
-
-    messagebox.showinfo("Success", "Successfully registered .rcur file type in Windows Registry.")
-
-except Exception as e:
-    messagebox.showerror("Error", "Failed to register .rcur file type in Windows Registry: {}".format(e))
-
-try:
-    os.remove(__file__)
-except Exception:
-    pass
-'''
-
-        # Write the script to a temporary file
-        with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as f:
-            f.write(script_content)
-            temp_script_path = f.name
-
-        pythonw = sys.executable.replace("python.exe", "pythonw.exe")
-        if not pythonw.lower().endswith("pythonw.exe"):
-            pythonw = sys.executable  # fallback
-
-        try:
-            # Run the temp script elevated
-            ret = ctypes.windll.shell32.ShellExecuteW(
-                None, "runas", pythonw,
-                f'"{temp_script_path}"', None, 1)
-
-            if ret <= 32:
-                raise RuntimeError(f"ShellExecuteW failed with code {ret}")
-
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to run as administrator:\n{e}")
-        finally:
-            def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
-                time.sleep(5)  # wait long enough for messagebox to close
-                try:
-                    os.remove(temp_script_path)
-                except Exception:
-                    pass
-
-            threading.Thread(target=delayed_cleanup, daemon=True).start()
-
-    def unregister_rcur_file_type(self):
-        script_content = '''
-import winreg
-import os
-import tkinter as tk
-from tkinter import messagebox
-
-root = tk.Tk()
-root.withdraw()
-
-def delete_key_recursive(root, sub_key):
-    try:
-        open_key = winreg.OpenKey(root, sub_key, 0, winreg.KEY_READ | winreg.KEY_WRITE)
-    except FileNotFoundError:
-        return
-
-    # Delete all subkeys first
-    try:
-        while True:
-            subkey_name = winreg.EnumKey(open_key, 0)
-            delete_key_recursive(open_key, subkey_name)
-    except OSError:
-        pass
-    finally:
-        winreg.CloseKey(open_key)
-
-    try:
-        winreg.DeleteKey(root, sub_key)
-    except FileNotFoundError:
-        pass
-    except PermissionError as e:
-        messagebox.showerror("Error", "Failed to delete registry key {}: {}".format(sub_key, e))
-        raise
-
-keys_to_delete = [
-    "rcurfile\\shell\\open\\command",
-    "rcurfile\\shell\\open",
-    "rcurfile\\shell",
-    "rcurfile\\DefaultIcon",
-    "rcurfile",
-    ".rcur",
-]
-
-try:
-    for key in keys_to_delete:
-        delete_key_recursive(winreg.HKEY_CLASSES_ROOT, key)
-
-    messagebox.showinfo("Success", "Successfully unregistered .rcur file type from Windows Registry.")
-
-except Exception as e:
-    messagebox.showerror("Error", "Failed to unregister .rcur file type: {}".format(e))
-
-try:
-    os.remove(__file__)
-except Exception:
-    pass
-'''
-
-        # Write the script to a temporary file
-        with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as f:
-            f.write(script_content)
-            temp_script_path = f.name
-
-        pythonw = sys.executable.replace("python.exe", "pythonw.exe")
-        if not pythonw.lower().endswith("pythonw.exe"):
-            pythonw = sys.executable  # fallback
-
-        try:
-            ret = ctypes.windll.shell32.ShellExecuteW(
-                None, "runas", pythonw,
-                '"{}"'.format(temp_script_path), None, 1)
-
-            if ret <= 32:
-                raise RuntimeError(f"ShellExecuteW failed with code {ret}")
-
-        except Exception as e:
-            root = tk.Tk()
-            root.withdraw()
-            messagebox.showerror("Error", f"Failed to run as administrator:\n{e}")
-        finally:
-            def delayed_cleanup():  # Ensure the file is deleted if it fails to delete itself
-                time.sleep(5)
-                try:
-                    os.remove(temp_script_path)
-                except Exception:
-                    pass
-
-            threading.Thread(target=delayed_cleanup, daemon=True).start()
 
 # --- Entry point (definitely not a roblox reference) ---
 
