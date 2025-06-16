@@ -206,6 +206,5 @@ app/rcur_importer_launcher.exe.sha256
 # Ignore the Inno Setup binary and generated hash file for the RCC3_Installer
 # These are auto-generated and force-added by the CI pipeline
 # if any of the source codechanges on push or PR
-app/RCC_Installer.exe
-app/RCC3_Installer.exe
 app/RCC*_Installer.exe
+app/RCC*_Installer.exe.sha256
