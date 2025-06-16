@@ -8,6 +8,7 @@ on:
     paths:
       - 'app/rcur_importer_launcher.cpp'
       - 'app/RCC3_Installer.iss'
+      - '.github/workflows/build_rcur_importer_launcher.yml'  # temporary self-invoke for testing
   pull_request:
     paths:
       - 'app/rcur_importer_launcher.cpp'
@@ -40,7 +41,9 @@ jobs:
 
       - name: Build installer with Inno Setup
         working-directory: ./app
-        run: '"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" RCC3_Installer.iss'
+        shell: cmd
+        run: |
+            "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" RCC3_Installer.iss
 
       - name: Generate SHA-256 hashes
         working-directory: ./app
