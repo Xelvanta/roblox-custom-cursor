@@ -1,17 +1,12 @@
 import base64
-import ctypes
 import json
 import os
 import subprocess
 import sys
-import tempfile
-import threading
-import time
 import tkinter as tk
 import urllib.parse
 import webbrowser
-from io import BytesIO
-from tkinter import filedialog, messagebox, PhotoImage
+from tkinter import filedialog, messagebox
 
 from PIL import Image, ImageTk
 
@@ -635,7 +630,7 @@ class CursorViewerApp(tk.Tk):
         if os.path.exists(filepath):
             subprocess.run(['explorer', '/select,', os.path.normpath(filepath)])
         else:
-            messagebox.showerror("Error", f"Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
+            messagebox.showerror("Error", "Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
                                            "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
                                            "Restarting the application should fix this.")
 

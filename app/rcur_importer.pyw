@@ -1,7 +1,7 @@
 import os
 import sys
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import messagebox
 import base64
 
 def find_valid_roblox_version_folder():
