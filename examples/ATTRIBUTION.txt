@@ -1,0 +1,11 @@
+FILENAME: kawaii_pink_heart.rcur
+Author: ツ☪ NaLexnu ♡♥
+Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md
+License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center.
+
+FILENAME: droplet_mini_cyan.rcur
+Author: ツ☪ NaLexnu ♡♥
+Source: https://www.rw-designer.com/cursor-set/droplet-mini-cyan
+License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center.
