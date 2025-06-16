@@ -7,20 +7,19 @@ on:
   push:
     paths:
       - 'app/rcur_importer_launcher.cpp'
-      - 'app/rcur_importer_launcher.exe'
-      - 'app/rcur_importer_launcher.exe.sha256'
+      - 'app/RCC3_Installer.iss'
+      # - '.github/workflows/build_rcur_importer_launcher.yml'  # temporary self-invoke for testing
   pull_request:
     paths:
       - 'app/rcur_importer_launcher.cpp'
-      - 'app/rcur_importer_launcher.exe'
-      - 'app/rcur_importer_launcher.exe.sha256'
+      - 'app/RCC3_Installer.iss'
 
 jobs:
-  build-launcher:
+  build:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           persist-credentials: true
@@ -28,28 +27,46 @@ jobs:
       - name: Set up MSVC (Developer Command Prompt)
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Build EXE with cl
+      - name: Build C++ launcher
         working-directory: ./app
         run: cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 
-      - name: Generate SHA-256 hash of EXE
+      - name: Download and install Inno Setup 6.4.3
         working-directory: ./app
         shell: pwsh
         run: |
-          $hash = Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256
-          $hash.Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
+          Invoke-WebRequest -Uri "https://files.jrsoftware.org/is/6/innosetup-6.4.3.exe" -OutFile is.exe
+          Start-Process -FilePath ".\is.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
+          Remove-Item .\is.exe
 
-      - name: Configure Git for committing
+      - name: Build installer with Inno Setup
         working-directory: ./app
+        shell: cmd
+        run: |
+            "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" RCC3_Installer.iss
+
+      - name: Generate SHA-256 hashes
+        working-directory: ./app
+        shell: pwsh
+        run: |
+          Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
+          $installer = Get-ChildItem .\RCC3_Installer*.exe | Select-Object -First 1
+          if ($installer) {
+            Get-FileHash $installer.FullName -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force RCC3_Installer.exe.sha256
+          }
+
+      - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and push exe and hash
-        working-directory: ./app
+      - name: Commit and push EXEs and hashes
         shell: pwsh
         run: |
           $branch = "${{ github.ref }}" -replace '^refs/heads/', ''
-          git add -f rcur_importer_launcher.exe rcur_importer_launcher.exe.sha256
-          git commit -m "chore: update launcher exe and hash [skip ci]" || Write-Host "No changes to commit"
-          git push origin $branch || Write-Host "Nothing to push"
+          git add -f app/rcur_importer_launcher.exe
+          git add -f app/rcur_importer_launcher.exe.sha256
+          git add -f app/RCC3_Installer.exe
+          git add -f app/RCC3_Installer.exe.sha256
+          git commit -m "chore: build and package launcher + installer [skip ci]" || echo "No changes to commit"
+          git push origin $branch || echo "Nothing to push"
