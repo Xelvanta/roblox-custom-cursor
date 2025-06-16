@@ -2,7 +2,7 @@
 [Setup]
 AppName=Roblox Custom Cursor
 AppVersion=3.0.0
-AppVerName=Roblox Custom Cursor  ; <--- This overrides the default display name
+AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
 OutputDir=.
