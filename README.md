@@ -5,8 +5,8 @@
 
 <p align="left">
   <img src="app/data/images/rcur_icon_variable.ico" width="128" style="margin-right: 10px;">
-  <strong>Roblox Custom Cursor</strong> is a self-contained Windows application that makes it easy to customize your Roblox cursors with custom PNGs. 
-  Version 3 introduces a complete rewrite with a user-friendly setup wizard for streamlined installation.
+  <strong>Roblox Custom Cursor</strong> is a lightweight Windows application that makes it easy to customize your Roblox cursors with custom PNGs. 
+  Version 3 introduces a rewrite with a user-friendly setup wizard for streamlined installation.
 </p>
 
 ---
@@ -67,17 +67,52 @@ After installation, **Roblox Custom Cursor** can be launched from the **Start Me
 
 ---
 
-## 🧪 Preview (To Be Updated)
+## 🧪 Preview
 
-*(Screenshots and updated preview GIFs for version 3 coming soon)*
+<table>
+  <tr>
+    <td align="center">
+      <img src="assets/preview/RCC3_Main_GUI.png" width="200"/><br>Main GUI
+    </td>
+    <td align="center">
+      <img src="assets/preview/RCC3_Settings.png" width="200"/><br>Settings
+    </td>
+    <td align="center">
+      <img src="assets/preview/RCC3_Export.png" width="200"/><br>Export .rcur
+    </td>
+    <td align="center">
+      <img src="assets/preview/RCC3_Import.png" width="200"/><br>Import .rcur
+    </td>
+  </tr>
+</table
+
+<table align="center" style="margin-top: 20px;">
+  <tr>
+    <td align="center">
+      <img src="assets/preview/RCC3_Install_Wizard_Demo.gif" width="400" alt="Install Wizard Preview GIF" />
+      <br>Install Wizard Preview GIF<br><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/preview/RCC3_Export_Import_Demo.gif" width="400" alt="Export/Import Preview GIF" />
+      <br>Export/Import Preview GIF<br><br>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/preview/RCC3_RCUR_Direct_Import_Demo.gif" width="400" alt=".rcur Direct Import Preview GIF" />
+      <br>.rcur Direct Import Preview GIF
+    </td>
+  </tr>
+</table>
+
 
 ---
 
 ## 💡 Contributing
 
 Contributions are welcome! Help us improve **Roblox Custom Cursor** by submitting pull requests or reporting issues.
-
-> **Note:** `README.md` and `CONTRIBUTING.md` will be rewritten to match v3 in future commits.
 
 ---
 
