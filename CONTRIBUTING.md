@@ -1,159 +1,156 @@
 # 🖱️ Contributing to Roblox Custom Cursor
 
-Thank you for your interest in contributing to **[Roblox Custom Cursor](https://github.com/Xelvanta/roblox-custom-cursor)**! 🎉 This project is licensed under the **GPL 3.0** license, so all contributions must also be open-source under the same license.
+Thank you for your interest in contributing to **Roblox Custom Cursor**! 🎉
+This project is licensed under the **GPL-3.0 License**, so all contributions must also remain open-source under the same license.
 
-We welcome all kinds of contributions, including **bug reports, feature additions, image enhancements, documentation improvements, and code contributions**. Please follow the steps below to ensure a smooth contribution process.
+We welcome contributions of all types:
 
----
-
-## 🧰 Recommended Development Environment
-
-To ensure seamless compatibility and optimal performance during development, the following setup is recommended:
-
-* **Operating System:** Windows 11
-* **Python Interpreter:** Python 3.x
-* **C++ Compiler:** Microsoft Visual C++ (MSVC) version 14.3 or later
-* **IDE:** Visual Studio 2022 (Community Edition or higher)
-* **Developer Command Prompt:** Visual Studio 2022 Developer Command Prompt (x64 Native Tools Command Prompt for VS 2022) v17.12 or newer
-* **PowerShell:** Version 5.1.19041.1 or newer (bundled with Windows 10/11)
-
-> ℹ️ Visual Studio 2022 is the preferred IDE for full compatibility across the entire project. However, contributions using other IDEs or editors are welcome, especially for non-C++ components.
-
-### ❗ Mandatory for C++ Development
-
-C++ components **must** be compiled using **MSVC** from within the **Visual Studio 2022 Developer Command Prompt (v17.12 or newer)**. Other compilers or environments are unsupported and may result in build errors.
+* 🔧 Bug reports & fixes
+* 🌟 New features or enhancements
+* 🎨 Image/icon updates
+* 📝 Documentation improvements
+* 💻 Code contributions (Python, C++, Inno Setup)
 
 ---
 
-## 🛠 How to Contribute
+## 🧰 Development Environment
 
-### 1️⃣ Fork the Repository
+To contribute efficiently, we recommend the following tools:
 
-Click the **"Fork"** button on the top-right of the repository page to create your own copy.
+| Component          | Recommendation                           |
+| ------------------ | ---------------------------------------- |
+| OS                 | Windows 11                               |
+| Python Interpreter | Python 3.x (latest)                      |
+| IDE (Python)       | VS Code, PyCharm, or any modern editor   |
+| C++ Compiler       | MSVC (Visual Studio 2022)                |
+| IDE (C++)          | Visual Studio 2022 (Community or higher) |
+| Terminal           | PowerShell 5.1+ or Windows Terminal      |
+| Build Environment  | Developer Command Prompt for VS 2022     |
+| Inno Setup Compiler| Inno Setup Compiler 6.4+                 |
 
-### 2️⃣ Clone Your Fork
+> ⚠️ For C++ builds, only **MSVC (cl.exe)** via **Visual Studio 2022 Developer Command Prompt** is supported. Do not use MinGW or other toolchains.
+
+---
+
+## 🛠️ How to Contribute
+
+### 1. Fork and Clone
 
 ```bash
+git fork https://github.com/Xelvanta/roblox-custom-cursor.git
 git clone https://github.com/your-username/roblox-custom-cursor.git
 cd roblox-custom-cursor
 ```
 
-### 3️⃣ Create a New Branch
-
-Make a new branch for your feature or fix:
+### 2. Create a Branch
 
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
-### 4️⃣ Make Your Changes
+### 3. Make Your Changes
 
-Update the code, fix bugs, or improve the interface! All contributions are welcome.
+You can contribute to:
 
-### 📦 Embed External Files (No Runtime Dependencies)
+* Python logic at `app/Roblox Custom Cursor.pyw`
+* Launcher logic at `app/rcur_importer_launcher.cpp` and `app/rcur_importer.pyw`
+* Inno Setup script at `app/RCC3_Installer.iss`
+* Documentation or metadata at `README.md`, `CONTRIBUTING.md`, `assets/preview/`, etc.
 
-To maintain **portability** and reduce external file dependencies, please embed assets (such as icons, executables, or other files) directly in the code using base64 encoding
+---
 
-Use the following code snippet to convert a file to a base64 string:
+## ⚙️ Build Requirements
 
-```python
-import base64
+### 🧱 C++ Launcher (`rcur_importer_launcher`)
 
-path = r"C:\your\file\here"
+The `.rcur` importer launcher is written in minimal C++ and:
 
-# Open the file and encode it
-with open(path, "rb") as image_file:
-    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-
-# Print the Base64 string
-print(encoded_string)
-
-# Uncomment one of the following lines to directly copy the output to the clipboard
-# import pyperclip; pyperclip.copy(encoded_string); print("Copied to clipboard!")
-# import subprocess; subprocess.Popen('clip', stdin=subprocess.PIPE, shell=True).communicate(encoded_string.encode()); print("Copied to clipboard!")
-```
-
-Then, paste the resulting string into the code and decode it at runtime using `base64.b64decode()`. This script is also found under the `assets/scripts/` folder.
-
-> 📁 **Important**: Although the file is embedded within the code, please also include the original file in the `assets/` folder. This facilitates development, testing, and future modifications. **This rule does not apply to dependencies used by opt-in features, which should prefer runtime download over the internet instead of base64 embedding.**
-
-### 🖥️ Launcher Requirements (`rcur_importer_launcher`)
-
-The `.rcur` importer launcher, written in C++, plays a critical role and must follow these requirements:
-
-* **Prioritize minimalism and efficiency.** The code must introduce minimal overhead and remain as concise as possible without sacrificing readability.
-* **The C++ source file must be located at**: `rcur_importer_launcher/rcur_importer_launcher.cpp`
-* **The executable is not tracked by Git and should not be committed.** It is automatically excluded by `.gitignore` and rebuilt by CI during deployment. This prevents contributors from submitting prebuilt executables that may not match the source.
-
-#### 🛠️ Build Instructions (for Local Testing)
-
-Use **MSVC (`cl.exe`)** to build the launcher before submitting changes. The executable **must compile cleanly with no warnings** and behave correctly under this command:
+* Must be located at: `app/rcur_importer_launcher.cpp`
+* Should use only Win32 APIs and relative paths (no hardcoding)
+* Must be compiled using MSVC with the following command:
 
 ```cmd
 cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 ```
 
-* This command must be run and succeed from the Visual Studio 2022 Developer Command Prompt (version 17.12 or newer), specifically the x64 Native Tools Command Prompt for VS 2022.
-* This ensures compatibility with the CI build system and prevents platform-specific deviations.
-* You are expected to test your changes using this build locally before opening a pull request.
-* If you cannot build locally, you may still propose changes with a detailed explanation, and maintainers can help test the build.
+> ✅ This will generate `rcur_importer_launcher.exe` in the same folder.
 
-> ℹ️ The resulting `.exe` will be placed in the same folder and is ignored by Git.  
-> ✅ CI will handle building and hashing the executable as part of the release pipeline.
+**Requirements:**
 
----
-
-### 5️⃣ Format Your Code (Style Guidelines)
-
-Ensure your code follows standard Python formatting conventions:
-
-#### 🐍 Python Formatting
-
-* Use **4 spaces** for indentation (no tabs).
-* Follow **PEP 8** for general style.
-* Use **f-strings** for formatting text.
-* When writing Python scripts as string values (e.g., for embedding or runtime execution), use `.format()` for string formatting to avoid syntax errors.
-* Avoid hardcoding paths—use `os.path.join()` for file operations.
-* Run **Black** to format your code before committing:
-
-  ```bash
-  black .
-  ```
-* Add docstrings to your functions using Sphinx/reStructuredText (reST) style. Follow PEP 257 for structure and consistency.
-* Avoid referencing external files. Instead, embed them as base64 strings and decode them during runtime. The .pyw file should be able to run independently without relying on any external resource files.
-* Ensure all tests pass before committing, especially after reformatting/changing base64 strings.
+* The launcher must compile **error-free** and behave correctly when launched automatically by Windows through a .rcur file association (i.e., when a user double-clicks a .rcur file).
+* The resulting `.exe` **must not be committed** to the repository (it's excluded via `.gitignore`)
+* CI will handle building and hashing automatically during deployment
 
 ---
 
-### 6️⃣ Commit Your Changes
+### 📦 Inno Setup Installer (`RCC3_Installer.iss`)
 
-Use descriptive and clear commit messages:
+The main installer for the project is written in Inno Setup 6.4+ and:
+
+* Must be located at: `app/RCC3_Installer.iss`
+* Uses `rcur_importer_launcher.exe` and other local assets during packaging
+* Should be tested with the official **Inno Setup Compiler v6.4 or newer**
+
+**Requirements:**
+
+* The installer **must compile without errors** and behave correctly during the setup wizard.
+* The resulting `.exe` installer **must not be committed** to the repository (it's excluded via `.gitignore`)
+* CI will handle building and hashing automatically during deployment
+
+---
+
+## 🧽 Code Style Guidelines
+
+### 🐍 Python
+
+* Follow **PEP 8** + **PEP 257** (docstrings)
+* Use **Black** for formatting:
 
 ```bash
-git commit -m "Add support for base64 cursor embedding"
+black .
 ```
 
-### 7️⃣ Push Your Branch
+* Prefer `f"{}"` for formatting
+* Use `os.path.join()` for paths
+
+### 💻 C++
+
+* Keep it minimal and Windows-native
+* Use only standard Win32 APIs (no third-party dependencies)
+* Avoid bloating the executable
+* Must compile **error-free**
+
+---
+
+## ✅ Final Steps
+
+### 1. Stage and Commit
+
+```bash
+git add .
+git commit -m "update:a detailed commit message"
+```
+
+### 2. Push and Open a PR
 
 ```bash
 git push origin feature/your-feature-name
 ```
 
-### 8️⃣ Open a Pull Request
+Then go to GitHub and open a pull request.
+Include:
 
-* Go to your fork on GitHub.
-* Click **"Compare & pull request"**.
-* Provide a **summary of your changes**.
-* Link to any relevant issues if applicable (e.g., `Fixes #7`).
-
----
-
-## 📜 License
-
-By contributing, you agree that your code will be **licensed under GPL-3.0**.
-
-📌 **Your modifications must remain open-source and follow the terms of the GPL-3.0 license.**
+* A short summary of what you changed
+* Related issues (e.g., `Fixes #12`)
 
 ---
 
-Thank you for helping make Roblox Custom Cursor better! 🚀
+## 📜 License Notice
+
+By contributing, you agree your code will be released under **GPL-3.0**.  
+All contributions must remain open-source under the same license.
+
+---
+
+Thank you for helping make Roblox Custom Cursor better! 🚀  
+If you get stuck, feel free to open an issue or reach out via Discussions.
