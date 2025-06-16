@@ -37,8 +37,7 @@ To contribute efficiently, we recommend the following tools:
 ### 1. Fork and Clone
 
 ```bash
-git fork https://github.com/Xelvanta/roblox-custom-cursor.git
-git clone https://github.com/your-username/roblox-custom-cursor.git
+gh repo fork Xelvanta/roblox-custom-cursor --clone
 cd roblox-custom-cursor
 ```
 
