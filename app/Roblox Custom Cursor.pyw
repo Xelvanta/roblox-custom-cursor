@@ -356,10 +356,8 @@ class CursorViewerApp(tk.Tk):
                     self.update_gui_with_new_image(filepath, label_text)
                 except Exception as e:
                     messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
-          "• Errno 2: This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-          "Restarting the application should fix this.\n"
-          "• Errno 13: This usually occurs when the application doesn't have permission to access the file. "
-          "Try running the application as an administrator or closing any programs that might be using the file.")
+                                         "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                         "Restarting the application should fix this.")
 
         change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         change_button.grid(row=2, column=col, pady=(5, 5))
@@ -389,10 +387,9 @@ class CursorViewerApp(tk.Tk):
                 self.update_gui_with_new_image(filepath, label_text)
         
             except Exception as e:
-                messagebox.showerror(
-                    "Error",
-                    f"Error restoring default cursor:\n\n{e}"
-                )
+                    messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
+                                         "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                         "Restarting the application should fix this.")
         
         # Create the restore default button
         default_button = tk.Button(container, text="Restore Default", command=default_button_action,
@@ -639,8 +636,8 @@ class CursorViewerApp(tk.Tk):
             subprocess.run(['explorer', '/select,', os.path.normpath(filepath)])
         else:
             messagebox.showerror("Error", f"Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
-          "• This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-          "Restarting the application should fix this.")
+                                           "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                           "Restarting the application should fix this.")
 
 class ToolTip:
     def __init__(self, widget, text):
