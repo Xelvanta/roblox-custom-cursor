@@ -94,6 +94,7 @@ The main installer for the project is written in Inno Setup 6.4+ and:
 **Requirements:**
 
 * The installer **must compile without errors** and behave correctly during the setup wizard.
+* The installer output directory **must be set to the same directory as the script** (i.e., `OutputDir=.`) so the compiled installer `.exe` is created inside `app/`.
 * The resulting `.exe` installer **must not be committed** to the repository (it's excluded via `.gitignore`)
 * CI will handle building and hashing automatically during deployment
 
