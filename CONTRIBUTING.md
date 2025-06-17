@@ -78,8 +78,23 @@ Roblox Custom Cursor defines and uses several custom file extensions to structur
 
 These are handled in the following ways:
 
-* `.rcur` is associated with `rcur_importer_launcher.exe`, which runs `rcur_importer.rccapp` with the double-clicked file as an argument, using the embedded Python runtime for RCC3.
-* `.rccapp` is a runnable Roblox Custom Cursor Python application. It is essentially a `.pyw` file configured to run using the embedded Python runtime for RCC3 located in `app/python/`.
+* `.rcur` is associated with `rcur_importer_launcher.exe`, which launches `rcur_importer.rccapp` with the double-clicked file as an argument, using the embedded Python runtime for RCC3.
+* `.rccapp` is a runnable Roblox Custom Cursor Python application. **It is essentially a `.pyw` file** configured to run using the embedded Python runtime for RCC3 located in `app/python/`.
+
+### 🔒 `.rcur` Safety & Format Integrity
+
+The `.rcur` file format is designed to be **simple, transparent, and safe — even when used from external sources**. It contains exactly three lines of base64-encoded PNG image data and **no embedded logic, scripting, or metadata**.
+
+* **All import behavior is strictly controlled by the main application (`Roblox Custom Cursor.rccapp`) and default importer (`rcur_importer.rccapp`)**, not by the `.rcur` file itself.
+* **`.rcur` files must never contain code, commands, or runtime instructions.**
+* This makes `.rcur` files passive, static containers — similar in risk profile to image or plain text files.
+
+> ✅ Because the import logic does not interpret code or run dynamic input, `.rcur` files are safe to use from untrusted or external sources.
+
+**Contributor expectation:**
+If you're modifying or extending the importer, you must ensure it continues to treat `.rcur` strictly as image data — never as a source of logic or executable behavior. Avoid functions like `eval()`, `exec()`, or any pattern that parses or executes arbitrary text.
+
+Maintaining this design guarantees that `.rcur` files remain safe, portable, and interoperable in all environments.
 
 ---
 
@@ -130,7 +145,7 @@ You can replace `pillow==11.1.0` with any package and version your changes requi
 * All Python dependencies **must be installed** into `app/python/Lib/site-packages` using `pip install --target=...`.
 * The embedded Python environment **must remain fully self-contained** — no global Python or pip dependencies should be required. Confirm that **no manual user installation** is needed post-setup.
 * If you add new packages, ensure the app continues to run **error-free** using only the embedded interpreter.
-* You **are expected to commit** the `Lib/` folder. This directory is **not excluded** by `.gitignore`.
+* You **are expected to commit** the `Lib/` folder (this directory is **not excluded** by `.gitignore`).
 
 ### 🧱 C++ Launcher (`rcur_importer_launcher`)
 
