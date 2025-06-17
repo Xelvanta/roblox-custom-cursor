@@ -52,16 +52,16 @@ Please use this format when updating versions in project files and release notes
 
 To contribute efficiently, we recommend the following tools:
 
-| Component          | Recommendation                           |
-| ------------------ | ---------------------------------------- |
-| OS                 | Windows 11                               |
-| Python Interpreter | Python 3.x (latest)                      |
-| IDE (Python)       | VS Code, PyCharm, or any modern editor   |
-| C++ Compiler       | MSVC (Visual Studio 2022)                |
-| IDE (C++)          | Visual Studio 2022 (Community or higher) |
-| Terminal           | PowerShell 5.1+ or Windows Terminal      |
-| Build Environment  | Developer Command Prompt for VS 2022     |
-| Inno Setup Compiler| Inno Setup Compiler 6.4+                 |
+| Component          | Recommendation                              |
+| ------------------ | ------------------------------------------- |
+| OS                 | Windows 11                                  |
+| Python Interpreter | Python 3.x Runtime for RCC3 (`app/python/`) |
+| IDE (Python)       | VS Code, PyCharm, or any modern editor      |
+| C++ Compiler       | MSVC (Visual Studio 2022)                   |
+| IDE (C++)          | Visual Studio 2022 (Community or higher)    |
+| Terminal           | PowerShell 5.1+ or Windows Terminal         |
+| Build Environment  | Developer Command Prompt for VS 2022        |
+| Inno Setup Compiler| Inno Setup Compiler 6.4+                    |
 
 > ⚠️ For C++ builds, only **MSVC (cl.exe)** via **Visual Studio 2022 Developer Command Prompt** is supported. Do not use MinGW or other toolchains.
 
@@ -94,6 +94,29 @@ You can contribute to:
 ---
 
 ## ⚙️ Build Requirements
+
+### 📦 Installing Python Libraries for the Embedded Interpreter
+
+If you want to add Python packages like `Pillow` to the official embedded Python runtime for RCC3, **you must install them into the `app/python/Lib/site-packages` folder** manually.
+
+Use the following `pip` command to do this:
+
+```bash
+pip install --target=app/python/Lib/site-packages pillow==11.1.0
+```
+
+You can replace `pillow==11.1.0` with any package and version your changes require.
+
+> ⚠️ Do not install packages globally — all dependencies must live inside the embedded Python folder so the installer works out-of-the-box without requiring users to install anything separately.
+
+**Requirements:**
+
+* All Python dependencies **must be installed** into `app/python/Lib/site-packages` using `pip install --target=...`.
+* The embedded Python environment **must remain fully self-contained** — no global Python or pip dependencies should be required. Confirm that **no manual user installation** is needed post-setup.
+* If you add new packages, ensure the app continues to run **error-free** using only the embedded interpreter.
+* You **are expected to commit** the `Lib/` folder. This directory is **not excluded** by `.gitignore`.
+
+---
 
 ### 🧱 C++ Launcher (`rcur_importer_launcher`)
 
