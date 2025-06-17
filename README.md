@@ -115,7 +115,7 @@ If you want to experiment with **running the app using your own Python**, you ca
 
 - Rename files with the `.rccapp` extension to use `.pyw`
 - Manually run it with your own Python install (make sure required libraries like Pillow are installed)
-- Update and rebuild the `rcur_importer_launcher.cpp` and any other C++ scripts to point to `.pyw` instead of `.rccapp`
+- Update registry key values if needed
 
 > ⚠️ This is **unsupported** and recommended only for advanced users.  
 > The official version is designed to work out-of-the-box with embedded Python for consistency and ease of use.
