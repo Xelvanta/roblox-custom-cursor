@@ -8,43 +8,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
     LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argc);
     if (!argvW || argc < 2) {
         if (argvW) LocalFree(argvW);
+        MessageBoxW(NULL, L"No .rccapp file specified.", L"RCC3 Launcher", MB_ICONERROR);
         return 0;
     }
 
-    // Convert argvW[1] (input file) to std::string (assuming ASCII or UTF-8 safe)
+    // Convert input file path to UTF-8 string
     int size_needed = WideCharToMultiByte(CP_UTF8, 0, argvW[1], -1, NULL, 0, NULL, NULL);
     std::string inputFile(size_needed, 0);
     WideCharToMultiByte(CP_UTF8, 0, argvW[1], -1, &inputFile[0], size_needed, NULL, NULL);
     LocalFree(argvW);
 
-    // Get executable full path
+    // Get full path to current executable
     char exePath[MAX_PATH];
     DWORD len = GetModuleFileNameA(NULL, exePath, MAX_PATH);
     if (len == 0 || len == MAX_PATH) {
-        // Failed to get executable path, fallback or exit
+        MessageBoxA(NULL, "Failed to get executable path.", "RCC3 Launcher", MB_ICONERROR);
         return 1;
     }
 
-    // Strip executable filename to get directory
+    // Get directory containing this executable
     std::string exeDir(exePath);
     size_t lastSlash = exeDir.find_last_of("\\/");
     if (lastSlash != std::string::npos) {
         exeDir = exeDir.substr(0, lastSlash);
     }
 
-    // Build path to rcur_importer.pyw relative to exe dir
-    std::string scriptPath = exeDir + "\\rcur_importer.pyw";
+    // Build path to embedded pythonw.exe
+    std::string pythonwPath = exeDir + "\\python\\pythonw.exe";
 
-    // Build command line to run pythonw with script and input file
-    std::string commandLine = "pythonw \"" + scriptPath + "\" \"" + inputFile + "\"";
+    // Final command to run: pythonw.exe "<path to .rccapp>"
+    std::string commandLine = "\"" + pythonwPath + "\" \"" + inputFile + "\"";
 
     STARTUPINFOA si = { sizeof(si) };
     si.dwFlags = STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
 
     PROCESS_INFORMATION pi;
-
-    // CreateProcess requires mutable string
     char* cmdLineMutable = _strdup(commandLine.c_str());
 
     BOOL success = CreateProcessA(
@@ -55,7 +54,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
         FALSE,
         CREATE_NO_WINDOW,
         NULL,
-        NULL,
+        exeDir.c_str(),  // Set working directory to exeDir
         &si,
         &pi
     );
@@ -65,6 +64,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
     if (success) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
+    }
+    else {
+        MessageBoxA(NULL, "Failed to launch embedded Python.", "RCC3 Launcher", MB_ICONERROR);
     }
 
     return 0;
