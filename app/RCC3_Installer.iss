@@ -2,7 +2,7 @@
 [Setup]
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.0.0
+AppVersion=3.4.0.0
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -14,10 +14,10 @@ LicenseFile=LICENSE
 
 [Files]
 ; Main app
-Source: "Roblox Custom Cursor.pyw"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Roblox Custom Cursor.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Importer script
-Source: "rcur_importer.pyw"; DestDir: "{app}"; Flags: ignoreversion
+Source: "rcur_importer.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Importer launcher executable
 Source: "rcur_importer_launcher.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -25,14 +25,19 @@ Source: "rcur_importer_launcher.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; Data images folder
 Source: "data\images\*"; DestDir: "{app}\data\images"; Flags: ignoreversion recursesubdirs createallsubdirs
 
+; Embedded python folder
+Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
+
 [Tasks]
-Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional icons:"
+Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
 Name: associate_rcur; Description: "Associate .rcur files with Roblox Custom Cursor"; GroupDescription: "File Associations:"
+Name: startmenuicon; Description: "Create a start menu shortcut"; GroupDescription: "Required Steps:"
+Name: associate_rccapp; Description: "Associate .rccapp files with Roblox Custom Cursor"; GroupDescription: "Required Steps:"
 
 [Icons]
-Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.pyw"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"
-Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"
-Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.pyw"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: desktopicon
+Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
+Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
+Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: desktopicon
 
 [Registry]
 ; Associate .rcur file with the app
@@ -41,10 +46,33 @@ Root: HKCR; Subkey: "rcurfile"; ValueType: string; ValueData: "Roblox Custom Cur
 Root: HKCR; Subkey: "rcurfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rcur
 Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData: """{app}\rcur_importer_launcher.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rcur
 
+; Associate .rccapp file with the app
+Root: HKCR; Subkey: ".rccapp"; ValueType: string; ValueData: "rccappfile"; Flags: uninsdeletevalue; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile"; ValueType: string; ValueData: "Roblox Custom Cursor Application File"; Flags: uninsdeletekey; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""{app}\Roblox Custom Cursor.rccapp"""; Flags: uninsdeletekey; Tasks: associate_rccapp
+
 [Run]
-Filename: "pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.pyw"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
+Filename: "pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.rccapp"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
 
 [Code]
+procedure CurPageChanged(CurPageID: Integer);
+var
+  i: Integer;
+begin
+  if CurPageID = wpSelectTasks then
+  begin
+    for i := 0 to WizardForm.TasksList.Items.Count - 1 do
+    begin
+      if (WizardForm.TasksList.ItemCaption[i] = 'Create a start menu shortcut') or
+         (WizardForm.TasksList.ItemCaption[i] = 'Associate .rccapp files with Roblox Custom Cursor') then
+      begin
+        WizardForm.TasksList.ItemEnabled[i] := False;
+      end;
+    end;
+  end;
+end;
+
 function IsAppInstalled(): Boolean;
 var
   uninstallKeyExists: Boolean;

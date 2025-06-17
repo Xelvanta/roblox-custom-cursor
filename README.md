@@ -21,16 +21,9 @@
 
 ## 📋 Requirements
 
-Before running the installer, ensure the following are installed on your system:
+None!  
 
-- **Python 3.x**  
-  Download it from [python.org](https://www.python.org/downloads/)
-
-- **Pillow 11.1.0**  
-  Install via pip:
-  ```bash
-  pip install pillow==11.1.0
-  ```
+**Roblox Custom Cursor v3** bundles everything you need — including Python and all required dependencies. You do **not** need to install Python or pip separately. Just run the installer and you're good to go.
 
 ---
 
@@ -107,6 +100,20 @@ After installation, **Roblox Custom Cursor** can be launched from the **Start Me
   </tr>
 </table>
 
+---
+
+## 🛠️ Advanced Use (Power Users)
+
+The `.rccapp` file format is a renamed Python `.pyw` script executed using the embedded Python interpreter bundled in the installer.
+
+If you want to experiment with **running the app using your own Python**, you can:
+
+- Rename files with the `.rccapp` extension to use `.pyw`
+- Manually run it with your own Python install (make sure required libraries like Pillow are installed)
+- Update and rebuild the `rcur_importer_launcher.cpp` and any other C++ scripts to point to `.pyw` instead of `.rccapp`
+
+> ⚠️ This is **unsupported** and recommended only for advanced users.  
+> The official version is designed to work out-of-the-box with embedded Python for consistency and ease of use.
 
 ---
 
