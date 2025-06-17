@@ -92,7 +92,7 @@ The `.rcur` file format is designed to be **simple, transparent, and safe — ev
 > ✅ Because the import logic does not interpret code or run dynamic input, `.rcur` files are safe to use from untrusted or external sources.
 
 **Contributor expectation:**
-If you're modifying or extending the importer, you must ensure it continues to treat `.rcur` strictly as image data — never as a source of logic or executable behavior. Avoid functions like `eval()`, `exec()`, or any pattern that parses or executes arbitrary text.
+If you're modifying or extending the importer, you must ensure it continues to treat `.rcur` strictly as image data — never as a source of logic or executable behavior. The base64 data should be decoded and written verbatim as .png files if the decoding succeeds, without additional interpretation or transformation. Avoid functions like `eval()`, `exec()`, or any pattern that parses or executes arbitrary text.
 
 Maintaining this design guarantees that `.rcur` files remain safe, portable, and interoperable in all environments.
 
