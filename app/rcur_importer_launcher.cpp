@@ -37,13 +37,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR lpCmdLine, int)
         exeDir = exeDir.substr(0, lastSlash);
     }
 
-    // Determine the extension and handle accordingly
-    std::string ext = GetFileExtension(inputFile);
-
-    // (Optional) You can add different behavior per extension here
-    // For now both just run pythonw with the file as argument
     std::string pythonwPath = exeDir + "\\python\\pythonw.exe";
-    std::string commandLine = "\"" + pythonwPath + "\" \"" + inputFile + "\"";
+    std::string rccappPath = exeDir + "\\rcur_importer.rccapp";
+    std::string commandLine = "\"" + pythonwPath + "\" \"" + rccappPath + "\" \"" + inputFile + "\"";
 
     STARTUPINFOA si = { sizeof(si) };
     si.dwFlags = STARTF_USESHOWWINDOW;
