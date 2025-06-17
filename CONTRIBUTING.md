@@ -98,7 +98,7 @@ Maintaining this design guarantees that `.rcur` files remain safe, portable, and
 
 ### 🔄 File Execution Pipeline
 
-To ensure consistency, security, and compatibility, `.rcur` and `.rccapp` files follow a **strict and predictable execution pipeline**. All paths in registry key values are expected to be **absolute** and refer to the user installation directory of Roblox Custom Cursor.
+To ensure consistency and compatibility, `.rcur` and `.rccapp` files follow a **strict and predictable execution pipeline**. All paths in registry key values are expected to be **absolute** and refer to the user installation directory of Roblox Custom Cursor.
 
 #### `.rccapp` Execution (Roblox Custom Cursor Application File)
 
@@ -118,11 +118,7 @@ When a `.rcur` file is double-clicked or opened, the expected execution pipeline
 "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\python\pythonw.exe" "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer.rccapp" "%1"
 ```
 
-This ensures that:
-
-* The importing logic is centralized and controlled.
-* The `.rcur` file is treated as a **read-only data input**.
-* No part of the system executes user-provided logic from the `.rcur` file.
+This ensures that the importing logic is centralized and controlled.
 
 > ✅ `Program Files (x86)` is the default installation location. However, users may choose a different path during installation. All references should the user-installed location.
 
