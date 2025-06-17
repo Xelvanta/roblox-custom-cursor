@@ -1,2 +1,3 @@
 assets/** linguist-detectable=false
 *.rccapp linguist-language=Python
+*.rcur binary
