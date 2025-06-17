@@ -212,7 +212,7 @@ black .
 
 ```bash
 git add .
-git commit -m "update:a detailed commit message"
+git commit -m "update: a detailed commit message"
 ```
 
 ### 2. Push and Open a PR
@@ -226,6 +226,29 @@ Include:
 
 * A short summary of what you changed
 * Related issues (e.g., `Fixes #12`)
+
+---
+
+## 🎯 Not Sure Where to Start? Creating and Adding `.rcur` Example Files.
+
+> 🤔 Not sure where to start? Try fixing a typo in `README.md` or adding an `.rcur` test file to `examples/`!
+
+If you want to contribute `.rcur` cursor profiles for testing or examples, here’s how you can easily export your current cursor setup:
+
+1. **Open the Roblox Custom Cursor application.**
+2. Navigate to **Settings > Export Cursors as Profile**.
+3. Choose a location to save the `.rcur` file. This file will contain the currently applied cursors exported as a profile.
+4. Add your exported `.rcur` file to the `examples/` directory for others to test and review.
+
+### 📝 Editing ATTRIBUTION.txt
+
+When adding new cursor profiles or assets, please update the `ATTRIBUTION.txt` file accordingly.  
+- Add new entries **in alphabetical order** by the filename.  
+- Ensure all license information and source links are accurate and complete.
+
+This helps keep the project organized and easy to maintain.
+
+> ⚖️ `.rcur` profile files under `examples/` are data files and **may be licensed independently** of the repository’s GPLv3 license. They are **not required** to use a GPL-compatible license.
 
 ---
 
