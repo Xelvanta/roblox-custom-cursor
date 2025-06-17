@@ -58,6 +58,11 @@ After installation, **Roblox Custom Cursor** can be launched from the **Start Me
 * ✅ Double-clickable to apply directly
 * ✅ Backwards-compatible for import/export
 
+### 🎨 Premade Profiles Included
+
+For convenience, several ready-to-use `.rcur` profiles are provided in the [examples/](https://github.com/Xelvanta/roblox-custom-cursor/tree/main/examples) directory.  
+You can import these profiles either via the main app under **Settings > Import Cursors from Profile**, or by double-clicking the `.rcur` file in your file explorer to apply it immediately.
+
 ---
 
 ## 🧪 Preview
