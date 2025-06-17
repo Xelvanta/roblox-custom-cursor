@@ -78,7 +78,7 @@ Roblox Custom Cursor defines and uses several custom file extensions to structur
 
 These are handled in the following ways:
 
-* `.rcur` is associated with `rcur_importer_launcher.exe`, which launches `rcur_importer.rccapp` with the double-clicked file as an argument, using the embedded Python runtime for RCC3.
+* `.rcur` is associated with `rcur_importer.rccapp` which uses the double-clicked file as an argument, using the embedded Python runtime for RCC3.
 * `.rccapp` is a runnable Roblox Custom Cursor Python application. **It is essentially a `.pyw` file** configured to run using the embedded Python runtime for RCC3 located in `app/python/`.
 
 ### 🔒 `.rcur` Safety & Format Integrity
