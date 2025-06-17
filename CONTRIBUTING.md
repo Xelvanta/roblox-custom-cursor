@@ -13,6 +13,41 @@ We welcome contributions of all types:
 
 ---
 
+## 🏷️ Versioning Scheme
+
+We use a **4-part version number** in this format:
+
+```
+
+G.M.m.p
+
+```
+
+- **G — Generation**  
+  This is the *biggest* version number representing a major generation of the app — think major rewrites, big architecture changes, or fundamental shifts. It changes rarely, signaling significant milestones.
+
+- **M.m.p — Semantic Versioning (SemVer) equivalent**  
+  The last three numbers follow the familiar SemVer pattern:  
+  - **M** = Major (breaking changes within the current generation)  
+  - **m** = Minor (new features, backward compatible)  
+  - **p** = Patch (bug fixes and minor tweaks)
+
+> **Note:**  
+> Older versions used the standard 3-part SemVer (e.g. 1.2.3) without a Generation number.  
+> Because of migration challenges, the 4-part versioning scheme was introduced starting at version 3.4.0.2 for all intents and purposes.
+
+### Example
+
+Version `3.4.5.1` means:  
+- Generation 3 (big architectural era)  
+- SemVer 4.5.1 (major=4, minor=5, patch=1)
+
+This lets us clearly mark big leaps with Generation while keeping familiar SemVer for everyday releases.
+
+Please use this format when updating versions in project files and release notes!
+
+---
+
 ## 🧰 Development Environment
 
 To contribute efficiently, we recommend the following tools:
