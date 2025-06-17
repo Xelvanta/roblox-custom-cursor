@@ -50,7 +50,7 @@ Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData:
 Root: HKCR; Subkey: ".rccapp"; ValueType: string; ValueData: "rccappfile"; Flags: uninsdeletevalue; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile"; ValueType: string; ValueData: "Roblox Custom Cursor Application File"; Flags: uninsdeletekey; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
-Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""{app}\Roblox Custom Cursor.rccapp"""; Flags: uninsdeletekey; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rccapp
 
 [Run]
 Filename: "pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.rccapp"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
