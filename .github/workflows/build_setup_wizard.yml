@@ -1,4 +1,4 @@
-name: Build rcur_importer_launcher
+name: Build setup wizard
 
 permissions:
   contents: write
@@ -6,18 +6,18 @@ permissions:
 on:
   push:
     paths:
-      - 'app/rcur_importer_launcher.cpp'
       - 'app/Roblox Custom Cursor.rccapp'
       - 'app/rcur_importer.rccapp'
       - 'app/RCC3_Installer.iss'
+      - 'app/python/**'
 
       # - '.github/workflows/build_rcur_importer_launcher.yml'  # temporary self-invoke for testing
   pull_request:
     paths:
-      - 'app/rcur_importer_launcher.cpp'
       - 'app/Roblox Custom Cursor.rccapp'
       - 'app/rcur_importer.rccapp'
       - 'app/RCC3_Installer.iss'
+      - 'app/python/**'
 
 jobs:
   build:
@@ -28,13 +28,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: true
-
-      - name: Set up MSVC (Developer Command Prompt)
-        uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Build C++ launcher
-        working-directory: ./app
-        run: cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
 
       - name: Download and install Inno Setup 6.4.3
         working-directory: ./app
@@ -54,7 +47,6 @@ jobs:
         working-directory: ./app
         shell: pwsh
         run: |
-          Get-FileHash .\rcur_importer_launcher.exe -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force rcur_importer_launcher.exe.sha256
           $installer = Get-ChildItem .\RCC3_Installer*.exe | Select-Object -First 1
           if ($installer) {
             Get-FileHash $installer.FullName -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Out-File -Encoding ASCII -Force RCC3_Installer.exe.sha256
@@ -69,9 +61,7 @@ jobs:
         shell: pwsh
         run: |
           $branch = "${{ github.ref }}" -replace '^refs/heads/', ''
-          git add -f app/rcur_importer_launcher.exe
-          git add -f app/rcur_importer_launcher.exe.sha256
           git add -f app/RCC3_Installer.exe
           git add -f app/RCC3_Installer.exe.sha256
-          git commit -m "chore: build and package launcher + installer [skip ci]" || echo "No changes to commit"
+          git commit -m "chore: build and package installer [skip ci]" || echo "No changes to commit"
           git push origin $branch || echo "Nothing to push"

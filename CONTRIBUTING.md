@@ -96,6 +96,36 @@ If you're modifying or extending the importer, you must ensure it continues to t
 
 Maintaining this design guarantees that `.rcur` files remain safe, portable, and interoperable in all environments.
 
+### 🔄 File Execution Pipeline
+
+To ensure consistency, security, and compatibility, `.rcur` and `.rccapp` files follow a **strict and predictable execution pipeline**. All paths in registry key values are expected to be **absolute** and refer to the user installation directory of Roblox Custom Cursor.
+
+#### `.rccapp` Execution (Roblox Custom Cursor Application File)
+
+When a `.rccapp` file is run (e.g. `Roblox Custom Cursor.rccapp`), the expected execution pipeline looks something like:
+
+```cmd
+"C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\python\pythonw.exe" "%1"
+```
+
+This runs the `.rccapp` Python script silently using the embedded Python interpreter installed with RCC3.
+
+#### `.rcur` Execution (Roblox Custom Cursor Profile)
+
+When a `.rcur` file is double-clicked or opened, the expected execution pipeline looks something like:
+
+```cmd
+"C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\python\pythonw.exe" "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\rcur_importer.rccapp" "%1"
+```
+
+This ensures that:
+
+* The importing logic is centralized and controlled.
+* The `.rcur` file is treated as a **read-only data input**.
+* No part of the system executes user-provided logic from the `.rcur` file.
+
+> ✅ `Program Files (x86)` is the default installation location. However, users may choose a different path during installation. All references should the user-installed location.
+
 ---
 
 ## 🛠️ How to Contribute
@@ -117,8 +147,8 @@ git checkout -b feature/your-feature-name
 
 You can contribute to:
 
-* Python logic at `app/Roblox Custom Cursor.rccapp`
-* Launcher logic at `app/rcur_importer_launcher.cpp` and `app/rcur_importer.rccapp`
+* Main application logic at `app/Roblox Custom Cursor.rccapp`
+* Launcher logic at `app/rcur_importer.rccapp`
 * Inno Setup script at `app/RCC3_Installer.iss`
 * Documentation or metadata at `README.md`, `CONTRIBUTING.md`, `assets/preview/`, etc.
 
@@ -146,26 +176,6 @@ You can replace `pillow==11.1.0` with any package and version your changes requi
 * The embedded Python environment **must remain fully self-contained** — no global Python or pip dependencies should be required. Confirm that **no manual user installation** is needed post-setup.
 * If you add new packages, ensure the app continues to run **error-free** using only the embedded interpreter.
 * You **are expected to commit** the `Lib/` folder (this directory is **not excluded** by `.gitignore`).
-
-### 🧱 C++ Launcher (`rcur_importer_launcher`)
-
-The `.rcur` importer launcher is written in minimal C++ and:
-
-* Must be located at: `app/rcur_importer_launcher.cpp`
-* Should use only Win32 APIs and relative paths (no hardcoding)
-* Must be compiled using MSVC with the following command:
-
-```cmd
-cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMENTAL:NO
-```
-
-> ✅ This will generate `rcur_importer_launcher.exe` in the same folder.
-
-**Requirements:**
-
-* The launcher must compile **error-free** and behave correctly when launched automatically by Windows through a .rcur file association (i.e., when a user double-clicks a .rcur file).
-* The resulting `.exe` **must not be committed** to the repository (it's excluded via `.gitignore`)
-* CI will handle building and hashing automatically during deployment
 
 ### 📦 Inno Setup Installer (`RCC3_Installer.iss`)
 
@@ -197,13 +207,6 @@ black .
 
 * Prefer `f"{}"` for formatting
 * Use `os.path.join()` for paths
-
-### 💻 C++
-
-* Keep it minimal and Windows-native
-* Use only standard Win32 APIs (no third-party dependencies)
-* Avoid bloating the executable
-* Must compile **error-free**
 
 ---
 
