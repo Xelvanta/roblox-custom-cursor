@@ -1,11 +1,27 @@
-FILENAME: kawaii_pink_heart.rcur
-Author: ツ☪ NaLexnu ♡♥
-Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md
-License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center.
+# =============================================================================
+# License Notice for Attributed Files
+#
+# Certain files listed below are licensed under their respective licenses,
+# NOT under the main repository license.
+#
+# Please review the license specified for each file carefully before use.
+#
+# Files marked with a Creative Commons (CC) license are subject to the terms
+# detailed at:
+# https://creativecommons.org/licenses/
+#
+# These files must be used in accordance with their license terms, including
+# non-commercial restrictions, and proper attribution.
+# =============================================================================
 
 FILENAME: droplet_mini_cyan.rcur
 Author: ツ☪ NaLexnu ♡♥
-Source: https://www.rw-designer.com/cursor-set/droplet-mini-cyan
+Source: https://www.rw-designer.com/cursor-set/droplet-mini-cyan; https://www.rw-designer.com/cursor-download.php?id=170135; https://www.rw-designer.com/cursor-download.php?id=170140; https://www.rw-designer.com/cursor-download.php?id=170138
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+
+FILENAME: kawaii_pink_heart.rcur
+Author: ツ☪ NaLexnu ♡♥
+Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md; https://www.rw-designer.com/cursor-download.php?id=174845; https://www.rw-designer.com/cursor-download.php?id=174842; https://www.rw-designer.com/cursor-download.php?id=174848
+License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
