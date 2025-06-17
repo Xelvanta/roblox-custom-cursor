@@ -82,7 +82,7 @@ You can import these profiles either via the main app under **Settings > Import 
       <img src="assets/preview/RCC3_Import.png" width="200"/><br>Import .rcur
     </td>
   </tr>
-</table
+</table>
 
 <table align="center" style="margin-top: 20px;">
   <tr>
