@@ -2,7 +2,7 @@
 [Setup]
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.4.0.2
+AppVersion=3.4.1.0
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -19,9 +19,6 @@ Source: "Roblox Custom Cursor.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 ; Importer script
 Source: "rcur_importer.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 
-; Importer launcher executable
-Source: "rcur_importer_launcher.exe"; DestDir: "{app}"; Flags: ignoreversion
-
 ; Data images folder
 Source: "data\images\*"; DestDir: "{app}\data\images"; Flags: ignoreversion recursesubdirs createallsubdirs
 
@@ -30,9 +27,10 @@ Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
-Name: associate_rcur; Description: "Associate .rcur files with Roblox Custom Cursor"; GroupDescription: "File Associations:"
+Name: associate_rcur; Description: "Associate .&rcur files with Roblox Custom Cursor"; GroupDescription: "File Associations:"
 Name: startmenuicon; Description: "Create a start menu shortcut"; GroupDescription: "Required Steps:"
 Name: associate_rccapp; Description: "Associate .rccapp files with Roblox Custom Cursor"; GroupDescription: "Required Steps:"
+Name: python_rcc3; Description: "Install Embedded Python 3.x Runtime for RCC3"; GroupDescription: "Required Steps:"
 
 [Icons]
 Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
@@ -44,7 +42,7 @@ Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Curso
 Root: HKCR; Subkey: ".rcur"; ValueType: string; ValueData: "rcurfile"; Flags: uninsdeletevalue; Tasks: associate_rcur
 Root: HKCR; Subkey: "rcurfile"; ValueType: string; ValueData: "Roblox Custom Cursor Profile"; Flags: uninsdeletekey; Tasks: associate_rcur
 Root: HKCR; Subkey: "rcurfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rcur
-Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData: """{app}\rcur_importer_launcher.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rcur
+Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""{app}\rcur_importer.rccapp"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rcur
 
 ; Associate .rccapp file with the app
 Root: HKCR; Subkey: ".rccapp"; ValueType: string; ValueData: "rccappfile"; Flags: uninsdeletevalue; Tasks: associate_rccapp
@@ -65,7 +63,8 @@ begin
     for i := 0 to WizardForm.TasksList.Items.Count - 1 do
     begin
       if (WizardForm.TasksList.ItemCaption[i] = 'Create a start menu shortcut') or
-         (WizardForm.TasksList.ItemCaption[i] = 'Associate .rccapp files with Roblox Custom Cursor') then
+         (WizardForm.TasksList.ItemCaption[i] = 'Associate .rccapp files with Roblox Custom Cursor') or
+         (WizardForm.TasksList.ItemCaption[i] = 'Install Embedded Python 3.x Runtime for RCC3') then
       begin
         WizardForm.TasksList.ItemEnabled[i] := False;
       end;
