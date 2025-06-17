@@ -34,7 +34,7 @@ G.M.m.p
 
 > **Note:**  
 > Older versions used the standard 3-part SemVer (e.g. 1.2.3) without a Generation number.  
-> Because of migration challenges, the 4-part versioning scheme was introduced starting at version 3.4.0.2 for all intents and purposes.
+> Due to migration challenges, the 4-part versioning scheme was introduced starting at version 3.4.0.2 for all intents and purposes.
 
 ### Example
 
@@ -67,6 +67,22 @@ To contribute efficiently, we recommend the following tools:
 
 ---
 
+## 📁 Roblox Custom Cursor File Extensions
+
+Roblox Custom Cursor defines and uses several custom file extensions to structure its runtime and launcher behavior:
+
+| Extension | Description                                                                                                                                                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.rcur`   | `Roblox Custom Cursor Profile` file. Contains three cursor images in base64 (Arrow Far, Arrow, I-Beam) assigned to specific rows. Double-clicking directly imports the profile without opening the main app. |
+| `.rccapp` | `Roblox Custom Cursor Application File` file. A renamed Python `.pyw` script used to run Roblox Custom Cursor using the official embedded Python 3.x runtime for RCC3.                                       |
+
+These are handled in the following ways:
+
+* `.rcur` is associated with `rcur_importer_launcher.exe`, which runs `rcur_importer.rccapp` with the double-clicked file as an argument, using the embedded Python runtime for RCC3.
+* `.rccapp` is a runnable Roblox Custom Cursor Python application. It is essentially a `.pyw` file configured to run using the embedded Python runtime for RCC3 located in `app/python/`.
+
+---
+
 ## 🛠️ How to Contribute
 
 ### 1. Fork and Clone
@@ -86,8 +102,8 @@ git checkout -b feature/your-feature-name
 
 You can contribute to:
 
-* Python logic at `app/Roblox Custom Cursor.pyw`
-* Launcher logic at `app/rcur_importer_launcher.cpp` and `app/rcur_importer.pyw`
+* Python logic at `app/Roblox Custom Cursor.rccapp`
+* Launcher logic at `app/rcur_importer_launcher.cpp` and `app/rcur_importer.rccapp`
 * Inno Setup script at `app/RCC3_Installer.iss`
 * Documentation or metadata at `README.md`, `CONTRIBUTING.md`, `assets/preview/`, etc.
 
@@ -116,8 +132,6 @@ You can replace `pillow==11.1.0` with any package and version your changes requi
 * If you add new packages, ensure the app continues to run **error-free** using only the embedded interpreter.
 * You **are expected to commit** the `Lib/` folder. This directory is **not excluded** by `.gitignore`.
 
----
-
 ### 🧱 C++ Launcher (`rcur_importer_launcher`)
 
 The `.rcur` importer launcher is written in minimal C++ and:
@@ -137,8 +151,6 @@ cl rcur_importer_launcher.cpp /O2 /link shell32.lib /SUBSYSTEM:WINDOWS /INCREMEN
 * The launcher must compile **error-free** and behave correctly when launched automatically by Windows through a .rcur file association (i.e., when a user double-clicks a .rcur file).
 * The resulting `.exe` **must not be committed** to the repository (it's excluded via `.gitignore`)
 * CI will handle building and hashing automatically during deployment
-
----
 
 ### 📦 Inno Setup Installer (`RCC3_Installer.iss`)
 
