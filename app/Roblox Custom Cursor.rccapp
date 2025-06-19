@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import base64
 import json
 import os
+import socket
 import subprocess
 import sys
 import tkinter as tk
 import urllib.parse
 import webbrowser
+import threading
 from tkinter import filedialog, messagebox
 
 from PIL import Image, ImageTk
@@ -193,6 +197,27 @@ class CursorViewerApp(tk.Tk):
         self.image_refs = []  # Prevent garbage collection
         self.canvas_dict = {}  # Initialize canvas_dict here
         self.build_ui(image_data)
+
+        self.cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
+        self.label_map = {
+            "ArrowFarCursor.png": "Arrow Far",
+            "ArrowCursor.png": "Arrow",
+            "IBeamCursor.png": "I-Beam"
+        }
+
+        # Get the latest Roblox path
+        folder = find_valid_roblox_version_folder()
+        if not folder:
+            messagebox.showerror("Error", "Could not find Roblox folder.")
+            pass
+
+        self.roblox_cursor_paths = [
+            os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn)
+            for fn in self.cursor_filenames
+        ]
+
+        self.start_refresh_listener()
+
 
     def build_ui(self, image_data):
         """
@@ -633,6 +658,34 @@ class CursorViewerApp(tk.Tk):
             messagebox.showerror("Error", "Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
                                            "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
                                            "Restarting the application should fix this.")
+
+    def refresh_all_images(self):
+        for i, filename in enumerate(self.cursor_filenames):
+            label_text = self.label_map[filename]
+            filepath = self.roblox_cursor_paths[i]
+            if os.path.exists(filepath):
+                self.update_gui_with_new_image(filepath, label_text)
+
+    def start_refresh_listener(self):
+        HOST = '127.0.0.1'
+        PORT = 57623
+
+        def listener():
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    s.bind((HOST, PORT))
+                    s.listen()
+                    while True:
+                        conn, _ = s.accept()
+                        with conn:
+                            message = conn.recv(1024).decode()
+                            if message.strip() == "refresh_cursors":
+                                self.refresh_all_images()
+            except OSError:
+                # Port already in use — skip listener
+                pass
+
+        threading.Thread(target=listener, daemon=True).start()
 
 class ToolTip:
     def __init__(self, widget, text):
