@@ -291,6 +291,8 @@ This helps keep the project organized and easy to maintain.
 > Contributors extending or debugging certain features might find some of these notes useful.
 
 - **IPC**: The importer script communicates with the main application over a local socket on port `57623` to notify it to refresh cursor images after import. This internal inter-process communication (IPC) mechanism helps keep the GUI updated automatically without requiring manual refreshes.
+- **App GUID**: The application’s GUID is `c1004246-945e-4b7c-863e-e6c0184d4086`. In the Windows registry, it may appear as `{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1`.
+
 ---
 
 ## 📜 License Notice
