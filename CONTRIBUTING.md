@@ -67,34 +67,50 @@ To contribute efficiently, we recommend the following tools:
 
 ---
 
+Here is your rewritten section, focusing on the binary format and header structure of `.rcur` files, while preserving the original description of `.rccapp`:
+
+---
+
 ## 📁 Roblox Custom Cursor File Extensions
 
 Roblox Custom Cursor defines and uses several custom file extensions to structure its runtime and launcher behavior:
 
-| Extension | Description                                                                                                                                                                                                  |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `.rcur`   | `Roblox Custom Cursor Profile` file. Contains three cursor images in base64 (Arrow Far, Arrow, I-Beam) assigned to specific rows. Double-clicking directly imports the profile without opening the main app. |
-| `.rccapp` | `Roblox Custom Cursor Application File` file. A renamed Python `.pyw` script used to run Roblox Custom Cursor using the official embedded Python 3.x runtime for RCC3.                                       |
+| Extension | Description                                                                                                                                                                     |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.rcur`   | `Roblox Custom Cursor Profile` file. A lightweight binary format with a fixed header and embedded image data. Double-clicking imports the profile without opening the main app. |
+| `.rccapp` | `Roblox Custom Cursor Application File` file. A renamed Python `.pyw` script used to run Roblox Custom Cursor using the official embedded Python 3.x runtime for RCC3.          |
 
 These are handled in the following ways:
 
-* `.rcur` is associated with `rcur_importer.rccapp` which uses the double-clicked file as an argument, using the embedded Python runtime for RCC3.
+* `.rcur` is associated with `rcur_importer.rccapp`, which takes the double-clicked file as an argument and uses the RCC3 embedded Python runtime to process it.
 * `.rccapp` is a runnable Roblox Custom Cursor Python application. **It is essentially a `.pyw` file** configured to run using the embedded Python runtime for RCC3 located in `app/python/`.
 
-### 🔒 `.rcur` Safety & Format Integrity
+### 🧬 `.rcur` Format & Binary Header
 
-The `.rcur` file format is designed to be **simple, transparent, and safe — even when used from external sources**. It contains exactly three lines of base64-encoded PNG image data and **no embedded logic, scripting, or metadata**.
+The `.rcur` file format begins with a **5-byte ASCII magic header**: `RCUR\x00`. This header allows the importer to confirm that the file is a valid Roblox Custom Cursor Profile before processing. It is followed by a 4-byte version number (currently `2`) and three image length values that describe how many bytes to read for each cursor image.
 
-* **All import behavior is strictly controlled by the main application (`Roblox Custom Cursor.rccapp`) and default importer (`rcur_importer.rccapp`)**, not by the `.rcur` file itself.
-* **`.rcur` files must never contain code, commands, or runtime instructions.**
-* This makes `.rcur` files passive, static containers — similar in risk profile to image or plain text files.
+The file’s contents are processed **only if all of the following validations pass**:
 
-> ✅ Because the import logic does not interpret code or run dynamic input, `.rcur` files are safe to use from untrusted or external sources.
+* The magic header matches `RCUR\x00`.
+* The version number is exactly `2`.
+* Three consecutive image lengths are present and valid.
+* The declared number of bytes for each image is actually present in the file.
+
+> ✅ If any of these conditions fail, the importer immediately exits with an error — the file is ignored.
+
+However, **even if a malicious `.rcur` file is carefully constructed to pass all validations**, it does not result in any code execution or data interpretation. The importer:
+
+* Simply reads the indicated number of bytes for each image,
+* And **writes them directly to disk** as `.png` files — without attempting to decode or interpret the content.
+
+There is **no parsing logic beyond basic validation**, no execution of embedded metadata, and no attempt to "understand" the images. If the written output is not a valid PNG, it will simply not render correctly — but **no harmful behavior is triggered**.
+
+> 🔒 This design ensures that even a well-crafted but malicious `.rcur` file cannot cause damage — the worst it can do is replace cursor files with garbage data, which is easily reversible.
 
 **Contributor expectation:**
-If you're modifying or extending the importer, you must ensure it continues to treat `.rcur` strictly as image data — never as a source of logic or executable behavior. The base64 data should be decoded and written verbatim as .png files if the decoding succeeds, without additional interpretation or transformation. Avoid functions like `eval()`, `exec()`, or any pattern that parses or executes arbitrary text.
+If you're modifying or extending the importer, continue to treat `.rcur` strictly as a source of **opaque binary blobs**. Do not introduce dynamic parsing, and never include logic that evaluates or interprets content from the file. Always reject files that do not strictly match the expected format, and avoid using unsafe functions like `eval()`, `exec()`, or anything that reads beyond defined image blocks.
 
-Maintaining this design guarantees that `.rcur` files remain safe, portable, and interoperable in all environments.
+By maintaining this behavior, `.rcur` remains a safe, inert format — secure for external use and resilient against tampering.
 
 ### 🔄 File Execution Pipeline
 

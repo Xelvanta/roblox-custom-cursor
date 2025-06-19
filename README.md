@@ -52,11 +52,12 @@ After installation, **Roblox Custom Cursor** can be launched from the **Start Me
 
 ## 📂 `.rcur` File Association
 
-`.rcur` files store all 3 cursor PNGs in one package. After installation, these files are:
+`.rcur` files store all three cursor images in a single file using a compact format. After installation, these files are:
 
 * ✅ Registered to open with **Roblox Custom Cursor**
 * ✅ Double-clickable to apply directly
-* ✅ Backwards-compatible for import/export
+* ✅ Supported for import/export across versions 3.5.0.0 and up
+
 
 ### 🎨 Premade Profiles Included
 

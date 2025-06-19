@@ -21,58 +21,58 @@ FILENAME: comic_sans.rcur
 Author: Alina Wan, Xelvanta Softworks
 Source: Created by repository administration.
 License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
-Modifications: None.
+Modifications: Exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: crosshair.rcur
 Author: SYNTHCRѺ
 Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-designer.com/cursor-download.php?id=42279; https://www.rw-designer.com/cursor-download.php?id=42287; https://www.rw-designer.com/cursor-download.php?id=42281
 License: CC NC 1.0 — https://creativecommons.org/licenses/nc/1.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: crosshair_alt.rcur
 Author: SYNTHCRѺ
 Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-designer.com/cursor-download.php?id=42280; https://www.rw-designer.com/cursor-download.php?id=42290; https://www.rw-designer.com/cursor-download.php?id=42281
 License: CC NC 1.0 — https://creativecommons.org/licenses/nc/1.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: donuts_kawaii.rcur
 Author: ツ☪ NaLexnu ♡♥
 Source: https://www.rw-designer.com/cursor-set/donutskawaiimd; https://www.rw-designer.com/cursor-download.php?id=175637; https://www.rw-designer.com/cursor-download.php?id=175641; https://www.rw-designer.com/cursor-download.php?id=107888
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; repositioned section of cursor(s).
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; repositioned section of cursor(s); exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: droplet_mini_cyan.rcur
 Author: ツ☪ NaLexnu ♡♥
 Source: https://www.rw-designer.com/cursor-set/droplet-mini-cyan; https://www.rw-designer.com/cursor-download.php?id=170135; https://www.rw-designer.com/cursor-download.php?id=170140; https://www.rw-designer.com/cursor-download.php?id=170138
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: genshin_impact.rcur
 Author: LisSweetie
 Source: https://www.rw-designer.com/cursor-set/genshin-impact-1; https://www.rw-designer.com/cursor-download.php?id=162738; https://www.rw-designer.com/cursor-download.php?id=162778; https://www.rw-designer.com/cursor-download.php?id=162750
 License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: genshin_impact_2.rcur
 Author: LisSweetie
 Source: https://www.rw-designer.com/cursor-set/genshin-impact-2; https://www.rw-designer.com/cursor-download.php?id=162781; https://www.rw-designer.com/cursor-download.php?id=162820; https://www.rw-designer.com/cursor-download.php?id=162793
 License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: hand_drawn.rcur
 Author: Alina Wan, Xelvanta Softworks
 Source: Created by repository administration.
 License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
-Modifications: None.
+Modifications: Exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: kawaii_pink_heart.rcur
 Author: ツ☪ NaLexnu ♡♥
 Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md; https://www.rw-designer.com/cursor-download.php?id=174845; https://www.rw-designer.com/cursor-download.php?id=174842; https://www.rw-designer.com/cursor-download.php?id=174848
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; extracted static frame from animated cursor(s).
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; extracted static frame from animated cursor(s); exported to RCUR profile with Roblox Custom Cursor.
 
 FILENAME: roblox_default.rcur
 Author: Derek Wong, Roblox Corporation
 Source: Extracted from %USERPROFILE%\AppData\Local\Roblox\
 License: All rights reserved by Roblox Corporation.
-Modifications: None.
+Modifications: Exported to RCUR profile with Roblox Custom Cursor.

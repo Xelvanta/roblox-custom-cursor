@@ -2,7 +2,7 @@
 [Setup]
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.4.2.2
+AppVersion=3.5.0.0
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -33,9 +33,9 @@ Name: associate_rccapp; Description: "Associate .rccapp files with Roblox Custom
 Name: python_rcc3; Description: "Install Embedded Python 3.x Runtime for RCC3"; GroupDescription: "Required Steps:"
 
 [Icons]
-Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
-Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
-Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: desktopicon
+Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: startmenuicon
+Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: startmenuicon
+Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: desktopicon
 
 [Registry]
 ; Associate .rcur file with the app
@@ -47,7 +47,7 @@ Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData:
 ; Associate .rccapp file with the app
 Root: HKCR; Subkey: ".rccapp"; ValueType: string; ValueData: "rccappfile"; Flags: uninsdeletevalue; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile"; ValueType: string; ValueData: "Roblox Custom Cursor Application File"; Flags: uninsdeletekey; Tasks: associate_rccapp
-Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rccapp_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rccapp
 
 [Run]
@@ -75,15 +75,13 @@ end;
 function IsAppInstalled(): Boolean;
 var
   uninstallKeyExists: Boolean;
-  installDirExists: Boolean;
   uninstallRegKey: String;
 begin
   uninstallRegKey := 'SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1';
 
   uninstallKeyExists := RegKeyExists(HKLM, uninstallRegKey);
-  installDirExists := DirExists(ExpandConstant('{pf}\Xelvanta Softworks\Roblox Custom Cursor'));
 
-  Result := uninstallKeyExists or installDirExists;
+  Result := uninstallKeyExists;
 end;
 
 
