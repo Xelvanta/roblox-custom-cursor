@@ -564,19 +564,19 @@ class CursorViewerApp(tk.Tk):
 
                 version = struct.unpack("<I", version_bytes)[0]
                 if version != EXPECTED_VERSION:
-                    raise ValueError(f"Unsupported .rcur version: {version}.")
+                    raise ValueError(f"This .rcur file uses an unsupported version: {version}.")
 
                 lengths = []
                 for _ in range(3):
                     len_bytes = f.read(4)
                     if len(len_bytes) < 4:
-                        raise ValueError("Corrupt file: missing image length information.")
+                        raise ValueError("The .rcur file is corrupt (missing image length data).")
                     lengths.append(struct.unpack("<I", len_bytes)[0])
 
                 for i, length in enumerate(lengths):
                     image_data = f.read(length)
                     if len(image_data) != length:
-                        raise ValueError("Corrupt file: one or more cursor images are incomplete.")
+                        raise ValueError("The .rcur file is corrupt (incomplete image data).")
 
                     with open(cursor_paths[i], "wb") as img_file:
                         img_file.write(image_data)
