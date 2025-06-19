@@ -4,7 +4,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/Xelvanta/roblox-custom-cursor?include_prereleases&label=Release&color=green)
 
 <p align="left">
-  <img src="app/data/images/rcur_icon_variable.ico" width="128" style="margin-right: 10px;">
+  <img src="app/data/images/rccapp_icon_variable.ico" width="128" style="margin-right: 10px;">
   <strong>Roblox Custom Cursor</strong> is a lightweight Windows application that makes it easy to customize your Roblox cursors with custom PNGs. 
   Version 3 introduces a rewrite with a user-friendly setup wizard for streamlined installation.
 </p>
@@ -52,7 +52,10 @@ After installation, **Roblox Custom Cursor** can be launched from the **Start Me
 
 ## 📂 `.rcur` File Association
 
-`.rcur` files store all three cursor images in a single file using a compact format. After installation, these files are:
+<p align="left">
+  <img src="app/data/images/rcur_icon_variable.ico" width="128" style="margin-right: 10px;">
+  <strong>.rcur</strong> files store all three cursor images in a single file using a compact format. After installation, these files are: 
+</p>
 
 * ✅ Registered to open with **Roblox Custom Cursor**
 * ✅ Double-clickable to apply directly
