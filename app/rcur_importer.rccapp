@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 import os
+import socket
 import sys
 import tkinter as tk
 from tkinter import messagebox
@@ -45,10 +48,19 @@ def import_cursors_from_rcur(rcur_path):
 
         tk.Tk().withdraw()
         messagebox.showinfo("Success", "Cursors imported and applied successfully.")
+        notify_gui_to_refresh()
 
     except Exception as e:
         tk.Tk().withdraw()
         messagebox.showerror("Error", f"Failed to import cursors:\n{e}")
+
+def notify_gui_to_refresh():
+    try:
+        with socket.create_connection(("127.0.0.1", 57623), timeout=0.5) as s:
+            s.sendall(b"refresh_cursors")
+    except (ConnectionRefusedError, socket.timeout, OSError):
+        # GUI is not running — ignore
+        pass
 
 def main():
     if len(sys.argv) < 2:
