@@ -29,6 +29,12 @@ Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-desig
 License: CC NC 1.0 — https://creativecommons.org/licenses/nc/1.0/
 Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
 
+FILENAME: donuts_kawaii.rcur
+Author: ツ☪ NaLexnu ♡♥
+Source: https://www.rw-designer.com/cursor-set/donutskawaiimd; https://www.rw-designer.com/cursor-download.php?id=175637; https://www.rw-designer.com/cursor-download.php?id=175641; https://www.rw-designer.com/cursor-download.php?id=107888
+License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; repositioned section of cursor(s).
+
 FILENAME: droplet_mini_cyan.rcur
 Author: ツ☪ NaLexnu ♡♥
 Source: https://www.rw-designer.com/cursor-set/droplet-mini-cyan; https://www.rw-designer.com/cursor-download.php?id=170135; https://www.rw-designer.com/cursor-download.php?id=170140; https://www.rw-designer.com/cursor-download.php?id=170138
@@ -39,4 +45,4 @@ FILENAME: kawaii_pink_heart.rcur
 Author: ツ☪ NaLexnu ♡♥
 Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md; https://www.rw-designer.com/cursor-download.php?id=174845; https://www.rw-designer.com/cursor-download.php?id=174842; https://www.rw-designer.com/cursor-download.php?id=174848
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
-Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; extracted static frame from animated cursor(s).

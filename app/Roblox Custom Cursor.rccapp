@@ -190,7 +190,7 @@ class CursorViewerApp(tk.Tk):
 
         icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
         self.icon_image = tk.PhotoImage(file=icon_path)
-        self.iconphoto(True, icon_image)
+        self.iconphoto(True, self.icon_image)
         
         self.image_refs = []  # Prevent garbage collection
         self.canvas_dict = {}  # Initialize canvas_dict here
@@ -361,21 +361,46 @@ class CursorViewerApp(tk.Tk):
         def change_button_action():
             """
             Handle the action for changing the cursor image.
-            Prompts the user to select a new PNG file and updates the cursor image.
-
+            Prompts the user to select a new image file and updates the cursor image.
+            Supports PNG, JPG, CUR, ANI, WEBP formats.
+            Converts and resizes to 64x64 PNG.
+        
             :return: None
             :rtype: None
             """
-            new_file = filedialog.askopenfilename(filetypes=[("PNG Files", "*.png")])
+            # Allow multiple formats
+            new_file = filedialog.askopenfilename(filetypes=[
+                ("Image Files", "*.png;*.jpg;*.jpeg;*.cur;*.webp"),
+                ("PNG Files", "*.png"),
+                ("JPEG Files", "*.jpg;*.jpeg"),
+                ("Cursor Files", "*.cur"),
+                ("WEBP Files", "*.webp"),
+                ("All Files", "*.*")
+            ])
+        
             if new_file:
                 try:
-                    img = Image.open(new_file).resize((64, 64), Image.Resampling.LANCZOS)
-                    img.save(filepath)
+                    img = Image.open(new_file)
+        
+                    # Handle animated cursor (.ani) or animated images by taking first frame
+                    if getattr(img, "is_animated", False):
+                        img = ImageSequence.Iterator(img)[0]
+        
+                    # Resize to 64x64 with good resampling
+                    img = img.convert("RGBA").resize((64, 64), Image.Resampling.LANCZOS)
+        
+                    # Save as PNG (overwrite your destination filepath)
+                    img.save(filepath, format="PNG")
+        
                     self.update_gui_with_new_image(filepath, label_text)
+        
                 except Exception as e:
-                    messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
-                                         "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-                                         "Restarting the application should fix this.")
+                    messagebox.showerror(
+                        "Error",
+                        f"Error updating image:\n\n{e}\n\n"
+                        "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                        "Restarting the application should fix this."
+                    )
 
         change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
         change_button.grid(row=2, column=col, pady=(5, 5))
