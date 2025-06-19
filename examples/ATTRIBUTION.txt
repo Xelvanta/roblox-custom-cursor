@@ -12,7 +12,22 @@
 #
 # These files must be used in accordance with their license terms, including
 # non-commercial restrictions, and proper attribution.
+#
+# New entries should be in alphabetical order by the filename.
+# Ensure all license information and source links are accurate and complete.
 # =============================================================================
+
+FILENAME: crosshair.rcur
+Author: SYNTHCRѺ
+Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-designer.com/cursor-download.php?id=42279; https://www.rw-designer.com/cursor-download.php?id=42287; https://www.rw-designer.com/cursor-download.php?id=42281
+License: CC NC 1.0 — https://creativecommons.org/licenses/nc/1.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+
+FILENAME: crosshair_alt.rcur
+Author: SYNTHCRѺ
+Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-designer.com/cursor-download.php?id=42280; https://www.rw-designer.com/cursor-download.php?id=42290; https://www.rw-designer.com/cursor-download.php?id=42281
+License: CC NC 1.0 — https://creativecommons.org/licenses/nc/1.0/
+Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
 
 FILENAME: droplet_mini_cyan.rcur
 Author: ツ☪ NaLexnu ♡♥
