@@ -2,7 +2,7 @@
 [Setup]
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.4.2.2
+AppVersion=3.5.0.0
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
