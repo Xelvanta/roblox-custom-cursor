@@ -4,6 +4,7 @@ import base64
 import json
 import os
 import socket
+import struct
 import subprocess
 import sys
 import tkinter as tk
