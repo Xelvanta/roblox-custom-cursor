@@ -189,7 +189,7 @@ class CursorViewerApp(tk.Tk):
         self.resizable(False, False)
 
         icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
-        icon_image = tk.PhotoImage(file=icon_path)
+        self.icon_image = tk.PhotoImage(file=icon_path)
         self.iconphoto(True, icon_image)
         
         self.image_refs = []  # Prevent garbage collection
