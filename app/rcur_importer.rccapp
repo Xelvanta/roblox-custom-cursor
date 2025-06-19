@@ -46,9 +46,9 @@ def import_cursors_from_rcur(rcur_path):
             with open(cursor_paths[i], "wb") as img_file:
                 img_file.write(decoded)
 
+        notify_gui_to_refresh()
         tk.Tk().withdraw()
         messagebox.showinfo("Success", "Cursors imported and applied successfully.")
-        notify_gui_to_refresh()
 
     except Exception as e:
         tk.Tk().withdraw()
@@ -59,7 +59,7 @@ def notify_gui_to_refresh():
         with socket.create_connection(("127.0.0.1", 57623), timeout=0.5) as s:
             s.sendall(b"refresh_cursors")
     except (ConnectionRefusedError, socket.timeout, OSError):
-        # GUI is not running — ignore
+        # GUI is not running â€” ignore
         pass
 
 def main():
