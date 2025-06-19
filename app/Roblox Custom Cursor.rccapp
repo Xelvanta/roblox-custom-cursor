@@ -526,52 +526,65 @@ class CursorViewerApp(tk.Tk):
             messagebox.showerror("Error", str(e))
             # print(f"[DEBUG] Error during export: {e}")
 
-    def import_cursors_from_rcur(self):
+    def import_cursors_from_rcur(self, rcur_path):
+        folder = find_valid_roblox_version_folder()
+        if not folder:
+            tk.Tk().withdraw()
+            messagebox.showerror("Roblox Folder Not Found", "Unable to locate a valid Roblox installation folder.")
+            return
+
+        cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
+        cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
+
+        MAGIC_HEADER = b"RCUR\x00"
+        EXPECTED_VERSION = 2
+
         try:
-            # Find Roblox folder
-            folder = find_valid_roblox_version_folder()
-            if not folder:
-                raise FileNotFoundError("Could not find a valid Roblox version folder.")
+            with open(rcur_path, "rb") as f:
+                magic = f.read(5)
+                if magic != MAGIC_HEADER:
+                    raise ValueError(
+                        "The selected .rcur file is using a legacy format (base64). Legacy base64-encoded .rcur files are no longer supported."
+                    )
 
-            cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
-            cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
+                version_bytes = f.read(4)
+                if len(version_bytes) < 4:
+                    raise ValueError("The .rcur file is corrupt or incomplete (missing version number).")
 
-            # Ask user to select the .rcur file to import
-            import_path = filedialog.askopenfilename(
-                filetypes=[("Roblox Custom Cursor Profile", "*.rcur"), ("All Files", "*.*")],
-                title="Select .rcur file to import"
-            )
-            if not import_path:
-                return  # User cancelled
+                version = struct.unpack("<I", version_bytes)[0]
+                if version != EXPECTED_VERSION:
+                    raise ValueError(f"Unsupported .rcur version: {version}.")
 
-            # Read all base64 lines from the .rcur file
-            with open(import_path, "r", encoding="utf-8") as f:
-                base64_lines = [line.strip() for line in f if line.strip()]
+                lengths = []
+                for _ in range(3):
+                    len_bytes = f.read(4)
+                    if len(len_bytes) < 4:
+                        raise ValueError("Corrupt file: missing image length information.")
+                    lengths.append(struct.unpack("<I", len_bytes)[0])
 
-            if len(base64_lines) != len(cursor_filenames):
-                raise ValueError(f"The .rcur file should contain exactly {len(cursor_filenames)} cursor images.")
+                for i, length in enumerate(lengths):
+                    image_data = f.read(length)
+                    if len(image_data) != length:
+                        raise ValueError("Corrupt file: one or more cursor images are incomplete.")
 
-            # For each cursor, decode and save image, then update GUI
-            for i, b64data in enumerate(base64_lines):
-                decoded = base64.b64decode(b64data)
-                # Save to the corresponding cursor file
-                with open(cursor_paths[i], "wb") as img_file:
-                    img_file.write(decoded)
+                    with open(cursor_paths[i], "wb") as img_file:
+                        img_file.write(image_data)
 
-                # Update GUI image for that cursor label
-                filename_to_canvas_label = {
-                    "ArrowFarCursor.png": "Arrow Far",
-                    "ArrowCursor.png": "Arrow",
-                    "IBeamCursor.png": "I-Beam"
-                }
-                label_text = filename_to_canvas_label[cursor_filenames[i]]
-                self.update_gui_with_new_image(cursor_paths[i], label_text)
+                    label_map = {
+                        "ArrowFarCursor.png": "Arrow Far",
+                        "ArrowCursor.png": "Arrow",
+                        "IBeamCursor.png": "I-Beam"
+                    }
+                    label_text = label_map[cursor_filenames[i]]
+                    self.update_gui_with_new_image(cursor_paths[i], label_text)
 
+            notify_gui_to_refresh()
+            tk.Tk().withdraw()
             messagebox.showinfo("Success", "Cursors imported and applied successfully.")
-            # print("[DEBUG] Label text:", label_text)
-            # print("[DEBUG] Canvas keys:", list(self.canvas_dict.keys()))
+
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to import cursors:\n{e}")
+            tk.Tk().withdraw()
+            messagebox.showerror("Import Failed", str(e))
 
     def show_settings_window(self):
         settings_win = tk.Toplevel(self)
