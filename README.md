@@ -124,7 +124,7 @@ If you want to experiment with **running the app using your own Python**, you ca
 
 ## 💡 Contributing
 
-Contributions are welcome! Help us improve **Roblox Custom Cursor** by submitting pull requests or reporting issues.
+[Contributions](CONTRIBUTING.md) are welcome! Help us improve **Roblox Custom Cursor** by [submitting pull requests](https://github.com/Xelvanta/roblox-custom-cursor/compare) or [reporting issues](https://github.com/Xelvanta/roblox-custom-cursor/issues/new).
 
 ---
 
