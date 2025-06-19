@@ -38,8 +38,6 @@ def enforce_nt_os():
         root.destroy()
         sys.exit(1)
 
-enforce_nt_os()
-
 # --- Utility functions ---
 
 def get_abs_path(relative_path):
@@ -747,4 +745,5 @@ def main():
     app.mainloop()
 
 if __name__ == "__main__":
+    enforce_nt_os()
     main()
