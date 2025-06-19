@@ -489,20 +489,16 @@ class CursorViewerApp(tk.Tk):
         try:
             # Find Roblox folder
             folder = find_valid_roblox_version_folder()
-            # print(f"[DEBUG] Roblox version folder found: {folder}")
-    
             # List of cursor filenames in order
             cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
-            encoded_cursors = []
+            cursor_images = []
 
             for filename in cursor_filenames:
                 filepath = os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", filename)
-                # print(f"[DEBUG] Checking file: {filepath}")
                 if not os.path.isfile(filepath):
                     raise FileNotFoundError(f"Cursor file missing: {filename}")
                 with open(filepath, "rb") as f:
-                    encoded = base64.b64encode(f.read()).decode("utf-8")
-                    encoded_cursors.append(encoded)
+                    cursor_images.append(f.read())
 
             # Ask user where to save the file
             save_path = filedialog.asksaveasfilename(
@@ -512,19 +508,24 @@ class CursorViewerApp(tk.Tk):
                 title="Save exported cursors as"
             )
             if not save_path:
-                # print("[DEBUG] Save cancelled by user.")
                 return
 
-            print(f"[DEBUG] Saving exported cursors to: {save_path}")
-            print(f"[DEBUG] Total encoded images: {len(encoded_cursors)}")
-            # Save base64 strings line by line
-            with open(save_path, "w", encoding="utf-8") as out_file:
-                out_file.write("\n".join(encoded_cursors))
+            # Write binary .rcur file
+            with open(save_path, "wb") as out_file:
+                # Write magic header
+                out_file.write(b"RCUR\x00")
+                # Write version number (4 bytes, little endian)
+                out_file.write(struct.pack("<I", 2))  # version 2
+                # Write lengths of each PNG image (4 bytes each)
+                for img in cursor_images:
+                    out_file.write(struct.pack("<I", len(img)))
+                # Write PNG image data consecutively
+                for img in cursor_images:
+                    out_file.write(img)
 
             messagebox.showinfo("Success", "Cursors exported successfully.")
         except Exception as e:
             messagebox.showerror("Error", str(e))
-            # print(f"[DEBUG] Error during export: {e}")
 
     def import_cursors_from_rcur(self, rcur_path):
         folder = find_valid_roblox_version_folder()
