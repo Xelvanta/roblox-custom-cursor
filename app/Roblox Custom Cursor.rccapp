@@ -528,7 +528,9 @@ class CursorViewerApp(tk.Tk):
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    def import_cursors_from_rcur(self, rcur_path):
+    def import_cursors_from_rcur(self):
+        from tkinter import filedialog
+
         folder = find_valid_roblox_version_folder()
         if not folder:
             tk.Tk().withdraw()
@@ -542,7 +544,14 @@ class CursorViewerApp(tk.Tk):
         EXPECTED_VERSION = 2
 
         try:
-            with open(rcur_path, "rb") as f:
+            import_path = filedialog.askopenfilename(
+                filetypes=[("Roblox Custom Cursor Profile", "*.rcur"), ("All Files", "*.*")],
+                title="Select .rcur file to import"
+            )
+            if not import_path:
+                return  # Cancelled
+
+            with open(import_path, "rb") as f:
                 magic = f.read(5)
                 if magic != MAGIC_HEADER:
                     raise ValueError(
