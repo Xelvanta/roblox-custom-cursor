@@ -17,6 +17,12 @@
 # Ensure all license information and source links are accurate and complete.
 # =============================================================================
 
+FILENAME: comic_sans.rcur
+Author: Alina Wan, Xelvanta Softworks
+Source: Created by repository administration.
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Modifications: None.
+
 FILENAME: crosshair.rcur
 Author: SYNTHCRѺ
 Source: https://www.rw-designer.com/cursor-set/crosshair-1; https://www.rw-designer.com/cursor-download.php?id=42279; https://www.rw-designer.com/cursor-download.php?id=42287; https://www.rw-designer.com/cursor-download.php?id=42281
@@ -52,6 +58,12 @@ Author: LisSweetie
 Source: https://www.rw-designer.com/cursor-set/genshin-impact-2; https://www.rw-designer.com/cursor-download.php?id=162781; https://www.rw-designer.com/cursor-download.php?id=162820; https://www.rw-designer.com/cursor-download.php?id=162793
 License: CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/
 Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG.
+
+FILENAME: hand_drawn.rcur
+Author: Alina Wan, Xelvanta Softworks
+Source: Created by repository administration.
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Modifications: None.
 
 FILENAME: kawaii_pink_heart.rcur
 Author: ツ☪ NaLexnu ♡♥
