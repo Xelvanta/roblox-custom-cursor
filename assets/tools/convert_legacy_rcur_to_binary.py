@@ -37,20 +37,47 @@ def convert_rcur_in_place(file_path):
         print(f"Conversion failed for '{file_path}': {e}", file=sys.stderr)
 
 def print_usage():
-    print("Usage: python convert_rcur_to_binary.py file1.rcur [file2.rcur ...]")
+    print("Usage:")
+    print("  python convert_rcur_to_binary.py file1.rcur [file2.rcur ...]")
+    print("  python convert_rcur_to_binary.py --folder path_to_folder")
+    print()
     print("Converts legacy base64-encoded .rcur files to binary .rcur format in-place.")
+    print("If --folder is specified, converts all .rcur files in the folder (no recursion).")
 
 def main():
-    if len(sys.argv) < 2:
+    args = sys.argv[1:]
+    if not args:
         print_usage()
         input("Press Enter to exit...")
         sys.exit(0)
 
-    for file_path in sys.argv[1:]:
-        if not os.path.isfile(file_path):
-            print(f"File not found: {file_path}", file=sys.stderr)
-            continue
-        convert_rcur_in_place(file_path)
+    if args[0] == "--folder":
+        if len(args) < 2:
+            print("Error: Missing folder path after --folder flag.", file=sys.stderr)
+            print_usage()
+            input("Press Enter to exit...")
+            sys.exit(1)
+        folder = args[1]
+        if not os.path.isdir(folder):
+            print(f"Folder not found: {folder}", file=sys.stderr)
+            input("Press Enter to exit...")
+            sys.exit(1)
+        # Process all .rcur files (non-recursive)
+        files = [f for f in os.listdir(folder) if f.lower().endswith(".rcur") and os.path.isfile(os.path.join(folder, f))]
+        if not files:
+            print(f"No .rcur files found in folder: {folder}")
+            input("Press Enter to exit...")
+            sys.exit(0)
+        for filename in files:
+            file_path = os.path.join(folder, filename)
+            convert_rcur_in_place(file_path)
+    else:
+        # Treat all args as individual files
+        for file_path in args:
+            if not os.path.isfile(file_path):
+                print(f"File not found: {file_path}", file=sys.stderr)
+                continue
+            convert_rcur_in_place(file_path)
 
 if __name__ == "__main__":
     main()
