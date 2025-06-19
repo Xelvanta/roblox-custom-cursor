@@ -124,6 +124,40 @@ This ensures that the importing logic is centralized and controlled.
 
 ---
 
+## 🚀 How to Run `.rccapp` Files for Development
+
+Roblox Custom Cursor uses `.rccapp` files, which are Python scripts renamed to run with the embedded Python interpreter bundled inside the project (`app/python/python.exe`).
+
+To run these scripts and test your changes, you have two simple options:
+
+### 1. Using a Terminal from the Project Root
+
+Open a command prompt window **in the root directory** of the Roblox Custom Cursor project, then run:
+
+```cmd
+app\python\python.exe "app\Roblox Custom Cursor.rccapp"
+```
+
+or to import a `.rcur` file:
+
+```cmd
+app\python\python.exe app\rcur_importer.rccapp "path\to\yourfile.rcur"
+```
+
+This method is quick and convenient if you work frequently in the project folder.
+
+### 2. Using Absolute Paths (Copy as Path)
+
+If you prefer, you can also run the scripts from **anywhere** by pasting the full absolute path into your command prompt:
+
+```cmd
+"C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\app\python\python.exe" "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor\app\rcur_importer.rccapp" "C:\path\to\yourfile.rcur"
+```
+
+> Use these commands to test imports, run the app, or debug scripts during development.
+
+---
+
 ## 🛠️ How to Contribute
 
 ### 1. Fork and Clone
@@ -250,6 +284,13 @@ This helps keep the project organized and easy to maintain.
 
 > ⚖️ `.rcur` profile files under `examples/` are data files and **may be licensed independently** of the repository’s GPLv3 license. They are **not required** to use a GPL-compatible license.
 
+---
+
+## ⚙️ Other Notes
+
+> Contributors extending or debugging certain features might find some of these notes useful.
+
+- **IPC**: The importer script communicates with the main application over a local socket on port `57623` to notify it to refresh cursor images after import. This internal inter-process communication (IPC) mechanism helps keep the GUI updated automatically without requiring manual refreshes.
 ---
 
 ## 📜 License Notice
