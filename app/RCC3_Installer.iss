@@ -33,9 +33,9 @@ Name: associate_rccapp; Description: "Associate .rccapp files with Roblox Custom
 Name: python_rcc3; Description: "Install Embedded Python 3.x Runtime for RCC3"; GroupDescription: "Required Steps:"
 
 [Icons]
-Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
-Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: startmenuicon
-Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rcur_icon_variable.ico"; Tasks: desktopicon
+Name: "{group}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: startmenuicon
+Name: "{group}\Uninstall Roblox Custom Cursor"; Filename: "{uninstallexe}"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: startmenuicon
+Name: "{userdesktop}\Roblox Custom Cursor"; Filename: "{app}\Roblox Custom Cursor.rccapp"; IconFilename: "{app}\data\images\rccapp_icon_variable.ico"; Tasks: desktopicon
 
 [Registry]
 ; Associate .rcur file with the app
@@ -47,7 +47,7 @@ Root: HKCR; Subkey: "rcurfile\shell\open\command"; ValueType: string; ValueData:
 ; Associate .rccapp file with the app
 Root: HKCR; Subkey: ".rccapp"; ValueType: string; ValueData: "rccappfile"; Flags: uninsdeletevalue; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile"; ValueType: string; ValueData: "Roblox Custom Cursor Application File"; Flags: uninsdeletekey; Tasks: associate_rccapp
-Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rcur_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
+Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{app}\data\images\rccapp_icon_variable.ico"; Flags: uninsdeletekey; Tasks: associate_rccapp
 Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rccapp
 
 [Run]
