@@ -362,7 +362,7 @@ class CursorViewerApp(tk.Tk):
             """
             Handle the action for changing the cursor image.
             Prompts the user to select a new image file and updates the cursor image.
-            Supports PNG, JPG, CUR, ANI, WEBP formats.
+            Supports PNG, JPG, CUR, and WEBP formats.
             Converts and resizes to 64x64 PNG.
         
             :return: None
@@ -381,10 +381,6 @@ class CursorViewerApp(tk.Tk):
             if new_file:
                 try:
                     img = Image.open(new_file)
-        
-                    # Handle animated cursor (.ani) or animated images by taking first frame
-                    if getattr(img, "is_animated", False):
-                        img = ImageSequence.Iterator(img)[0]
         
                     # Resize to 64x64 with good resampling
                     img = img.convert("RGBA").resize((64, 64), Image.Resampling.LANCZOS)
