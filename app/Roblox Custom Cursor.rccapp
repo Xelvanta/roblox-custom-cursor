@@ -589,7 +589,6 @@ class CursorViewerApp(tk.Tk):
                     label_text = label_map[cursor_filenames[i]]
                     self.update_gui_with_new_image(cursor_paths[i], label_text)
 
-            notify_gui_to_refresh()
             tk.Tk().withdraw()
             messagebox.showinfo("Success", "Cursors imported and applied successfully.")
 
