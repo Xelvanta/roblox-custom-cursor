@@ -75,15 +75,13 @@ end;
 function IsAppInstalled(): Boolean;
 var
   uninstallKeyExists: Boolean;
-  installDirExists: Boolean;
   uninstallRegKey: String;
 begin
   uninstallRegKey := 'SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1';
 
   uninstallKeyExists := RegKeyExists(HKLM, uninstallRegKey);
-  installDirExists := DirExists(ExpandConstant('{pf}\Xelvanta Softworks\Roblox Custom Cursor'));
 
-  Result := uninstallKeyExists or installDirExists;
+  Result := uninstallKeyExists;
 end;
 
 
