@@ -3,14 +3,18 @@
 import os
 import socket
 import sys
+import struct
 import tkinter as tk
 from tkinter import messagebox
-import base64
+
+MAGIC_HEADER = b"RCUR\x00"
+EXPECTED_VERSION = 2
+CURSOR_FILENAMES = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
 
 def find_valid_roblox_version_folder():
     local_appdata = os.environ.get("LOCALAPPDATA")
     versions_path = os.path.join(local_appdata, "Roblox", "Versions")
-    
+
     if not os.path.isdir(versions_path):
         return None
 
@@ -27,40 +31,58 @@ def find_valid_roblox_version_folder():
 def import_cursors_from_rcur(rcur_path):
     folder = find_valid_roblox_version_folder()
     if not folder:
-        tk.Tk().withdraw()
-        messagebox.showerror("Error", "Roblox version folder not found.")
+        messagebox.showerror("Roblox Folder Not Found", "Unable to locate a valid Roblox installation folder.")
         return
 
-    cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
-    cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
+    cursor_paths = [
+        os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn)
+        for fn in CURSOR_FILENAMES
+    ]
 
     try:
-        with open(rcur_path, "r", encoding="utf-8") as f:
-            base64_lines = [line.strip() for line in f if line.strip()]
+        with open(rcur_path, "rb") as f:
+            magic = f.read(5)
+            if magic != MAGIC_HEADER:
+                raise ValueError(
+                    "This file appears to be in an outdated format.\n\n"
+                    "Legacy base64-encoded .rcur files are no longer supported.\n"
+                    "Please convert this file using the included conversion tool."
+                )
 
-        if len(base64_lines) != len(cursor_filenames):
-            raise ValueError(f"The .rcur file should contain exactly {len(cursor_filenames)} base64 lines.")
+            version_bytes = f.read(4)
+            if len(version_bytes) < 4:
+                raise ValueError("The .rcur file is corrupt or incomplete (missing version number).")
 
-        for i, b64data in enumerate(base64_lines):
-            decoded = base64.b64decode(b64data)
-            with open(cursor_paths[i], "wb") as img_file:
-                img_file.write(decoded)
+            version = struct.unpack("<I", version_bytes)[0]
+            if version != EXPECTED_VERSION:
+                raise ValueError(f"This .rcur file uses an unsupported version: {version}.")
+
+            lengths = []
+            for _ in range(3):
+                len_bytes = f.read(4)
+                if len(len_bytes) < 4:
+                    raise ValueError("The .rcur file is corrupt (missing image length data).")
+                lengths.append(struct.unpack("<I", len_bytes)[0])
+
+            for i, length in enumerate(lengths):
+                image_data = f.read(length)
+                if len(image_data) != length:
+                    raise ValueError("The .rcur file is corrupt (incomplete image data).")
+                with open(cursor_paths[i], "wb") as img_file:
+                    img_file.write(image_data)
 
         notify_gui_to_refresh()
-        tk.Tk().withdraw()
         messagebox.showinfo("Success", "Cursors imported and applied successfully.")
 
     except Exception as e:
-        tk.Tk().withdraw()
-        messagebox.showerror("Error", f"Failed to import cursors:\n{e}")
+        messagebox.showerror("Import Failed", str(e))
 
 def notify_gui_to_refresh():
     try:
         with socket.create_connection(("127.0.0.1", 57623), timeout=0.5) as s:
             s.sendall(b"refresh_cursors")
     except (ConnectionRefusedError, socket.timeout, OSError):
-        # GUI is not running — ignore
-        pass
+        pass  # GUI is not running — ignore
 
 def main():
     if len(sys.argv) < 2:
@@ -68,8 +90,10 @@ def main():
 
     file_path = sys.argv[1]
     if not os.path.isfile(file_path):
-        sys.exit(0)
+        sys.exit(0)  # Silent exit for nonexistent file
 
+    # Prevent ghost Tk window popping up
+    tk.Tk().withdraw()
     import_cursors_from_rcur(file_path)
 
 if __name__ == "__main__":
