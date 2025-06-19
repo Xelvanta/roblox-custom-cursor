@@ -44,9 +44,7 @@ def import_cursors_from_rcur(rcur_path):
             magic = f.read(5)
             if magic != MAGIC_HEADER:
                 raise ValueError(
-                    "This file appears to be in an outdated format.\n\n"
-                    "Legacy base64-encoded .rcur files are no longer supported.\n"
-                    "Please convert this file using the included conversion tool."
+                    "The selected .rcur file is using a legacy format (base64). Legacy base64-encoded .rcur files are no longer supported."
                 )
 
             version_bytes = f.read(4)
