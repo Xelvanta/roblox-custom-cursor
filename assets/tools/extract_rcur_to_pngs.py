@@ -19,7 +19,7 @@ def extract_rcur(file_path, out_dir):
         offset = len(MAGIC_HEADER)
         version = struct.unpack("<I", content[offset:offset + 4])[0]
         if version != VERSION:
-            raise ValueError(f"Unsupported version: {version}. Expected: {VERSION}.")
+            print(f"Warning: File version is {version}, but expected {VERSION}. Continuing anyway.", file=sys.stderr)
 
         offset += 4
         lengths = struct.unpack("<" + "I" * EXPECTED_IMAGES, content[offset:offset + 4 * EXPECTED_IMAGES])
