@@ -71,6 +71,12 @@ Source: https://www.rw-designer.com/cursor-set/pinkiest-heart-md; https://www.rw
 License: CC BY-NC 4.0 — https://creativecommons.org/licenses/by-nc/4.0/
 Modifications: Resized canvas to 64×64; resized cursor to match standard Roblox size; hotspot moved to center; converted to static PNG; extracted static frame from animated cursor(s); exported to RCUR profile with Roblox Custom Cursor.
 
+FILENAME: precision_l.rcur
+Author: Alina Wan, Xelvanta Softworks
+Source: Created by repository administration.
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Modifications: Exported to RCUR profile with Roblox Custom Cursor.
+
 FILENAME: roblox_default.rcur
 Author: Derek Wong, Roblox Corporation
 Source: Extracted from %USERPROFILE%\AppData\Local\Roblox\
