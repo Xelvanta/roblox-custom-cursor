@@ -9,4 +9,5 @@
 | [genshin_impact_2.rcur](https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/genshin_impact_2.rcur) | ![genshin_impact_2.rcur](preview/genshin_impact_2.rcur.png) |
 | [hand_drawn.rcur](https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/hand_drawn.rcur) | ![hand_drawn.rcur](preview/hand_drawn.rcur.png) |
 | [kawaii_pink_heart.rcur](https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/kawaii_pink_heart.rcur) | ![kawaii_pink_heart.rcur](preview/kawaii_pink_heart.rcur.png) |
+| [precision_l.rcur](https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/precision_l.rcur) | ![precision_l.rcur](preview/precision_l.rcur.png) |
 | [roblox_default.rcur](https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/roblox_default.rcur) | ![roblox_default.rcur](preview/roblox_default.rcur.png) |
