@@ -304,6 +304,7 @@ This helps keep the project organized and easy to maintain.
 
 - **IPC**: The importer script communicates with the main application over a local socket on port `57623` to notify it to refresh cursor images after import. This internal inter-process communication (IPC) mechanism helps keep the GUI updated automatically without requiring manual refreshes.
 - **App GUID**: The application’s GUID is `c1004246-945e-4b7c-863e-e6c0184d4086`. In the Windows registry, it may appear as `{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1`.
+- **Python Development**: Contributors should rename the `.rccapp` file extension to `.pyw` if the it causes issues (eg. with highlighting) in IDEs or development environments. When testing or debugging, always run the file using the approved methods described in the [🚀 How to Run .rccapp Files for Development](#how-to-run-rccapp-files-for-development) section to ensure consistent behavior and avoid environment conflicts. Make sure to change the extension back before staging or committing.
 
 ---
 
