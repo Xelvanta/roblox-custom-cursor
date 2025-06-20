@@ -54,14 +54,14 @@ To contribute efficiently, we recommend the following tools:
 
 | Component          | Recommendation                              |
 | ------------------ | ------------------------------------------- |
-| OS                 | Windows 11                                  |
+| OS                 | Windows 10/11                               |
 | Python Interpreter | Python 3.x Runtime for RCC3 (`app/python/`) |
-| IDE (Python)       | VS Code, PyCharm, or any modern editor      |
+| IDE (Python)       | VS 2022, VS Code, or any modern editor      |
 | C++ Compiler       | MSVC (Visual Studio 2022)                   |
 | IDE (C++)          | Visual Studio 2022 (Community or higher)    |
 | Terminal           | PowerShell 5.1+ or Windows Terminal         |
 | Build Environment  | Developer Command Prompt for VS 2022        |
-| Inno Setup Compiler| Inno Setup Compiler 6.4+                    |
+| Inno Setup Compiler| Inno Setup Compiler 6.4+ (CI uses 6.4.3)    |
 
 > ⚠️ For C++ builds, only **MSVC (cl.exe)** via **Visual Studio 2022 Developer Command Prompt** is supported. Do not use MinGW or other toolchains.
 
