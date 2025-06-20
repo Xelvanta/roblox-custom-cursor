@@ -67,10 +67,6 @@ To contribute efficiently, we recommend the following tools:
 
 ---
 
-Here is your rewritten section, focusing on the binary format and header structure of `.rcur` files, while preserving the original description of `.rccapp`:
-
----
-
 ## 📁 Roblox Custom Cursor File Extensions
 
 Roblox Custom Cursor defines and uses several custom file extensions to structure its runtime and launcher behavior:
