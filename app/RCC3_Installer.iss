@@ -25,9 +25,6 @@ Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs cre
 ; Embedded python folder
 Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-[Dirs]
-Name: "{app}\python"; Flags: deleteafteruninstall
-
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
 Name: associate_rcur; Description: "Associate .&rcur files with Roblox Custom Cursor"; GroupDescription: "File Associations:"
