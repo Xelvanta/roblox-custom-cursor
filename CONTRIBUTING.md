@@ -194,6 +194,10 @@ You can contribute to:
 * Inno Setup script at `app/RCC3_Installer.iss`
 * Documentation or metadata at `README.md`, `CONTRIBUTING.md`, `assets/preview/`, etc.
 
+> 🚫 To keep the project secure and maintainable, any pull request that adds new or modifies existing `.exe` files will be denied.
+> Please do not commit `.exe` binaries or other executable files directly. If you believe you have a valid reason to do so, please open a discussion under the [Security Policies](https://github.com/Xelvanta/roblox-custom-cursor/discussions/new?category=security-policies) category before submitting.
+> Please see the **⚙️ Build Requirements** section for details on how CI handles building certain executables.
+
 ---
 
 ## ⚙️ Build Requirements
