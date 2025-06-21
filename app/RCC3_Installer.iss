@@ -2,7 +2,7 @@
 [Setup]
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.5.0.0
+AppVersion=3.5.0.1
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -19,11 +19,14 @@ Source: "Roblox Custom Cursor.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 ; Importer script
 Source: "rcur_importer.rccapp"; DestDir: "{app}"; Flags: ignoreversion
 
-; Data images folder
-Source: "data\images\*"; DestDir: "{app}\data\images"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Data folder
+Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Embedded python folder
 Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Dirs]
+Name: "{app}\python"; Flags: deleteafteruninstall
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
