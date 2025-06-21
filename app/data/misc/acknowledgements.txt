@@ -1,0 +1,24 @@
+Acknowledgements
+==================
+
+Core Development
+------------------
+Original Creator: Alina (Angelina)
+  - Lead developer, project maintainer, and feature designer
+  - Creator of the RCUR file format and embedded runtime integration
+
+Third-Party Assets
+------------------
+Python Software Foundation
+  - Embedded interpreter used as the backend engine
+Various Cursor Designers
+  - Example cursors used within the project and documentation
+
+Special Thanks
+------------------
+Everyone who tested, gave feedback, or simply believed in the vision
+
+==================
+Version: RCC3
+Date: June 2025
+// 47622056696c206e617120527a76796c2e

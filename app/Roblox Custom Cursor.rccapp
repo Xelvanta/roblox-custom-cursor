@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Main launcher for Roblox Custom Cursor application."""
 
 import base64
 import json
@@ -58,7 +59,7 @@ def find_valid_roblox_version_folder():
     """
     local_appdata = os.environ.get("LOCALAPPDATA")
     versions_path = os.path.join(local_appdata, "Roblox", "Versions")
-    
+
     if not os.path.isdir(versions_path):
         root = tk.Tk()
         root.withdraw()
@@ -189,8 +190,8 @@ class CursorViewerApp(tk.Tk):
         self.geometry("400x280")
         self.resizable(False, False)
 
-        icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
-        self.icon_image = tk.PhotoImage(file=icon_path)
+        abs_icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
+        self.icon_image = tk.PhotoImage(file=abs_icon_path)
         self.iconphoto(True, self.icon_image)
         
         self.image_refs = []  # Prevent garbage collection
@@ -308,7 +309,7 @@ class CursorViewerApp(tk.Tk):
 
         # Credits label
 
-        credits_text = "Made with ♡ by Xelvanta™ Softworks"
+        credits_text = "Made with ♡ by Alina"
 
         credits_label = tk.Label(
             self, text=credits_text,
@@ -392,14 +393,12 @@ class CursorViewerApp(tk.Tk):
                     self.update_gui_with_new_image(filepath, label_text)
         
                 except Exception as e:
-                    messagebox.showerror(
-                        "Error",
-                        f"Error updating image:\n\n{e}\n\n"
-                        "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-                        "Restarting the application should fix this."
-                    )
+                    messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
+                                         "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                         "Restarting the application should fix this.")
 
-        change_button = tk.Button(container, text="Change Cursor", command=change_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
+        change_button = tk.Button(container, text="Change Cursor", command=change_button_action,
+                                  bg="#444444", fg="white", width=13, cursor="hand2")
         change_button.grid(row=2, column=col, pady=(5, 5))
         change_button.bind("<Enter>", lambda e: change_button.config(bg="#2e2e2e"))
         change_button.bind("<Leave>", lambda e: change_button.config(bg="#444444"))
@@ -427,9 +426,9 @@ class CursorViewerApp(tk.Tk):
                 self.update_gui_with_new_image(filepath, label_text)
         
             except Exception as e:
-                    messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
-                                         "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-                                         "Restarting the application should fix this.")
+                messagebox.showerror("Error", f"Error updating image:\n\n{e}\n\n"
+                                     "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                     "Restarting the application should fix this.")
         
         # Create the restore default button
         default_button = tk.Button(container, text="Restore Default", command=default_button_action,
@@ -481,7 +480,8 @@ class CursorViewerApp(tk.Tk):
             # Open Photopea in a new browser tab with the encoded JSON URL
             webbrowser.open(photopea_url)
 
-        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action, bg="#444444", fg="white", width=13, cursor="hand2")
+        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action,
+                                    bg="#444444", fg="white", width=13, cursor="hand2")
         photopea_button.grid(row=4, column=col, pady=(0, 5))
         photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
         photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
@@ -529,7 +529,6 @@ class CursorViewerApp(tk.Tk):
             messagebox.showerror("Error", str(e))
 
     def import_cursors_from_rcur(self):
-        from tkinter import filedialog
 
         folder = find_valid_roblox_version_folder()
         if not folder:
@@ -610,8 +609,7 @@ class CursorViewerApp(tk.Tk):
             container = tk.Frame(parent, bg="#1e1e1e")
             container.pack(pady=3)
 
-            btn = tk.Button(container, text=text,
-                            command=command,
+            btn = tk.Button(container, text=text, command=command,
                             bg="#444444", fg="white", cursor="hand2", width=25)
             btn.pack(side="left")
             btn.bind("<Enter>", lambda e: btn.config(bg="#2e2e2e"))
@@ -628,8 +626,13 @@ class CursorViewerApp(tk.Tk):
 
             return btn, info_label
 
-        export_btn, export_info = create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur, "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\nThis file can be shared or imported later to restore your full cursor set.")
-        import_btn, import_info = create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur, "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\nThis will replace your currently applied cursor set with the full set from the profile.")
+        create_button_with_info(settings_win, "Export Cursors as Profile", self.export_cursors_to_rcur,
+                                "Export your currently applied cursors as a Roblox Custom Cursor Profile (.rcur) file.\n"
+                                "This file can be shared or imported later to restore your full cursor set.")
+
+        create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur,
+                                "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\n"
+                                "This will replace your currently applied cursor set with the full set from the profile.")
 
         # Report a bug label
 
@@ -648,7 +651,7 @@ class CursorViewerApp(tk.Tk):
         bug_label.bind("<Leave>", lambda e: bug_label.config(font=("Segoe UI", 8), text=bug_text))
 
         close_btn = tk.Button(settings_win, text="Close", command=settings_win.destroy,
-                          bg="#444444", fg="white", cursor="hand2")
+                              bg="#444444", fg="white", cursor="hand2")
         close_btn.pack(pady=20)
         close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#2e2e2e"))
         close_btn.bind("<Leave>", lambda e: close_btn.config(bg="#444444"))
@@ -698,8 +701,8 @@ class CursorViewerApp(tk.Tk):
             subprocess.run(['explorer', '/select,', os.path.normpath(filepath)])
         else:
             messagebox.showerror("Error", "Error showing image in explorer:\n\nFile or folder not found during runtime.\n\n"
-                                           "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
-                                           "Restarting the application should fix this.")
+                                 "This usually occurs when the Roblox folder or file was moved or deleted during runtime. "
+                                 "Restarting the application should fix this.")
 
     def refresh_all_images(self):
         for i, filename in enumerate(self.cursor_filenames):
