@@ -18,7 +18,14 @@ Special Thanks
 ------------------
 Everyone who tested, gave feedback, or simply believed in the vision
 
-==================
+Project Links
+------------------
+Repository: https://github.com/Xelvanta/roblox-custom-cursor
+Xelvanta Group (organization): https://github.com/Xelvanta-Group  
+Xelvanta: https://github.com/Xelvanta  
+Alina Wan: https://github.com/AlinaWan
+
+===================
 Version: RCC3
 Date: June 2025
 // 47622056696c206e617120527a76796c2e
