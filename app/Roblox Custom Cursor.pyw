@@ -213,7 +213,7 @@ class CursorViewerApp(tk.Tk):
         super().__init__()
         self.title("Roblox Custom Cursor")
         self.configure(bg="#1e1e1e")
-        self.geometry("400x300")
+        self.geometry("400x290")
         self.resizable(False, False)
 
         abs_icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
@@ -261,7 +261,7 @@ class CursorViewerApp(tk.Tk):
         :rtype: None
         """
         container = tk.Frame(self, bg="#1e1e1e")
-        container.place(relx=0.5, rely=0.42, anchor="center")
+        container.place(relx=0.5, rely=0.46, anchor="center")
 
         for index, (label_text, pil_image, filepath) in enumerate(image_data):
             col = index % 3
@@ -326,12 +326,13 @@ class CursorViewerApp(tk.Tk):
             # Add Change, Default, and Photopea buttons
             self.add_buttons(container, col, filepath, label_text, pil_image)
 
-        # Disclaimer
-        disclaimer_label = tk.Label(
-            self, text="Roblox Custom Cursor is not affiliated with or endorsed by Photopea",
-            fg="#525252", bg="#1e1e1e", font=("Segoe UI", 8)
-        )
-        disclaimer_label.place(relx=0.5, rely=1, anchor="s")
+        # Disclaimer (only show if nudge_mode is False, i.e., Edit in Photopea button is active)
+        if not self.config.get("nudge_mode", True):
+            disclaimer_label = tk.Label(
+                self, text="Roblox Custom Cursor is not affiliated with or endorsed by Photopea",
+                fg="#525252", bg="#1e1e1e", font=("Segoe UI", 8)
+            )
+            disclaimer_label.place(relx=0.5, rely=1, anchor="s")
 
         # Credits label
 
@@ -341,7 +342,7 @@ class CursorViewerApp(tk.Tk):
             self, text=credits_text,
             fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="heart"
         )
-        credits_label.place(relx=0.5, rely=0.95, anchor="s")
+        credits_label.place(relx=0.5, rely=0.95 if not self.config.get("nudge_mode", True) else 1, anchor="s")  # Credits label positioned above the disclaimer if it exists
 
         # Make the credits label a clickable link
         credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
@@ -469,21 +470,30 @@ class CursorViewerApp(tk.Tk):
             nudge_frame.grid(row=4, column=col, pady=(0, 5))
         
             up_btn = tk.Button(
-                nudge_frame, text="↑", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, -1)
+                nudge_frame, text="↑", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, -1),
+                bg="#444444", fg="white", cursor="hand2"
             )
             left_btn = tk.Button(
-                nudge_frame, text="←", width=3, command=lambda: self.nudge_image(filepath, label_text, -1, 0)
+                nudge_frame, text="←", width=3, command=lambda: self.nudge_image(filepath, label_text, -1, 0),
+                bg="#444444", fg="white", cursor="hand2"
             )
             down_btn = tk.Button(
-                nudge_frame, text="↓", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, 1)
+                nudge_frame, text="↓", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, 1),
+                bg="#444444", fg="white", cursor="hand2"
             )
             right_btn = tk.Button(
-                nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0)
+                nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0),
+                bg="#444444", fg="white", cursor="hand2"
             )
             up_btn.grid(row=1, column=1)
             left_btn.grid(row=2, column=0)
             down_btn.grid(row=2, column=1)
             right_btn.grid(row=2, column=2)
+
+            for btn in (up_btn, left_btn, down_btn, right_btn):
+                btn.bind("<Enter>", lambda e, b=btn: b.config(bg="#2e2e2e"))
+                btn.bind("<Leave>", lambda e, b=btn: b.config(bg="#444444"))
+
         else:
             def photopea_button_action():
                 with open(filepath, "rb") as img_file:
