@@ -190,7 +190,8 @@ class CursorViewerApp(tk.Tk):
     def load_config(self):
         try:
             with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-                print(CONFIG_PATH)
+                # Uncomment the following line to debug config path
+                # print(CONFIG_PATH)
                 return json.load(f)
         except Exception:
             return {"nudge_mode": True, "show_reference": False}
