@@ -496,6 +496,31 @@ class CursorViewerApp(tk.Tk):
         default_button.bind("<Enter>", lambda e: default_button.config(bg="#2e2e2e"))
         default_button.bind("<Leave>", lambda e: default_button.config(bg="#444444"))
 
+        def shrink_image():
+            try:
+                img = Image.open(filepath).convert("RGBA")
+                # Shrink by 2px (to 62x62), then paste centered on transparent 64x64
+                new_img = Image.new("RGBA", (64, 64), (0, 0, 0, 0))
+                shrunk = img.resize((62, 62), Image.Resampling.LANCZOS)
+                new_img.paste(shrunk, (1, 1))
+                new_img.save(filepath, format="PNG")
+                self.update_gui_with_new_image(filepath, label_text)
+            except Exception as e:
+                messagebox.showerror("Error", f"Error shrinking image:\n\n{e}")
+
+        def enlarge_image():
+            try:
+                img = Image.open(filepath).convert("RGBA")
+                # Enlarge by 2px (to 66x66), then crop center 64x64
+                enlarged = img.resize((66, 66), Image.Resampling.LANCZOS)
+                left = (66 - 64) // 2
+                top = (66 - 64) // 2
+                cropped = enlarged.crop((left, top, left + 64, top + 64))
+                cropped.save(filepath, format="PNG")
+                self.update_gui_with_new_image(filepath, label_text)
+            except Exception as e:
+                messagebox.showerror("Error", f"Error enlarging image:\n\n{e}")
+
         # --- Nudge Arrows or Photopea Button, depending on config ---
         if self.config.get("nudge_mode", True):
             nudge_frame = tk.Frame(container, bg="#1e1e1e")
@@ -517,12 +542,22 @@ class CursorViewerApp(tk.Tk):
                 nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0),
                 bg="#444444", fg="white", cursor="hand2"
             )
+            shrink_btn = tk.Button(
+                nudge_frame, text="−", width=3, command=shrink_image,
+                bg="#444444", fg="white", cursor="hand2"
+            )
+            enlarge_btn = tk.Button(
+                nudge_frame, text="+", width=3, command=enlarge_image,
+                bg="#444444", fg="white", cursor="hand2"
+            )
+            shrink_btn.grid(row=1, column=0)
+            enlarge_btn.grid(row=1, column=2)
             up_btn.grid(row=1, column=1)
             left_btn.grid(row=2, column=0)
             down_btn.grid(row=2, column=1)
             right_btn.grid(row=2, column=2)
 
-            for btn in (up_btn, left_btn, down_btn, right_btn):
+            for btn in (up_btn, left_btn, down_btn, right_btn, shrink_btn, enlarge_btn):
                 btn.bind("<Enter>", lambda e, b=btn: b.config(bg="#2e2e2e"))
                 btn.bind("<Leave>", lambda e, b=btn: b.config(bg="#444444"))
 
@@ -721,7 +756,7 @@ class CursorViewerApp(tk.Tk):
 
         def get_nudge_mode_text():
             return (
-                "Switch to Photopea Button"
+                "Switch to Photopea Buttons"
                 if self.config.get("nudge_mode", True)
                 else "Switch to Nudge Arrows"
             )
