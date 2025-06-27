@@ -486,6 +486,81 @@ class CursorViewerApp(tk.Tk):
         photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
         photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
 
+        # --- Nudge Cursor Toggle Button ---
+        nudge_frame = tk.Frame(container, bg="#1e1e1e")
+        nudge_frame.grid(row=4, column=col, pady=(0, 5))
+        nudge_controls = {}
+    
+        def toggle_nudge():
+            if nudge_controls.get("active", False):
+                # Hide nudge controls
+                for btn in nudge_controls.values():
+                    if isinstance(btn, tk.Button):
+                        btn.grid_remove()
+                nudge_controls["active"] = False
+                nudge_toggle_btn.config(text="Nudge Cursor")
+            else:
+                # Show nudge controls
+                up_btn.grid(row=1, column=1)
+                left_btn.grid(row=2, column=0)
+                down_btn.grid(row=2, column=1)
+                right_btn.grid(row=2, column=2)
+                nudge_controls["active"] = True
+                nudge_toggle_btn.config(text="Stop Nudging")
+    
+        nudge_toggle_btn = tk.Button(
+            nudge_frame, text="Nudge Cursor", bg="#444444", fg="white", width=13, cursor="hand2",
+            command=toggle_nudge
+        )
+        nudge_toggle_btn.grid(row=0, column=0, columnspan=3)
+        nudge_toggle_btn.bind("<Enter>", lambda e: nudge_toggle_btn.config(bg="#2e2e2e"))
+        nudge_toggle_btn.bind("<Leave>", lambda e: nudge_toggle_btn.config(bg="#444444"))
+    
+        # Arrow buttons (hidden by default)
+        up_btn = tk.Button(
+            nudge_frame, text="↑", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, -1)
+        )
+        left_btn = tk.Button(
+            nudge_frame, text="←", width=3, command=lambda: self.nudge_image(filepath, label_text, -1, 0)
+        )
+        down_btn = tk.Button(
+            nudge_frame, text="↓", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, 1)
+        )
+        right_btn = tk.Button(
+            nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0)
+        )
+        # Initially hidden
+        up_btn.grid(row=1, column=1)
+        left_btn.grid(row=2, column=0)
+        down_btn.grid(row=2, column=1)
+        right_btn.grid(row=2, column=2)
+        for btn in (up_btn, left_btn, down_btn, right_btn):
+            btn.grid_remove()
+    
+        nudge_controls.update({
+            "active": False,
+            "up": up_btn,
+            "left": left_btn,
+            "down": down_btn,
+            "right": right_btn
+        })
+    
+    def nudge_image(self, filepath, label_text, dx, dy):
+        """
+        Shift the image by (dx, dy) pixels, wrapping around, and update the preview.
+        """
+        try:
+            img = Image.open(filepath).convert("RGBA")
+            # Create a new blank image
+            new_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
+            # Paste the original image shifted by (dx, dy)
+            new_img.paste(img, (dx, dy))
+            new_img = new_img.crop((0, 0, 64, 64))
+            new_img.save(filepath, format="PNG")
+            self.update_gui_with_new_image(filepath, label_text)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error nudging image:\n\n{e}")
+
     def export_cursors_to_rcur(self):
         try:
             # Find Roblox folder
