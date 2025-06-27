@@ -193,7 +193,7 @@ class CursorViewerApp(tk.Tk):
                 print(CONFIG_PATH)
                 return json.load(f)
         except Exception:
-            return {"nudge_mode": True}
+            return {"nudge_mode": True, "show_reference": False}
 
     def save_config(self):
         try:
@@ -256,6 +256,19 @@ class CursorViewerApp(tk.Tk):
 
         self.start_refresh_listener()
         self.build_ui(image_data)
+
+    def draw_reference_overlay(self, canvas, label_text):
+        if not self.config.get("show_reference", False):
+            return
+        default_path = get_abs_path(default_cursor_paths[label_text])
+        if os.path.exists(default_path):
+            ref_img = Image.open(default_path).resize((64, 64), Image.Resampling.LANCZOS).convert("RGBA")
+            # Set alpha to 128 (0.5 opacity)
+            alpha = ref_img.split()[-1].point(lambda p: int(p * 0.5))
+            ref_img.putalpha(alpha)
+            ref_tk_img = ImageTk.PhotoImage(ref_img)
+            self.image_refs.append(ref_tk_img)
+            canvas.create_image(50, 50, image=ref_tk_img)
 
     def build_ui(self, image_data):
         """
@@ -329,6 +342,7 @@ class CursorViewerApp(tk.Tk):
             if pil_image:
                 tk_img = ImageTk.PhotoImage(pil_image)
                 self.image_refs.append(tk_img)
+                self.draw_reference_overlay(canvas, label_text)
                 self.draw_image_with_bbox(canvas, pil_image, tk_img)
             else:
                 canvas.create_text(50, 50, text="Not found", fill="gray", font=("Arial", 8))
@@ -727,8 +741,34 @@ class CursorViewerApp(tk.Tk):
             settings_win,
             get_nudge_mode_text(),
             on_toggle_nudge_mode,
-            "Toggle between using the in-app nudge arrows and the legacy\n"
-            "'Edit in Photopea' button to adjust your cursor offset."
+            "Toggle between using the in-app nudge arrows and the\n"
+            "legacy 'Edit in Photopea' button to adjust your cursor offset."
+        )
+
+        def get_reference_mode_text():
+            return (
+                "Hide Reference Images"
+                if self.config.get("show_reference", False)
+                else "Show Reference Images"
+            )
+
+        def on_toggle_reference_mode():
+            self.config["show_reference"] = not self.config.get("show_reference", False)
+            self.save_config()
+            reference_btn.config(text=get_reference_mode_text())
+            # Rebuild UI to reflect the change
+            for widget in self.winfo_children():
+                widget.destroy()
+            self.build_ui(load_cursor_images(
+                os.path.join(find_valid_roblox_version_folder(), "content", "textures", "Cursors", "KeyboardMouse")
+            ))
+
+        reference_btn, reference_info = create_button_with_info(
+            settings_win,
+            get_reference_mode_text(),
+            on_toggle_reference_mode,
+            "Toggle a semi-transparent overlay of the default\n"
+            "cursor image below your current cursor for reference."
         )
 
         # Report a bug label
@@ -780,6 +820,7 @@ class CursorViewerApp(tk.Tk):
             draw_rounded_rect(canvas, 10, 10, 90, 90, radius=20, fill="#2e2e2e", outline="#444444", width=2)
             canvas.create_line(0, 50, 100, 50, fill="#666666", width=1)
             canvas.create_line(50, 0, 50, 100, fill="#666666", width=1)
+            self.draw_reference_overlay(canvas, label_text)
             self.draw_image_with_bbox(canvas, pil_image, tk_img)
 
     def open_in_explorer(self, filepath):
