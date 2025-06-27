@@ -26,7 +26,7 @@ Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs cre
 Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; App data
-Source: "config.json"; DestDir: "{localappdata}\Xelvanta Softworks\Roblox Custom Cursor"; Flags: ignoreversion createallsubdirs
+Source: "config.json"; DestDir: "{localappdata}\Xelvanta Softworks\Roblox Custom Cursor"; Flags: ignoreversion
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
