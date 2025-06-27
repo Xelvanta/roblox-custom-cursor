@@ -202,6 +202,18 @@ class CursorViewerApp(tk.Tk):
         except Exception:
             pass
 
+    def draw_image_with_bbox(self, canvas, pil_image, tk_img):
+        # Center of canvas is (50, 50), image is 64x64
+        offset_x = 50 - 32
+        offset_y = 50 - 32
+        # Draw the image
+        canvas.create_image(50, 50, image=tk_img)
+        # Draw bounding box for the full image area (64x64)
+        canvas.create_rectangle(
+            offset_x, offset_y, offset_x + 64, offset_y + 64,
+            outline="#444444", width=1
+        )
+
     def __init__(self, image_data):
         """
         Initialize the CursorViewerApp window with a title, icon, and a canvas for displaying
@@ -261,7 +273,7 @@ class CursorViewerApp(tk.Tk):
         :rtype: None
         """
         container = tk.Frame(self, bg="#1e1e1e")
-        container.place(relx=0.5, rely=0.46, anchor="center")
+        container.place(relx=0.5, rely=0.45, anchor="center")
 
         for index, (label_text, pil_image, filepath) in enumerate(image_data):
             col = index % 3
@@ -317,7 +329,7 @@ class CursorViewerApp(tk.Tk):
             if pil_image:
                 tk_img = ImageTk.PhotoImage(pil_image)
                 self.image_refs.append(tk_img)
-                canvas.create_image(50, 50, image=tk_img)
+                self.draw_image_with_bbox(canvas, pil_image, tk_img)
             else:
                 canvas.create_text(50, 50, text="Not found", fill="gray", font=("Arial", 8))
 
@@ -333,6 +345,12 @@ class CursorViewerApp(tk.Tk):
                 fg="#525252", bg="#1e1e1e", font=("Segoe UI", 8)
             )
             disclaimer_label.place(relx=0.5, rely=1, anchor="s")
+        else:
+            disclaimer_label = tk.Label(
+                self, text="ⓘ Nudging beyond the image edge will trim the image",
+                fg="#525252", bg="#1e1e1e", font=("Segoe UI", 8)
+            )
+            disclaimer_label.place(relx=0.5, rely=1, anchor="s")
 
         # Credits label
 
@@ -342,7 +360,7 @@ class CursorViewerApp(tk.Tk):
             self, text=credits_text,
             fg="#A9A9A9", bg="#1e1e1e", font=("Segoe UI", 8), cursor="heart"
         )
-        credits_label.place(relx=0.5, rely=0.95 if not self.config.get("nudge_mode", True) else 1, anchor="s")  # Credits label positioned above the disclaimer if it exists
+        credits_label.place(relx=0.5, rely=0.95, anchor="s")  # Credits label positioned above the disclaimer if it exists
 
         # Make the credits label a clickable link
         credits_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/Xelvanta/roblox-custom-cursor"))
@@ -709,8 +727,8 @@ class CursorViewerApp(tk.Tk):
             settings_win,
             get_nudge_mode_text(),
             on_toggle_nudge_mode,
-            "Toggle between showing nudge arrows (for pixel shifting the cursor)\n"
-            "and the legacy Edit in Photopea button which opens the cursor in Photopea."
+            "Toggle between using the in-app nudge arrows and the legacy\n"
+            "'Edit in Photopea' button to adjust your cursor offset."
         )
 
         # Report a bug label
@@ -762,7 +780,7 @@ class CursorViewerApp(tk.Tk):
             draw_rounded_rect(canvas, 10, 10, 90, 90, radius=20, fill="#2e2e2e", outline="#444444", width=2)
             canvas.create_line(0, 50, 100, 50, fill="#666666", width=1)
             canvas.create_line(50, 0, 50, 100, fill="#666666", width=1)
-            canvas.create_image(50, 50, image=tk_img)
+            self.draw_image_with_bbox(canvas, pil_image, tk_img)
 
     def open_in_explorer(self, filepath):
         """
