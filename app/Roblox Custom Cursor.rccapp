@@ -162,6 +162,16 @@ default_cursor_paths = {
 
 icon_path = "data/images/RobloxCustomCursorIcon.png"
 
+def get_config_path():
+    config_dir = os.environ.get("LOCALAPPDATA")
+    if not config_dir:
+        raise RuntimeError("LOCALAPPDATA environment variable not set.")
+    config_folder = os.path.join(config_dir, "Xelvanta Softworks", "Roblox Custom Cursor")
+    os.makedirs(config_folder, exist_ok=True)
+    return os.path.join(config_folder, "config.json")
+
+CONFIG_PATH = get_config_path()
+
 # --- Main app class ---
 class CursorViewerApp(tk.Tk):
     """
@@ -176,6 +186,22 @@ class CursorViewerApp(tk.Tk):
                        list of tuples with cursor labels, images, and file paths.
     :type image_data: list[tuple[str, PIL.Image.Image | None, str]]
     """
+
+    def load_config(self):
+        try:
+            with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+                print(CONFIG_PATH)
+                return json.load(f)
+        except Exception:
+            return {"nudge_mode": True}
+
+    def save_config(self):
+        try:
+            with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+                json.dump(self.config, f, indent=2)
+        except Exception:
+            pass
+
     def __init__(self, image_data):
         """
         Initialize the CursorViewerApp window with a title, icon, and a canvas for displaying
@@ -187,7 +213,7 @@ class CursorViewerApp(tk.Tk):
         super().__init__()
         self.title("Roblox Custom Cursor")
         self.configure(bg="#1e1e1e")
-        self.geometry("400x280")
+        self.geometry("400x300")
         self.resizable(False, False)
 
         abs_icon_path = get_abs_path("data/images/RobloxCustomCursorIcon.png")
@@ -196,7 +222,7 @@ class CursorViewerApp(tk.Tk):
         
         self.image_refs = []  # Prevent garbage collection
         self.canvas_dict = {}  # Initialize canvas_dict here
-        self.build_ui(image_data)
+        self.config = self.load_config()
 
         self.cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
         self.label_map = {
@@ -217,7 +243,7 @@ class CursorViewerApp(tk.Tk):
         ]
 
         self.start_refresh_listener()
-
+        self.build_ui(image_data)
 
     def build_ui(self, image_data):
         """
@@ -437,113 +463,55 @@ class CursorViewerApp(tk.Tk):
         default_button.bind("<Enter>", lambda e: default_button.config(bg="#2e2e2e"))
         default_button.bind("<Leave>", lambda e: default_button.config(bg="#444444"))
 
-        # Photopea button
-        def photopea_button_action():
-            """
-            Handle the action for opening the cursor image in Photopea.
-            Converts the cursor image to base64, constructs a URL for Photopea, and opens it in a browser.
-
-            :return: None
-            :rtype: None
-            """
-            # Convert image to base64 and encode it
-            with open(filepath, "rb") as img_file:
-                img_base64 = base64.b64encode(img_file.read()).decode('utf-8')
-            
-            config = {
-                "files": [
-                    f"data:image/png;base64,{img_base64}"
-                ],
-                "environment": {
-                    "eparams": {
-                        "guides": True,
-                        "grid": True,
-                        "gsize": 32,
-                        "paths": True,
-                        "pgrid": True
+        # --- Nudge Arrows or Photopea Button, depending on config ---
+        if self.config.get("nudge_mode", True):
+            nudge_frame = tk.Frame(container, bg="#1e1e1e")
+            nudge_frame.grid(row=4, column=col, pady=(0, 5))
+        
+            up_btn = tk.Button(
+                nudge_frame, text="↑", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, -1)
+            )
+            left_btn = tk.Button(
+                nudge_frame, text="←", width=3, command=lambda: self.nudge_image(filepath, label_text, -1, 0)
+            )
+            down_btn = tk.Button(
+                nudge_frame, text="↓", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, 1)
+            )
+            right_btn = tk.Button(
+                nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0)
+            )
+            up_btn.grid(row=1, column=1)
+            left_btn.grid(row=2, column=0)
+            down_btn.grid(row=2, column=1)
+            right_btn.grid(row=2, column=2)
+        else:
+            def photopea_button_action():
+                with open(filepath, "rb") as img_file:
+                    img_base64 = base64.b64encode(img_file.read()).decode('utf-8')
+                config = {
+                    "files": [
+                        f"data:image/png;base64,{img_base64}"
+                    ],
+                    "environment": {
+                        "eparams": {
+                            "guides": True,
+                            "grid": True,
+                            "gsize": 32,
+                            "paths": True,
+                            "pgrid": True
+                        }
                     }
                 }
-            }
-
-            # Convert the configuration to a JSON string
-            config_str = json.dumps(config)
-
-            # URL-encode the JSON string
-            encoded_config = urllib.parse.quote(config_str)
-
-            # Construct the Photopea URL
-            photopea_url = f"https://www.photopea.com#{encoded_config}"
-
-            # Uncomment this line as needed to debug the encoded URL
-            # print("Encoded URL:", photopea_url)
-
-            # Open Photopea in a new browser tab with the encoded JSON URL
-            webbrowser.open(photopea_url)
-
-        photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action,
-                                    bg="#444444", fg="white", width=13, cursor="hand2")
-        photopea_button.grid(row=4, column=col, pady=(0, 5))
-        photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
-        photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
-
-        # --- Nudge Cursor Toggle Button ---
-        nudge_frame = tk.Frame(container, bg="#1e1e1e")
-        nudge_frame.grid(row=4, column=col, pady=(0, 5))
-        nudge_controls = {}
-    
-        def toggle_nudge():
-            if nudge_controls.get("active", False):
-                # Hide nudge controls
-                for btn in nudge_controls.values():
-                    if isinstance(btn, tk.Button):
-                        btn.grid_remove()
-                nudge_controls["active"] = False
-                nudge_toggle_btn.config(text="Nudge Cursor")
-            else:
-                # Show nudge controls
-                up_btn.grid(row=1, column=1)
-                left_btn.grid(row=2, column=0)
-                down_btn.grid(row=2, column=1)
-                right_btn.grid(row=2, column=2)
-                nudge_controls["active"] = True
-                nudge_toggle_btn.config(text="Stop Nudging")
-    
-        nudge_toggle_btn = tk.Button(
-            nudge_frame, text="Nudge Cursor", bg="#444444", fg="white", width=13, cursor="hand2",
-            command=toggle_nudge
-        )
-        nudge_toggle_btn.grid(row=0, column=0, columnspan=3)
-        nudge_toggle_btn.bind("<Enter>", lambda e: nudge_toggle_btn.config(bg="#2e2e2e"))
-        nudge_toggle_btn.bind("<Leave>", lambda e: nudge_toggle_btn.config(bg="#444444"))
-    
-        # Arrow buttons (hidden by default)
-        up_btn = tk.Button(
-            nudge_frame, text="↑", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, -1)
-        )
-        left_btn = tk.Button(
-            nudge_frame, text="←", width=3, command=lambda: self.nudge_image(filepath, label_text, -1, 0)
-        )
-        down_btn = tk.Button(
-            nudge_frame, text="↓", width=3, command=lambda: self.nudge_image(filepath, label_text, 0, 1)
-        )
-        right_btn = tk.Button(
-            nudge_frame, text="→", width=3, command=lambda: self.nudge_image(filepath, label_text, 1, 0)
-        )
-        # Initially hidden
-        up_btn.grid(row=1, column=1)
-        left_btn.grid(row=2, column=0)
-        down_btn.grid(row=2, column=1)
-        right_btn.grid(row=2, column=2)
-        for btn in (up_btn, left_btn, down_btn, right_btn):
-            btn.grid_remove()
-    
-        nudge_controls.update({
-            "active": False,
-            "up": up_btn,
-            "left": left_btn,
-            "down": down_btn,
-            "right": right_btn
-        })
+                config_str = json.dumps(config)
+                encoded_config = urllib.parse.quote(config_str)
+                photopea_url = f"https://www.photopea.com#{encoded_config}"
+                webbrowser.open(photopea_url)
+        
+            photopea_button = tk.Button(container, text="Edit in Photopea", command=photopea_button_action,
+                                        bg="#444444", fg="white", width=13, cursor="hand2")
+            photopea_button.grid(row=4, column=col, pady=(0, 5))
+            photopea_button.bind("<Enter>", lambda e: photopea_button.config(bg="#2e2e2e"))
+            photopea_button.bind("<Leave>", lambda e: photopea_button.config(bg="#444444"))
     
     def nudge_image(self, filepath, label_text, dx, dy):
         """
@@ -708,6 +676,32 @@ class CursorViewerApp(tk.Tk):
         create_button_with_info(settings_win, "Import Cursors from Profile", self.import_cursors_from_rcur,
                                 "Import cursors from an existing Roblox Custom Cursor Profile (.rcur) file.\n"
                                 "This will replace your currently applied cursor set with the full set from the profile.")
+
+        def get_nudge_mode_text():
+            return (
+                "Switch to Photopea Button"
+                if self.config.get("nudge_mode", True)
+                else "Switch to Nudge Arrows"
+            )
+
+        def on_toggle_nudge_mode():
+            self.config["nudge_mode"] = not self.config.get("nudge_mode", True)
+            self.save_config()
+            nudge_btn.config(text=get_nudge_mode_text())
+            # Rebuild UI to reflect the change
+            for widget in self.winfo_children():
+                widget.destroy()
+            self.build_ui(load_cursor_images(
+                os.path.join(find_valid_roblox_version_folder(), "content", "textures", "Cursors", "KeyboardMouse")
+            ))
+
+        nudge_btn, nudge_info = create_button_with_info(
+            settings_win,
+            get_nudge_mode_text(),
+            on_toggle_nudge_mode,
+            "Toggle between showing nudge arrows (for pixel shifting the cursor)\n"
+            "and the legacy Edit in Photopea button which opens the cursor in Photopea."
+        )
 
         # Report a bug label
 
