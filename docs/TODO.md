@@ -66,6 +66,18 @@
 
 ---
 
+## ⚠️ Integrity & Manual File Changes
+
+* The cache assumes that the **source 64×64 image on disk** is always the same one the user uploaded or imported.
+* If the user **manually edits or replaces the cursor file in the filesystem**, the cache could become stale or invalid.
+* To mitigate this, we can:
+
+  * Compute and store a **hash (e.g., SHA256)** of the base 64×64 image at upload/import time.
+  * On every retrieval, compare the current file’s hash against the cached hash.
+  * If the hash doesn’t match → **clear the cache and rebuild** from the new file automatically.
+ 
+---
+
 ## ❗ Why Resample Caching is Necessary
 
 1. **Prevent cumulative quality loss**
