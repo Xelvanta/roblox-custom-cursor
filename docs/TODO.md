@@ -70,11 +70,24 @@
 
 * The cache assumes that the **source 64×64 image on disk** is always the same one the user uploaded or imported.
 * If the user **manually edits or replaces the cursor file in the filesystem**, the cache could become stale or invalid.
-* To mitigate this, we can:
 
-  * Compute and store a **hash (e.g., SHA256)** of the base 64×64 image at upload/import time.
-  * On every retrieval, compare the current file’s hash against the cached hash.
-  * If the hash doesn’t match → **clear the cache and rebuild** from the new file automatically.
+**Lazy Hash-Check Workflow (on resample request):**
+
+1. Store a **hash (e.g., SHA256)** of the base 64×64 image at upload/import time (`self.base_hash`).
+2. Whenever `get_resized_image()` is called:
+
+   * Compute the hash of the on-disk 64×64 image.
+   * Compare it to `self.base_hash`.
+   * If the hash matches → cache is valid, return cached version.
+   * If the hash differs → assume manual change:
+
+     * Clear `self.resample_cache`.
+     * Reload the base 64×64 from disk.
+     * Update `self.base_hash`.
+     * Rebuild the requested resample from the new file.
+
+* This approach ensures the cache is **always consistent with the on-disk base image**, without needing constant monitoring.
+* Hashing a 64×64 PNG is negligible in performance and only occurs lazily, **on demand**.
  
 ---
 
