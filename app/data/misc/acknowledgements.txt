@@ -14,6 +14,12 @@ Python Software Foundation
 Various Cursor Designers
   - Example cursors used within the project and documentation
 
+Third-Party Libraries
+---------------------
+This project uses various open-source Python libraries and dependencies to provide its functionality,
+    including but not limited to network requests, image processing, and GUI management.
+    We acknowledge and thank the authors and maintainers of these libraries for their work and contributions.
+
 Special Thanks
 ------------------
 Everyone who tested, gave feedback, or simply believed in the vision
@@ -26,5 +32,5 @@ Xelvanta: https://github.com/Xelvanta
 Alina Wan: https://github.com/AlinaWan
 
 ===================
-Version: RCC3
-Date: June 2025
+Version: 4.6.x.x
+Date: September 2025

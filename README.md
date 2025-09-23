@@ -1,4 +1,4 @@
-# 🖱️ Roblox Custom Cursor v3
+# 🖱️ Roblox Custom Cursor
 
 ![GitHub License](https://img.shields.io/github/license/Xelvanta/roblox-custom-cursor?label=License&color=orange)
 ![GitHub Release](https://img.shields.io/github/v/release/Xelvanta/roblox-custom-cursor?include_prereleases&label=Release&color=green)
@@ -6,16 +6,8 @@
 <p align="left">
   <img src="app/data/images/rccapp_icon_variable.ico" width="128" style="margin-right: 10px;">
   <strong>Roblox Custom Cursor</strong> is a lightweight Windows application that makes it easy to customize your Roblox cursors with custom PNGs. 
-  Version 3 introduces a rewrite with a user-friendly setup wizard for streamlined installation.
+  Uses a user-friendly setup wizard for streamlined installation.
 </p>
-
----
-
-## ✨ What’s New in Version 3
-
-- 🔧 **Installer Wizard** – Easy installation with `RCC3_Installer.exe`
-- 🗃️ **New File Structure** – Assets, launcher, and data files reorganized for clarity
-- 💡 **Improved Registry Integration** – File associations now handled reliably through installer
 
 ---
 
@@ -23,7 +15,7 @@
 
 None!  
 
-**Roblox Custom Cursor v3** bundles everything you need — including Python and all required dependencies. You do **not** need to install Python or pip separately. Just run the installer and you're good to go.
+**Roblox Custom Cursor** bundles everything you need — including Python and all required dependencies. You do **not** need to install Python or pip separately. Just run the installer and you're good to go.
 
 ---
 
@@ -31,7 +23,7 @@ None!
 
 ### 🖱️ Download and Run the Installer
 
-1. Download and run [RCC3_Installer.exe](https://github.com/Xelvanta/roblox-custom-cursor/raw/refs/heads/main/app/RCC3_Installer.exe).
+1. Download and run [RCC3_Installer.exe](https://github.com/Xelvanta/roblox-custom-cursor/releases/latest/download/RCC3_Installer.exe).
 2. Follow the setup wizard instructions.
 
 After installation, **Roblox Custom Cursor** can be launched from the **Start Menu** or **desktop shortcut**.
