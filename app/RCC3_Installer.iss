@@ -17,11 +17,8 @@ SolidCompression=yes
 LicenseFile=LICENSE
 
 [Files]
-; Main app
-Source: "Roblox Custom Cursor.rccapp"; DestDir: "{app}"; Flags: ignoreversion
-
-; Importer script
-Source: "rcur_importer.rccapp"; DestDir: "{app}"; Flags: ignoreversion
+; Include all files in app/ (no subdirs)
+Source: "*"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Data folder
 Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -30,7 +27,7 @@ Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs cre
 Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; App data
-Source: "config.json"; DestDir: "{localappdata}\Xelvanta Softworks\Roblox Custom Cursor"; Flags: ignoreversion
+Source: "localappdata\config.json"; DestDir: "{localappdata}\Xelvanta Softworks\Roblox Custom Cursor"; Flags: ignoreversion
 
 [Dirs]
 Name: "{app}\cache"; Flags: uninsalwaysuninstall

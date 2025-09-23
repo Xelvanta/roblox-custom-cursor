@@ -190,13 +190,9 @@ directory_structure.txt
 *.obj
 
 # Ignore the C++ binary and generated hash file for the rcur_importer_launcher
-# These are auto-generated and force-added by the CI pipeline
-# if any of the source code changes on push or PR
 app/rcur_importer_launcher.exe
 app/rcur_importer_launcher.exe.sha256
 
 # Ignore the Inno Setup binary and generated hash file for the RCC3_Installer
-# These are auto-generated and force-added by the CI pipeline
-# if any of the source codechanges on push or PR
 app/RCC*_Installer.exe
 app/RCC*_Installer.exe.sha256
