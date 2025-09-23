@@ -395,6 +395,17 @@ class CursorViewerApp(tk.Tk):
         settings_button.bind("<Enter>", lambda e: settings_button.config(fg="white"))
         settings_button.bind("<Leave>", lambda e: settings_button.config(fg="#AAAAAA"))
 
+        # Pre-included Profiles button
+        profiles_button = tk.Button(
+            self, text="🗃", font=("Segoe UI", 10),
+            bg="#1e1e1e", fg="#AAAAAA", bd=0, cursor="hand2",
+            command=self.show_preincluded_profiles
+        )
+        profiles_button.place(relx=1.0, rely=0.0, anchor="ne", x=0, y=30)
+        profiles_button.bind("<Enter>", lambda e: profiles_button.config(fg="white"))
+        profiles_button.bind("<Leave>", lambda e: profiles_button.config(fg="#AAAAAA"))
+
+
     def add_buttons(self, container, col, filepath, label_text, pil_image):
         """
         Add buttons for changing the cursor image, restoring the default image, and opening
@@ -828,6 +839,226 @@ class CursorViewerApp(tk.Tk):
         close_btn.pack(pady=20)
         close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#2e2e2e"))
         close_btn.bind("<Leave>", lambda e: close_btn.config(bg="#444444"))
+
+    def show_preincluded_profiles(self):
+        import requests
+
+        profiles_win = tk.Toplevel(self)
+        profiles_win.title("Pre-included Profiles")
+        profiles_win.configure(bg="#1e1e1e")
+        profiles_win.geometry("500x350")
+        profiles_win.resizable(False, False)
+
+        tk.Label(profiles_win, text="Pre-included Cursor Profiles (.rcur)", font=("Segoe UI", 11, "bold"),
+                 fg="white", bg="#1e1e1e").pack(pady=10)
+
+        # Main frame: left for list, right for preview
+        main_frame = tk.Frame(profiles_win, bg="#1e1e1e")
+        main_frame.pack(fill="both", expand=True, padx=10, pady=5)
+
+        # Left: Listbox with scrollbar
+        list_frame = tk.Frame(main_frame, bg="#1e1e1e")
+        list_frame.pack(side="left", fill="y", padx=(0, 10), expand=False)
+
+        scrollbar = tk.Scrollbar(list_frame)
+        scrollbar.pack(side="right", fill="y")
+
+        listbox = tk.Listbox(list_frame, bg="#232323", fg="white", font=("Segoe UI", 10),
+                             selectbackground="#444444", selectforeground="white",
+                             yscrollcommand=scrollbar.set, borderwidth=0, highlightthickness=0, width=28)
+        listbox.pack(side="left", fill="y", expand=True)
+        scrollbar.config(command=listbox.yview)
+
+        # Right: Preview area
+        preview_frame = tk.Frame(main_frame, bg="#232323", width=150, height=150)
+        preview_frame.pack(side="left", fill="both", expand=True)
+        preview_frame.pack_propagate(False)
+
+        preview_label = tk.Label(preview_frame, bg="#232323")
+        preview_label.pack(expand=True)
+
+        preview_text = tk.Label(preview_frame, text="", fg="#AAAAAA", bg="#232323", font=("Segoe UI", 9))
+        preview_text.pack()
+
+        # Keep reference to image to avoid garbage collection
+        profiles_win._preview_img_ref = None
+
+        # --- Preview image cache ---
+        preview_cache = {}
+
+        # --- Profile list cache ---
+        rcur_files = []
+
+        def load_profile_list():
+            nonlocal rcur_files
+            listbox.delete(0, "end")
+            preview_label.config(image="", text="")
+            preview_text.config(text="")
+            try:
+                api_url = "https://api.github.com/repos/Xelvanta/roblox-custom-cursor/contents/examples"
+                response = requests.get(api_url, timeout=10)
+                response.raise_for_status()
+                files = response.json()
+                rcur_files = [f for f in files if f["name"].endswith(".rcur")]
+                for f in rcur_files:
+                    listbox.insert("end", f["name"])
+            except Exception as e:
+                listbox.insert("end", f"Error loading profiles: {e}")
+                rcur_files = []
+
+        # Initial load
+        load_profile_list()
+
+        def show_preview(idx):
+            preview_label.config(image="", text="")
+            preview_text.config(text="")
+            profiles_win._preview_img_ref = None
+
+            if idx < 0 or idx >= len(rcur_files):
+                preview_text.config(text="No preview available.")
+                return
+
+            file_info = rcur_files[idx]
+            preview_name = file_info["name"] + ".png"
+            preview_url = f"https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/preview/{preview_name}"
+
+            # Use cache if available
+            if preview_url in preview_cache:
+                tk_img = preview_cache[preview_url]
+                preview_label.config(image=tk_img)
+                profiles_win._preview_img_ref = tk_img
+                preview_text.config(text=file_info["name"])
+                return
+
+            try:
+                import io
+                from PIL import Image, ImageTk
+
+                img_resp = requests.get(preview_url, timeout=10)
+                img_resp.raise_for_status()
+                img = Image.open(io.BytesIO(img_resp.content)).convert("RGBA")
+
+                # Fit image into a box, preserving aspect ratio
+                max_size = (246, 246)
+                img.thumbnail(max_size, Image.Resampling.LANCZOS)
+
+                final_img = Image.new("RGBA", max_size, (0, 0, 0, 0))
+                x = (max_size[0] - img.width) // 2
+                y = (max_size[1] - img.height) // 2
+                final_img.paste(img, (x, y), img)
+
+                tk_img = ImageTk.PhotoImage(final_img)
+                preview_label.config(image=tk_img)
+                profiles_win._preview_img_ref = tk_img
+                preview_text.config(text=file_info["name"])
+
+                # Cache the image
+                preview_cache[preview_url] = tk_img
+
+            except Exception:
+                preview_label.config(image="", text="")
+                preview_text.config(text="Preview not available.")
+
+        def on_select(event):
+            selection = listbox.curselection()
+            if not selection:
+                preview_label.config(image="", text="")
+                preview_text.config(text="")
+                return
+            idx = selection[0]
+            show_preview(idx)
+
+        def on_double_click(event):
+            selection = listbox.curselection()
+            if not selection or not rcur_files:
+                return
+            idx = selection[0]
+            if idx >= len(rcur_files):
+                return
+            file_info = rcur_files[idx]
+            raw_url = file_info["download_url"]
+            try:
+                file_resp = requests.get(raw_url, timeout=10)
+                file_resp.raise_for_status()
+                file_bytes = file_resp.content
+                self.import_cursors_from_rcur_bytes(file_bytes)
+                profiles_win.destroy()
+            except Exception as e:
+                messagebox.showerror("Import Failed", f"Failed to import profile:\n{e}")
+
+        listbox.bind("<<ListboxSelect>>", on_select)
+        listbox.bind("<ButtonRelease-1>", on_select)
+        listbox.bind("<Double-Button-1>", on_double_click)
+
+        def on_refresh():
+            preview_cache.clear()
+            load_profile_list()
+
+        refresh_btn = tk.Button(profiles_win, text="Refresh", command=on_refresh,
+                                bg="#444444", fg="white", cursor="hand2", width=10)
+        refresh_btn.pack(pady=5)
+        refresh_btn.bind("<Enter>", lambda e: refresh_btn.config(bg="#2e2e2e"))
+        refresh_btn.bind("<Leave>", lambda e: refresh_btn.config(bg="#444444"))
+
+        close_btn = tk.Button(profiles_win, text="Close", command=profiles_win.destroy,
+                              bg="#444444", fg="white", cursor="hand2")
+        close_btn.pack(pady=10)
+        close_btn.bind("<Enter>", lambda e: close_btn.config(bg="#2e2e2e"))
+        close_btn.bind("<Leave>", lambda e: close_btn.config(bg="#444444"))
+
+    def import_cursors_from_rcur_bytes(self, file_bytes):
+        import io
+
+        folder = find_valid_roblox_version_folder()
+        cursor_filenames = ["ArrowFarCursor.png", "ArrowCursor.png", "IBeamCursor.png"]
+        cursor_paths = [os.path.join(folder, "content", "textures", "Cursors", "KeyboardMouse", fn) for fn in cursor_filenames]
+
+        MAGIC_HEADER = b"RCUR\x00"
+        EXPECTED_VERSION = 2
+
+        try:
+            f = io.BytesIO(file_bytes)
+            magic = f.read(5)
+            if magic != MAGIC_HEADER:
+                raise ValueError(
+                    "The selected .rcur file is using a legacy format (base64). Legacy base64-encoded .rcur files are no longer supported."
+                )
+
+            version_bytes = f.read(4)
+            if len(version_bytes) < 4:
+                raise ValueError("The .rcur file is corrupt or incomplete (missing version number).")
+
+            version = struct.unpack("<I", version_bytes)[0]
+            if version != EXPECTED_VERSION:
+                raise ValueError(f"This .rcur file uses an unsupported version: {version}.")
+
+            lengths = []
+            for _ in range(3):
+                len_bytes = f.read(4)
+                if len(len_bytes) < 4:
+                    raise ValueError("The .rcur file is corrupt (missing image length data).")
+                lengths.append(struct.unpack("<I", len_bytes)[0])
+
+            for i, length in enumerate(lengths):
+                image_data = f.read(length)
+                if len(image_data) != length:
+                    raise ValueError("The .rcur file is corrupt (incomplete image data).")
+
+                with open(cursor_paths[i], "wb") as img_file:
+                    img_file.write(image_data)
+
+                label_map = {
+                    "ArrowFarCursor.png": "Arrow Far",
+                    "ArrowCursor.png": "Arrow",
+                    "IBeamCursor.png": "I-Beam"
+                }
+                label_text = label_map[cursor_filenames[i]]
+                self.update_gui_with_new_image(cursor_paths[i], label_text)
+
+            messagebox.showinfo("Success", "Cursors imported and applied successfully.")
+
+        except Exception as e:
+            messagebox.showerror("Import Failed", str(e))
 
     def update_gui_with_new_image(self, filepath, label_text):
         """
