@@ -1,8 +1,12 @@
 ; RCC3_Installer.iss
+; Inno Setup 6.4.3
 [Setup]
+; There is unintentionally a missing closing brace here
+; This is intentional because the registry key will be created as the following string:
+; {c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=3.5.2.0
+AppVersion=4.5.3.0
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -27,6 +31,9 @@ Source: "python\*"; DestDir: "{app}\python"; Flags: ignoreversion recursesubdirs
 
 ; App data
 Source: "config.json"; DestDir: "{localappdata}\Xelvanta Softworks\Roblox Custom Cursor"; Flags: ignoreversion
+
+[Dirs]
+Name: "{app}\cache"; Flags: uninsalwaysuninstall
 
 [Tasks]
 Name: desktopicon; Description: "Create a &desktop shortcut"; GroupDescription: "Additional Icons:"
