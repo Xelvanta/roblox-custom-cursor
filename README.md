@@ -1,5 +1,11 @@
 # 🖱️ Roblox Custom Cursor
 
+<p align="center">
+  <a href="https://github.com/Xelvanta/roblox-custom-cursor/releases/latest/download/RCC3_Installer.exe">
+    <img src="https://img.shields.io/badge/Download%20for%20Free-Github-green?style=for-the-badge&logo=github" alt="Download for Free">
+  </a>
+</p>
+
 ![GitHub License](https://img.shields.io/github/license/Xelvanta/roblox-custom-cursor?label=License&color=orange)
 ![GitHub Release](https://img.shields.io/github/v/release/Xelvanta/roblox-custom-cursor?include_prereleases&label=Release&color=green)
 
