@@ -3,7 +3,7 @@ Acknowledgements
 
 Core Development
 ------------------
-Original Creator: Alina (Angelina)
+Original Creator: Alina Wan (Angelina)
   - Lead developer, project maintainer, and feature designer
   - Creator of the RCUR file format and embedded runtime integration
 
@@ -12,7 +12,7 @@ Third-Party Assets
 Python Software Foundation
   - Embedded interpreter used as the backend engine
 Various Cursor Designers
-  - Example cursors used within the project and documentation
+  - Independent cursor designers whose work is used as examples within the project and documentation
 
 Third-Party Libraries
 ---------------------
@@ -22,14 +22,14 @@ This project uses various open-source Python libraries and dependencies to provi
 
 Special Thanks
 ------------------
-Everyone who tested, gave feedback, or simply believed in the vision
+To everyone who tested, gave feedback, or simply believed in the vision — thank you.
 
 Project Links
 ------------------
-Repository: https://github.com/Xelvanta/roblox-custom-cursor
-Xelvanta Group (organization): https://github.com/Xelvanta-Group  
-Xelvanta: https://github.com/Xelvanta  
-Alina Wan: https://github.com/AlinaWan
+Repository:                       https://github.com/Xelvanta/roblox-custom-cursor
+Xelvanta Group (organization):    https://github.com/Xelvanta-Group
+Xelvanta:                         https://github.com/Xelvanta
+Alina Wan (Angelina):             https://github.com/AlinaWan
 
 ===================
 Version: 4.6.x.x
