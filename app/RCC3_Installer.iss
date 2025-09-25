@@ -4,9 +4,10 @@
 ; There is unintentionally a missing closing brace here
 ; This is intentional because the registry key will be created as the following string:
 ; {c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3_is1
+; The created registry key value must match that in the uninstall function in this script
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=4.6.0.0
+AppVersion=4.6.0.1
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
@@ -58,7 +59,7 @@ Root: HKCR; Subkey: "rccappfile\DefaultIcon"; ValueType: string; ValueData: "{ap
 Root: HKCR; Subkey: "rccappfile\shell\open\command"; ValueType: string; ValueData: """{app}\python\pythonw.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: associate_rccapp
 
 [Run]
-Filename: "pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.rccapp"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
+Filename: "{app}\python\pythonw.exe"; Parameters: """{app}\Roblox Custom Cursor.rccapp"""; Description: "Launch Roblox Custom Cursor"; Flags: postinstall skipifsilent nowait
 
 [Code]
 procedure CurPageChanged(CurPageID: Integer);
