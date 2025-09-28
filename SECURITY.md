@@ -42,4 +42,6 @@ We take even local-only security issues seriously.
 - ❌ No telemetry or remote connections  
 - ❌ No background processes or startup registration  
 - ❌ No automatic updates  
-- ❌ No use of external APIs or cloud services  
+- ❌ No use of external APIs or cloud services[^1]
+
+[^1]: As of Roblox Custom Cursor v4.6.0.0, if you open the Catalogue button located under the Settings button, the app will use the GitHub API to fetch a list of pre-made cursor profiles. This feature is only triggered when the Catalogue is used, is completely optional, and is non-critical to the core functionality of the app.
