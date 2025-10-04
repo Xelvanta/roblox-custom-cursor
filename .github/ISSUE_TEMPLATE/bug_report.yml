@@ -1,0 +1,92 @@
+name: "🐞 Bug Report"
+description: "File a bug or issue for Roblox Custom Cursor"
+title: "[BUG] <title>"
+labels: ["Bug", "Needs Triage"]
+assignees: ["Xelvanta"]
+
+body:
+  - type: input
+    attributes:
+      label: "Bug Description"
+      description: "Describe the bug or issue you encountered in detail."
+      placeholder: "E.g. The app crashes when applying a .rcur profile."
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Steps to Reproduce"
+      description: "List the steps needed to reproduce the bug."
+      placeholder: |
+        1. Open Roblox Custom Cursor
+        2. Click on [...]
+        3. Apply a .rcur profile
+        4. Observe the unexpected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Expected Behavior"
+      description: "What you expected to happen instead of the bug."
+      placeholder: "The cursor profile should apply successfully without errors."
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Actual Behavior"
+      description: "What actually happened when the bug occurred."
+      placeholder: "The app crashes or fails to apply the profile."
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Debugging Help (Advanced)"
+      description: |
+        If the app silently fails or crashes, you can manually run it with:
+        ```
+        cd roblox-custom-cursor
+        "app\python\python.exe" "Roblox Custom Cursor.rccapp"
+        ```
+        or to import a profile directly:
+        ```
+        cd roblox-custom-cursor
+        "app\python\python.exe" "rcur_importer.rccapp" "Profile.rcur"
+        ```
+        Copy any console error output here to help diagnose the problem.
+      placeholder: "<insert console output or traceback here>"
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Environment"
+      description: |
+        Include relevant system details:
+        - OS Version (e.g., Windows 11 24H2)
+        - RCC Version (e.g., 4.6.0.0)
+        - How you launched the app (double-click, start menu, CLI)
+        - Admin privileges [Yes/No]
+        - Multiple monitors [Yes/No]
+      placeholder: |
+        - OS Version:
+        - RCC Version:
+        - Launch method:
+        - Admin privileges:
+        - Multiple monitors:
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Additional Context"
+      description: |
+        Any extra information that may help, such as:
+        - Use of custom themes or files
+        - Whether this occurred after an update
+        - Modifications or reassociation of `.rcur` or `.rccapp` files
+        - Screenshots, videos, or logs
+    validations:
+      required: false
