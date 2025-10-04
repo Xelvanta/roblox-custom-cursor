@@ -910,54 +910,82 @@ class CursorViewerApp(tk.Tk):
         load_profile_list()
 
         def show_preview(idx):
+            import threading
+        
             preview_label.config(image="", text="")
             preview_text.config(text="")
             profiles_win._preview_img_ref = None
-
+        
             if idx < 0 or idx >= len(rcur_files):
                 preview_text.config(text="No preview available.")
                 return
-
+        
             file_info = rcur_files[idx]
             preview_name = file_info["name"] + ".png"
             preview_url = f"https://raw.githubusercontent.com/Xelvanta/roblox-custom-cursor/main/examples/preview/{preview_name}"
-
-            # Use cache if available
-            if preview_url in preview_cache:
-                tk_img = preview_cache[preview_url]
-                preview_label.config(image=tk_img)
-                profiles_win._preview_img_ref = tk_img
-                preview_text.config(text=file_info["name"])
-                return
-
-            try:
-                import io
-                from PIL import Image, ImageTk
-
-                img_resp = requests.get(preview_url, timeout=10)
-                img_resp.raise_for_status()
-                img = Image.open(io.BytesIO(img_resp.content)).convert("RGBA")
-
-                # Fit image into a box, preserving aspect ratio
-                max_size = (246, 246)
-                img.thumbnail(max_size, Image.Resampling.LANCZOS)
-
-                final_img = Image.new("RGBA", max_size, (0, 0, 0, 0))
-                x = (max_size[0] - img.width) // 2
-                y = (max_size[1] - img.height) // 2
-                final_img.paste(img, (x, y), img)
-
-                tk_img = ImageTk.PhotoImage(final_img)
-                preview_label.config(image=tk_img)
-                profiles_win._preview_img_ref = tk_img
-                preview_text.config(text=file_info["name"])
-
-                # Cache the image
-                preview_cache[preview_url] = tk_img
-
-            except Exception:
-                preview_label.config(image="", text="")
-                preview_text.config(text="Preview not available.")
+        
+            # Spinner animation state
+            spinner_chars = ['|', '/', '-', '\\']
+            spinner_running = [True]  # Mutable so inner functions can modify
+            spinner_index = [0]
+        
+            def spinner_update():
+                if spinner_running[0]:
+                    preview_text.config(text=f"Loading... {spinner_chars[spinner_index[0] % 4]}")
+                    spinner_index[0] += 1
+                    profiles_win.after(100, spinner_update)
+        
+            spinner_update()
+        
+            def fetch_image():
+                # Use cache if available
+                if preview_url in preview_cache:
+                    tk_img = preview_cache[preview_url]
+                    def update_gui():
+                        spinner_running[0] = False
+                        preview_label.config(image=tk_img)
+                        profiles_win._preview_img_ref = tk_img
+                        preview_text.config(text=file_info["name"])
+                    profiles_win.after(0, update_gui)
+                    return
+        
+                try:
+                    import io
+                    from PIL import Image, ImageTk
+                    import requests
+        
+                    img_resp = requests.get(preview_url, timeout=10)
+                    img_resp.raise_for_status()
+                    img = Image.open(io.BytesIO(img_resp.content)).convert("RGBA")
+        
+                    # Fit image into a box, preserving aspect ratio
+                    max_size = (246, 246)
+                    img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        
+                    final_img = Image.new("RGBA", max_size, (0, 0, 0, 0))
+                    x = (max_size[0] - img.width) // 2
+                    y = (max_size[1] - img.height) // 2
+                    final_img.paste(img, (x, y), img)
+        
+                    tk_img = ImageTk.PhotoImage(final_img)
+        
+                    def update_gui():
+                        spinner_running[0] = False
+                        preview_label.config(image=tk_img)
+                        profiles_win._preview_img_ref = tk_img
+                        preview_text.config(text=file_info["name"])
+                        preview_cache[preview_url] = tk_img
+        
+                    profiles_win.after(0, update_gui)
+        
+                except Exception:
+                    def update_gui():
+                        spinner_running[0] = False
+                        preview_label.config(image="", text="")
+                        preview_text.config(text="Preview not available.")
+                    profiles_win.after(0, update_gui)
+        
+            threading.Thread(target=fetch_image, daemon=True).start()
 
         def on_select(event):
             selection = listbox.curselection()

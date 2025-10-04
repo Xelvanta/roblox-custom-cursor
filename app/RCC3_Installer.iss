@@ -7,7 +7,7 @@
 ; The created registry key value must match that in the uninstall function in this script
 AppId={{c1004246-945e-4b7c-863e-e6c0184d4086}_rcc3
 AppName=Roblox Custom Cursor
-AppVersion=4.6.0.1
+AppVersion=4.6.0.2
 AppVerName=Roblox Custom Cursor
 DefaultDirName={pf}\Xelvanta Softworks\Roblox Custom Cursor
 DefaultGroupName=Roblox Custom Cursor
