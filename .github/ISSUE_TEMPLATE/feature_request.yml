@@ -1,0 +1,46 @@
+name: "✨ Feature Request"
+description: "Suggest a new feature or improvement for Roblox Custom Cursor"
+title: "[FEATURE] <title>"
+labels: ["Feature", "Needs Triage"]
+assignees: ["Xelvanta"]
+
+body:
+  - type: input
+    attributes:
+      label: "Feature Title"
+      description: "Summarize the feature you want to request"
+      placeholder: "E.g. Add support for custom color themes"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Description"
+      description: "Describe the feature or improvement in detail"
+      placeholder: "Explain what the feature is and why it would be useful"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Use Case / Motivation"
+      description: "Explain how you plan to use this feature or why it's important"
+      placeholder: "Describe the scenario where this feature would help you or others"
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Alternatives Considered"
+      description: "If applicable, describe any alternative solutions or workarounds you considered"
+      placeholder: "E.g. Using an external tool, modifying configs, etc."
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Additional Context"
+      description: "Any extra context, screenshots, or references related to your feature request"
+      placeholder: "Optional"
+    validations:
+      required: false
