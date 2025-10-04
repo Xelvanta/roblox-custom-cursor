@@ -1,0 +1,36 @@
+Roblox Custom Cursor Privacy Policy
+Last Updated: October 4, 2025
+
+===================================
+
+1. General Statement
+   This Privacy Policy describes the data handling practices of *Roblox Custom Cursor* (“the Software”). The Software is distributed as a standalone desktop application and is designed to function primarily in an offline environment. The Developer affirms that no personal information is collected, transmitted, or sold through the operation or distribution of the Software.
+
+2. Data Collection and Retention
+   The Software does not collect, store, transmit, or otherwise process any personal or identifying information relating to the user or the user’s device. No telemetry, analytics, advertising identifiers, or usage statistics are generated or retained. All configuration files, preferences, and user-defined data are stored locally and remain fully under the control of the user.
+
+3. Local File Access
+   To perform its intended functionality, the Software may access the user’s Roblox installation directory to identify and read existing cursor texture assets.
+
+   - Such access occurs exclusively on the user’s local device.
+   - The Software does not transmit, upload, or otherwise disclose any content from these directories.
+   - If expressly initiated by the user, the Software may modify or replace cursor texture files within the Roblox installation directory to apply user-selected configurations.
+   - These actions are limited to the files necessary for cursor customization and are executed solely at the user’s discretion.
+
+4. Network Connectivity
+   As of version 4.6.0.0, the Software includes an optional “Catalogue” feature accessible via the Catalogue button, located below the Settings button. When this feature is opened, the Software establishes a read-only connection to the GitHub API for the sole purpose of retrieving a list of publicly available cursor profiles.
+
+   - This network request is performed only upon direct user interaction.
+   - No personal data, system identifiers, or usage information are transmitted to GitHub or any other external service.
+   - The Catalogue feature is non-essential and its use is entirely optional.
+
+5. Third-Party Services
+   The GitHub API constitutes the only third-party service that may be contacted by the Software. The Developer does not control and is not responsible for the content, privacy practices, or policies of GitHub or its affiliates. Users are encouraged to review GitHub’s Privacy Statement at:
+   https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement
+
+6. Security and Scope of Access
+   The Software operates within the constraints of the user’s operating system permissions and does not attempt to access or modify files outside of its own installation directory or the Roblox installation directory. The Software performs no background operations and does not communicate with any external servers other than as described herein.
+
+7. Contact Information
+   For inquiries or concerns relating to this Privacy Policy or the Software’s operation, users may contact the Developer at:
+   Xelvanta@proton.me
