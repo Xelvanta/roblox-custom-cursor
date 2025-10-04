@@ -46,31 +46,18 @@ body:
       label: "Debugging Help (Advanced)"
       description: |
         **For developers or users familiar with command-line tools:** we encourage you to fill in this section if the app silently fails or crashes.
-
-        You can manually run the app using the following commands:
-
-        **If installed via the official installer (default path):**
+        You can manually run the app with:
         ```
         cd "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor"
+        # or `cd "roblox-custom-cursor\app"` if running from a cloned repository
         "python\python.exe" "Roblox Custom Cursor.rccapp"
         ```
         Or to import a profile:
         ```
         cd "C:\Program Files (x86)\Xelvanta Softworks\Roblox Custom Cursor"
+        # or `cd "roblox-custom-cursor\app"` if running from a cloned repository
         "python\python.exe" "rcur_importer.rccapp" "<path to .rcur file>"
         ```
-
-        **If running from a cloned repository:**
-        ```
-        cd roblox-custom-cursor
-        "app\python\python.exe" "Roblox Custom Cursor.rccapp"
-        ```
-        Or to import a profile:
-        ```
-        cd roblox-custom-cursor
-        "app\python\python.exe" "rcur_importer.rccapp" "<path to .rcur file>"
-        ```
-
         Copy any console error output here to help diagnose the problem.
       placeholder: "<insert console output or traceback here>"
     validations:
