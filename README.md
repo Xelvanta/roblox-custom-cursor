@@ -44,6 +44,13 @@ After installation, launch **Roblox Custom Cursor** from the **Start Menu** or y
 * 🧼 **Clean UI** – Intuitive interface for accessibility and speed.
 * 🪶 **Lightweight & Fast** – Optimized for smooth performance on Windows.
 
+### ⚠️ Important Note About Roblox Updates
+
+When **Roblox updates**, your **custom cursors will be replaced** with the **default Roblox cursor set**.
+To restore your design quickly, it is **strongly recommended** to **export your cursor set to a `.rcur` file** through the Settings menu.
+
+You can **double-click your `.rcur` file at any time** to instantly reapply your custom cursors — no need to open the main application.
+
 ---
 
 ## 📂 `.rcur` File Association
