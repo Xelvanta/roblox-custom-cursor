@@ -1,4 +1,4 @@
-TODO: Replace the `find_valid_roblox_folder` in the main app with a function such as this one, which uses the registry key to get the version folder.
+TODO: Replace the `find_valid_roblox_folder` in the main app with a function such as this one, which uses the registry key to get the version folder. The function must also be replaced in the .rcur file importer script.
 
 ```py
 import winreg
