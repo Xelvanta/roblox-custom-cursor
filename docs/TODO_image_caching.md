@@ -1,4 +1,6 @@
-# 📝 TODO: Image Resample Caching System
+TODO: Image caching for preserving quality when downscaling and then upscaling
+
+**Always keep the original image in cache without position modifications, then everytime a resample is requested, lazily cache the resample from the original then apply the position in the app, but dont cache that version**
 
 ## Goals
 
